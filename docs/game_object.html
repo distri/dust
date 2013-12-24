@@ -50,7 +50,7 @@
               <p>GameObjects fire events that you may attach listeners to. Event listeners
 are bound with <code>object.on(eventName, handler)</code></p>
 <p><code>create</code> is triggered when the object is created.</p>
-<p><code>destroy</code> is triggered when object is destroyed. </p>
+<p><code>destroy</code> is triggered when object is destroyed.</p>
 <p>Use the destroy event to add particle effects, play sounds, etc.</p>
 <blockquote>
 <pre><code>bomb.on &#39;destroy&#39;, -&gt;
@@ -68,7 +68,7 @@ are bound with <code>object.on(eventName, handler)</code></p>
   else
     player.velocity(Point(0, 0))</code></pre>
 </blockquote>
-<p>Triggered when the object is removed from the engine. Use the remove event to 
+<p>Triggered when the object is removed from the engine. Use the remove event to
 handle any clean up.</p>
 <p>Destroyed objects are always removed, but removed objects may not necessarily have
 been destroyed.</p>
