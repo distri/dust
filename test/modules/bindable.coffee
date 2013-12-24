@@ -1,10 +1,6 @@
-require "../../setup"
+require "../../test_setup"
 
 Bindable = require "../../modules/bindable"
-
-test = it
-ok = assert
-equal = assert.equal
 
 describe "Bindable", ->
 
