@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>modules/age</title>
+  <title>util</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
@@ -18,26 +18,37 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <p>The <code>Age</code> module handles keeping track of an object&#39;s age.</p>
-<blockquote>
-<pre><code>player = GameObject()
-
-player.update(1)
-
-#=&gt; player.I.age is 1</code></pre>
-</blockquote>
+              <h1 id="util">Util</h1>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"../util"</span>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">module.exports =
+  defaults: (target, objects...) -&gt;
+    <span class="keyword">for</span> object <span class="keyword">in</span> objects
+      <span class="keyword">for</span> name <span class="keyword">of</span> object
+        <span class="keyword">unless</span> target.hasOwnProperty(name)
+          target[name] = object[name]
 
-module.<span class="function"><span class="title">exports</span></span> = (I={}, self) -&gt;
-  defaults I,
-    age: <span class="number">0</span>
+    <span class="keyword">return</span> target
 
-  self.bind <span class="string">'afterUpdate'</span>, (dt) -&gt;
-    I.age += dt
+  extend: (target, sources...) -&gt;
+    <span class="keyword">for</span> source <span class="keyword">in</span> sources
+      <span class="keyword">for</span> name <span class="keyword">of</span> source
+        target[name] = source[name]
 
-  <span class="keyword">return</span> self</code></pre>
+    <span class="keyword">return</span> target</code></pre>
 </div>
         </li>
         
@@ -55,6 +66,6 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
   }).then(function(PACKAGE) {
     Require.generateFor(PACKAGE)("./" + PACKAGE.entryPoint)
   })
-</script><script src="../package.js"></script>
+</script><script src="package.js"></script>
 </body>
 </html>

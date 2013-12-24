@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>modules/age</title>
+  <title>test_setup</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
@@ -18,26 +18,29 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <p>The <code>Age</code> module handles keeping track of an object&#39;s age.</p>
-<blockquote>
-<pre><code>player = GameObject()
-
-player.update(1)
-
-#=&gt; player.I.age is 1</code></pre>
-</blockquote>
+              <h1 id="test-setup">Test Setup</h1>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"../util"</span>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">require <span class="string">"../../setup"</span>
 
-module.<span class="function"><span class="title">exports</span></span> = (I={}, self) -&gt;
-  defaults I,
-    age: <span class="number">0</span>
-
-  self.bind <span class="string">'afterUpdate'</span>, (dt) -&gt;
-    I.age += dt
-
-  <span class="keyword">return</span> self</code></pre>
+global.test = it
+global.ok = assert
+global.equal = assert.equal
+global.equals = assert.equal
+global.raises = assert.throws</code></pre>
 </div>
         </li>
         
@@ -55,6 +58,6 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
   }).then(function(PACKAGE) {
     Require.generateFor(PACKAGE)("./" + PACKAGE.entryPoint)
   })
-</script><script src="../package.js"></script>
+</script><script src="package.js"></script>
 </body>
 </html>
