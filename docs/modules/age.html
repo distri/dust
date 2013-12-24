@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>README</title>
+  <title>modules/age</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
@@ -18,25 +18,24 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="dust">dust</h1>
+              <p>The <code>Age</code> module handles keeping track of an object&#39;s age.</p>
+<blockquote>
+<pre><code>player = GameObject()
+
+player.update(1)
+
+#=&gt; player.I.age is 1</code></pre>
+</blockquote>
 
             </div>
-            <div class="content"><pre><code>
-</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>PixieEngine2 Lite!</p>
+            <div class="content"><pre><code class="lang-coffeescript">module.<span class="function"><span class="title">exports</span></span> = (I={}, self) -&gt;
+  Object.reverseMerge I,
+    age: <span class="number">0</span>
 
-            </div>
-            <div class="content"><pre><code>
-</code></pre>
+  self.bind <span class="string">'afterUpdate'</span>, (dt) -&gt;
+    I.age += dt
+
+  <span class="keyword">return</span> self</code></pre>
 </div>
         </li>
         
@@ -54,6 +53,6 @@
   }).then(function(PACKAGE) {
     Require.generateFor(PACKAGE)("./" + PACKAGE.entryPoint)
   })
-</script><script src="package.js"></script>
+</script><script src="../package.js"></script>
 </body>
 </html>
