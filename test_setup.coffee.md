@@ -2,7 +2,7 @@ Test Setup
 ==========
 
     require "../../setup"
-    
+
     global.test = it
     global.ok = assert
     global.equal = assert.equal

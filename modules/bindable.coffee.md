@@ -15,7 +15,7 @@ Use as a mixin.
 
     module.exports = (I={}, self=Core(I)) ->
       eventCallbacks = {}
-    
+
       self.extend
 
 Adds a function as an event listener.
@@ -26,30 +26,30 @@ is called.
 >     yourObject.on "someCustomEvent", coolEventHandler
 
 Handlers can be attached to namespaces as well. The namespaces are only used
-for finer control of targeting event removal. For example if you are making a 
+for finer control of targeting event removal. For example if you are making a
 custom drawing system you could unbind `".Drawable"` events and add your own.
 
 >     yourObject.on ""
 
         on: (namespacedEvent, callback) ->
           [event, namespace] = namespacedEvent.split(".")
-    
+
           # HACK: Here we annotate the callback function with namespace metadata
           # This will probably lead to some strange edge cases, but should work fine
           # for simple cases.
           if namespace
             callback.__PIXIE ||= {}
             callback.__PIXIE[namespace] = true
-    
+
           eventCallbacks[event] ||= []
           eventCallbacks[event].push(callback)
-    
+
           return this
 
 Removes a specific event listener, or all event listeners if
 no specific listener is given.
 
-Removes the handler coolEventHandler from the event `"someCustomEvent"` while 
+Removes the handler coolEventHandler from the event `"someCustomEvent"` while
 leaving the other events intact.
 
 >     yourObject.off "someCustomEvent", coolEventHandler
@@ -64,15 +64,15 @@ Remove all handlers from the `".Drawable" namespace`
 
         off: (namespacedEvent, callback) ->
           [event, namespace] = namespacedEvent.split(".")
-    
+
           if event
             eventCallbacks[event] ||= []
-    
+
             if namespace
               # Select only the callbacks that do not have this namespace metadata
               eventCallbacks[event] = eventCallbacks.select (callback) ->
                 !callback.__PIXIE?[namespace]?
-    
+
             else
               if callback
                 eventCallbacks[event].remove(callback)
@@ -85,7 +85,7 @@ Remove all handlers from the `".Drawable" namespace`
             for key, callbacks of eventCallbacks
               eventCallbacks[key] = callbacks.select (callback) ->
                 !callback.__PIXIE?[namespace]?
-    
+
           return this
 
 Calls all listeners attached to the specified event.
@@ -99,10 +99,10 @@ Additional parameters can be passed to the handlers.
 
         trigger: (event, parameters...) ->
           callbacks = eventCallbacks[event]
-    
+
           if callbacks && callbacks.length
             self = this
-    
+
             callbacks.each (callback) ->
               callback.apply(self, parameters)
 

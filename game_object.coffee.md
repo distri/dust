@@ -11,7 +11,7 @@ are bound with `object.on(eventName, handler)`
 
 `create` is triggered when the object is created.
 
-`destroy` is triggered when object is destroyed. 
+`destroy` is triggered when object is destroyed.
 
 Use the destroy event to add particle effects, play sounds, etc.
 
@@ -31,7 +31,7 @@ Check to see if keys are being pressed and change the player's velocity.
 >       else
 >         player.velocity(Point(0, 0))
 
-Triggered when the object is removed from the engine. Use the remove event to 
+Triggered when the object is removed from the engine. Use the remove event to
 handle any clean up.
 
 Destroyed objects are always removed, but removed objects may not necessarily have
@@ -57,7 +57,7 @@ Update the game object. The engine calls this method.
           # TODO: Remove this method and only use events.
           if I.active
             self.trigger 'update', elapsedTime
-    
+
           I.active
 
 Triggers the create event if the object has not already been created. This method is called by the engine.
