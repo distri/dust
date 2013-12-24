@@ -20,7 +20,7 @@ by default in `GameObject`.
 
     {defaults} = require "../util"
 
-    module.exports = (I={}, self) ->
+    module.exports = (I={}, self=Core(I)) ->
       defaults I,
         x: 0
         y: 0
