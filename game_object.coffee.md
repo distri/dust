@@ -86,13 +86,13 @@ Destroys the object and triggers the destroyed event. Anyone can call this metho
       "clamp"
       "cooldown"
       "drawable"
+      "expirable"
       "timed_events"
     ].map (name) ->
       require "./modules/#{name}"
 
 # TODO: Include these modules!
 
-"Expirable"
 "Follow"
 "GameObject.Meter"
 "Movable"

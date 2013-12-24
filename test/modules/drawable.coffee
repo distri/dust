@@ -1,7 +1,7 @@
 require "../../test_setup"
 
 # TODO: Test without requiring GameOjbect
-GameObject = require "../../modules/game_object"
+GameObject = require "../../game_object"
 
 describe "Drawable", ->
   test "alpha", ->
