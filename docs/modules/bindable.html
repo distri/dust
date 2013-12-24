@@ -49,12 +49,7 @@ bindable.trigger &quot;greet&quot;
             <div class="content"><pre><code class="lang-coffeescript">module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Core(I)) -&gt;
   eventCallbacks = {}
 
-  self.extend
-    bind: (args...) -&gt;
-      self.<span class="literal">on</span>(args...)
-
-    unbind: (args...) -&gt;
-      self.<span class="literal">off</span>(args...)</code></pre>
+  self.extend</code></pre>
 </div>
         </li>
         
@@ -171,6 +166,21 @@ yourObject.trigger &quot;someCustomEvent&quot;</code></pre>
 
         callbacks.each (callback) -&gt;
           callback.apply(self, parameters)</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Legacy method aliases.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">  self.extend
+    bind: self.<span class="literal">on</span>
+    unbind: self.<span class="literal">off</span></code></pre>
 </div>
         </li>
         
