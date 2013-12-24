@@ -10,10 +10,9 @@ describe "GameObject", ->
   
   test ".construct", ->
     gameObject = GameObject.construct
-      x: 20
-      y: 20
+      name: "Gandalf"
   
-    equals(gameObject.position().x, 20)
+    equals(gameObject.I.name, "Gandalf")
   
   test "construct invalid object", ->
     raises ->
