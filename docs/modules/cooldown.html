@@ -80,7 +80,11 @@ player.I.turboTimer # =&gt; 995</code></pre>
 </blockquote>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"../util"</span>
+            <div class="content"><pre><code class="lang-coffeescript">Bindable = require <span class="string">"./bindable"</span>
+{defaults} = require <span class="string">"../util"</span>
+
+<span class="function"><span class="title">approach</span></span> = (current, target, amount) -&gt;
+  (target - current).clamp(-amount, amount) + current
 
 module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Bindable(I)) -&gt;
   defaults I,
@@ -90,7 +94,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
     <span class="keyword">for</span> name, cooldownOptions <span class="keyword">of</span> I.cooldowns
       {approachBy, target} = cooldownOptions
 
-      I[name] = I[name].approach(target, approachBy * dt)
+      I[name] = approach(I[name], target, approachBy * dt)
 
   self.extend
     cooldown: (name, options={}) -&gt;
