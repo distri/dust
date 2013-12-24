@@ -5,3 +5,5 @@ Setup
 
     # Updating Application Cache and prompting for new version
     require "appcache"
+
+    require "cornerstone"
