@@ -82,13 +82,13 @@ Destroys the object and triggers the destroyed event. Anyone can call this metho
     GameObject.defaultModules = [
       "bindable"
       "age"
+      "bounded"
       "timed_events"
     ].map (name) ->
       require "./modules/#{name}"
 
 # TODO: Include these modules!
 
-"Bounded"
 "Clampable"
 "Cooldown"
 "Drawable"
