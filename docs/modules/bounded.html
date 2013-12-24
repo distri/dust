@@ -52,7 +52,7 @@ player.position()
             </div>
             <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"../util"</span>
 
-module.<span class="function"><span class="title">exports</span></span> = (I={}, self) -&gt;
+module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Core(I)) -&gt;
   defaults I,
     x: <span class="number">0</span>
     y: <span class="number">0</span>
