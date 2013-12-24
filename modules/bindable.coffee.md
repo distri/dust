@@ -17,11 +17,6 @@ Use as a mixin.
       eventCallbacks = {}
     
       self.extend
-        bind: (args...) ->
-          self.on(args...)
-    
-        unbind: (args...) ->
-          self.off(args...)
 
 Adds a function as an event listener.
 
@@ -110,3 +105,9 @@ Additional parameters can be passed to the handlers.
     
             callbacks.each (callback) ->
               callback.apply(self, parameters)
+
+Legacy method aliases.
+
+      self.extend
+        bind: self.on
+        unbind: self.off
