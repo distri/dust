@@ -86,6 +86,7 @@ Destroys the object and triggers the destroyed event. Anyone can call this metho
       "clamp"
       "cooldown"
       "drawable"
+      "effect"
       "expirable"
       "follow"
       "meter"
@@ -95,10 +96,6 @@ Destroys the object and triggers the destroyed event. Anyone can call this metho
       "tween"
     ].map (name) ->
       require "./modules/#{name}"
-
-# TODO: Include these modules!
-
-"GameObject.Effect"
 
 Construct an object instance from the given entity data.
 
