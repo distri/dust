@@ -88,13 +88,13 @@ Destroys the object and triggers the destroyed event. Anyone can call this metho
       "drawable"
       "expirable"
       "follow"
+      "meter"
       "timed_events"
     ].map (name) ->
       require "./modules/#{name}"
 
 # TODO: Include these modules!
 
-"GameObject.Meter"
 "Movable"
 "Rotatable"
 "Tween"
