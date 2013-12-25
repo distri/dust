@@ -92,12 +92,12 @@ Destroys the object and triggers the destroyed event. Anyone can call this metho
       "movable"
       "rotatable"
       "timed_events"
+      "tween"
     ].map (name) ->
       require "./modules/#{name}"
 
 # TODO: Include these modules!
 
-"Tween"
 "GameObject.Effect"
 
 Construct an object instance from the given entity data.
