@@ -34,7 +34,7 @@ This module is included in `GameObject` by default.
         velocity: Point(0, 0)
         speed: 1
 
-`follow` sets the velocity of this object to follow another object. 
+`follow` sets the velocity of this object to follow another object.
 
 The velocity is in the direction of the player, with magnitude equal to
 this object's speed.

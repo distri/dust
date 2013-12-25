@@ -95,10 +95,10 @@ the first argument. This transform is not applied.
               width: I.width
               height: I.height
               color: I.color
-    
+
         if I.alpha? and I.alpha != 1
           canvas.context().globalAlpha = previousAlpha
-      
+
       self.extend
 
 Draw does not actually do any drawing itself, instead it triggers all of the draw events.
@@ -106,16 +106,16 @@ Listeners on the events do the actual drawing.
 
         draw: (canvas) ->
           self.trigger 'beforeTransform', canvas
-      
+
           canvas.withTransform self.transform(), (canvas) ->
             self.trigger 'beforeDraw', canvas
             self.trigger 'draw', canvas
             self.trigger 'afterDraw', canvas
-      
+
           self.trigger 'afterTransform', canvas
-      
+
           return self
-      
+
         sprite: ->
           if name = (I.sprite or I.spriteName)
             # TODO: Resource loader?
@@ -125,13 +125,13 @@ Returns the current transform, with translation, rotation, and flipping applied.
 
         transform: ->
           center = self.center()
-      
+
           transform = Matrix.translation(center.x.floor(), center.y.floor())
-      
+
           transform = transform.concat(Matrix.scale(I.scale * I.scaleX, I.scale * I.scaleY))
           transform = transform.concat(Matrix.rotation(I.rotation)) if I.rotation
-      
+
           if I.spriteOffset
             transform = transform.concat(Matrix.translation(I.spriteOffset.x, I.spriteOffset.y))
-      
+
           return transform

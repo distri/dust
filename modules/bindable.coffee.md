@@ -44,7 +44,7 @@ custom drawing system you could unbind `".Drawable"` events and add your own.
           eventCallbacks[event] ||= []
           eventCallbacks[event].push(callback)
 
-          return this
+          return self
 
 Removes a specific event listener, or all event listeners if
 no specific listener is given.
@@ -86,7 +86,7 @@ Remove all handlers from the `".Drawable" namespace`
               eventCallbacks[key] = callbacks.select (callback) ->
                 !callback.__PIXIE?[namespace]?
 
-          return this
+          return self
 
 Calls all listeners attached to the specified event.
 
@@ -100,11 +100,11 @@ Additional parameters can be passed to the handlers.
         trigger: (event, parameters...) ->
           callbacks = eventCallbacks[event]
 
-          if callbacks && callbacks.length
-            self = this
-
-            callbacks.each (callback) ->
+          if callbacks
+            callbacks.forEach (callback) ->
               callback.apply(self, parameters)
+
+          return self
 
 Legacy method aliases.
 

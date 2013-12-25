@@ -8,7 +8,7 @@ Example: Health regeneration
 
 Player's health will approach target of `100` by `1` unit every second of elapsed
 game time.
-    
+
 >     player = GameObject
 >       health: 50
 >
@@ -74,7 +74,7 @@ Example: Turbo cooldown
           approachBy ?= 1
 
           I[name] ?= 0
-      
+
           # Set the cooldown data
           I.cooldowns[name] = {
             target
