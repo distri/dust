@@ -86,7 +86,7 @@ custom drawing system you could unbind <code>&quot;.Drawable&quot;</code> events
       eventCallbacks[event] ||= []
       eventCallbacks[event].push(callback)
 
-      <span class="keyword">return</span> <span class="keyword">this</span></code></pre>
+      <span class="keyword">return</span> self</code></pre>
 </div>
         </li>
         
@@ -137,7 +137,7 @@ leaving the other events intact.</p>
           eventCallbacks[key] = callbacks.select (callback) -&gt;
             !callback.__PIXIE?[namespace]?
 
-      <span class="keyword">return</span> <span class="keyword">this</span></code></pre>
+      <span class="keyword">return</span> self</code></pre>
 </div>
         </li>
         
@@ -161,11 +161,11 @@ yourObject.trigger &quot;someCustomEvent&quot;</code></pre>
             <div class="content"><pre><code class="lang-coffeescript">    trigger: (event, parameters...) -&gt;
       callbacks = eventCallbacks[event]
 
-      <span class="keyword">if</span> callbacks &amp;&amp; callbacks.length
-        self = <span class="keyword">this</span>
+      <span class="keyword">if</span> callbacks
+        callbacks.forEach (callback) -&gt;
+          callback.apply(self, parameters)
 
-        callbacks.each (callback) -&gt;
-          callback.apply(self, parameters)</code></pre>
+      <span class="keyword">return</span> self</code></pre>
 </div>
         </li>
         

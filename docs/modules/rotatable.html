@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>modules/follow</title>
+  <title>modules/rotatable</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
@@ -18,7 +18,7 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="follow">Follow</h1>
+              <h1 id="rotatable">Rotatable</h1>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">
@@ -32,28 +32,26 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>The <code>Follow</code> module provides a simple method to set an object&#39;s
-velocity so that it is moving towards another object.</p>
-<p>The calculated direction is based on the position of each object.</p>
-<p>This method relies on both objects having the <code>position</code> method.</p>
-<p>This module is included in <code>GameObject</code> by default.</p>
+              <p>The Rotatable module rotates the object
+based on its rotational velocity.</p>
 <blockquote>
 <pre><code>player = GameObject
-  x: 50
-  y: 50
-  width: 10
-  height: 10
+  x: 0
+  y: 0
+  rotationalVelocity: Math.PI / 64
 
-enemy = GameObject
-  x: 100
-  y: 50
-  width: 10
-  height: 10
-  velocity: Point(0, 0)
-  speed: 2
+player.I.rotation
+# =&gt; 0
 
-# Make an enemy follow the player
-enemy.follow(player)</code></pre>
+player.update(1)
+
+player.I.rotation
+# =&gt; 0.04908738521234052 # Math.PI / 64
+
+player.update(1)
+
+player.I.rotation
+# =&gt; 0.09817477042468103 # 2 * (Math.PI / 64)</code></pre>
 </blockquote>
 
             </div>
@@ -61,34 +59,13 @@ enemy.follow(player)</code></pre>
 
 module.<span class="function"><span class="title">exports</span></span> = (I={}, self) -&gt;
   defaults I,
-    velocity: Point(<span class="number">0</span>, <span class="number">0</span>)
-    speed: <span class="number">1</span></code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p><code>follow</code> sets the velocity of this object to follow another object.</p>
-<p>The velocity is in the direction of the player, with magnitude equal to
-this object&#39;s speed.</p>
-<blockquote>
-<pre><code>enemy.follow(player)</code></pre>
-</blockquote>
-<p>Call this in an <code>update</code> listener to always follow a target object.</p>
-<blockquote>
-<p>   self.on &quot;update&quot;, -&gt;
-     self.follow(player)</p>
-</blockquote>
+    rotation: <span class="number">0</span>
+    rotationalVelocity: <span class="number">0</span>
 
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">  self.extend
-    follow: (obj) -&gt;
-      <span class="keyword">if</span> obj
-        I.velocity = obj.position().subtract(self.position()).norm(I.speed)</code></pre>
+  self.<span class="literal">on</span> <span class="string">'update'</span>, (dt) -&gt;
+    I.rotation += I.rotationalVelocity * dt
+
+  <span class="keyword">return</span> self</code></pre>
 </div>
         </li>
         
