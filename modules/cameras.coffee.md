@@ -20,8 +20,14 @@ The Cameras module is included in `GameState` by default.
     
       self.on 'overlay', (canvas) ->
         self.cameras().invoke 'trigger', 'overlay', canvas, self.objects()
-    
+
+Methods
+-------
+
       self.extend
+
+`addCamera` adds a camera to the cameras present.
+
         addCamera: (data) ->
           cameras.push(Camera(data))
 

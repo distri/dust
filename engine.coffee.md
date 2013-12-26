@@ -222,8 +222,9 @@ Implementation
       return self
 
     Engine.defaultModules = [
-      
-    ].map ->
+      "game_state"
+    ].map (name) ->
+      require "./modules/engine/#{name}"
 
 TODO: 
 
@@ -234,7 +235,6 @@ Include these modules
 "Mouse"
 "Background"
 "Delay"
-"GameState"
 "Selector"
 "Collision"
 "Tilemap"

@@ -14,6 +14,7 @@ the object that is added.
 
     {defaults} = require "./util"
     Bindable = require "./modules/bindable"
+    GameObject = require "../../game_object"
 
     module.exports = (I={}, self=Bindable(I)) ->
       defaults I,
@@ -37,6 +38,8 @@ You can add arbitrary `entityData` and the engine will make it into a `GameObjec
 >     player = engine.add
 >       class: "Player"
 
+        # TODO: Need some kind of object constructor registry to reconstitute game
+        # objects from data
         add: (entityData) ->
           self.trigger "beforeAdd", entityData
     
@@ -72,8 +75,8 @@ You can add arbitrary `entityData` and the engine will make it into a `GameObjec
         queuedObjects = []
     
         I.updating = false
-    
+
       self.include require "./modules/cameras"
-      self.include "GameState.SaveState"
+      self.include require "./modules/save_state"
 
       return self

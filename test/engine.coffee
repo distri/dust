@@ -66,17 +66,19 @@ describe "Engine", ->
   test "#add", ->
     engine = Engine()
   
+    assert engine.objects().length is 0
+  
     engine.add "GameObject",
       test: true
   
-    ok engine.first("GameObject")
+    assert engine.objects().length is 1
   
   test "#add class name only", ->
     engine = Engine()
-  
+
+    assert engine.objects().length is 0
     engine.add "GameObject"
-  
-    ok engine.first("GameObject")
+    assert engine.objects().length is 1
   
   test "zSort", ->
     engine = Engine
@@ -206,9 +208,14 @@ describe "Engine", ->
     equals object.I.x, 1
     equals object.I.age, 1/30
   
-  test "#setState", ->
+  # TODO: Maybe this should be a state stack and have pushState and popState
+  # in addition to setState
+  # TODO: This should be in GameStates test, not engine
+  test "#setState"# TODO, ->
+  ###
     engine = Engine()
   
+    # TODO: Shouldn't need to use the GameState constructor itself
     nextState = GameState()
   
     engine.setState nextState
@@ -222,3 +229,4 @@ describe "Engine", ->
     engine.update()
   
     equal engine.I.currentState, nextState
+  ###

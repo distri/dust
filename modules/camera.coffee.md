@@ -5,25 +5,25 @@ Camera
     {defaults} = require "../util"
 
     Camera = (I={}, self=Bindable(I)) ->
+
       defaults I,
-        cameraBounds: Rectangle # World Coordinates
+        screen: # Screen Coordinates
           x: 0
           y: 0
-          width: App.width
-          height: App.height
-        screen: Rectangle # Screen Coordinates
-          x: 0
-          y: 0
-          width: App.width
-          height: App.height
+          width: 1024
+          height: 576
         deadzone: Point(0, 0) # Screen Coordinates
         zoom: 1
         transform: Matrix()
-        x: App.width/2 # World Coordinates
-        y: App.height/2 # World Coordinates
         velocity: Point.ZERO
         maxSpeed: 750
         t90: 2 # Time in seconds for camera to move 90% of the way to the target
+
+      # World Coordinates
+      I.x ?= I.screen.width/2
+      I.y ?= I.screen.height/2
+
+      I.cameraBounds ?= I.screen
     
       currentType = "centered"
       currentObject = null
@@ -120,11 +120,8 @@ Camera
     
           objects.invoke "trigger", "overlay", canvas
 
-      self.include [
-        "age"
-        "bounded"
-      ].map (name) ->
-        require "./#{name}"
+      self.include require "./age"
+      self.include require "./bounded"
 
       # The order of theses includes is important for
       # the way in wich they modify the camera view transform

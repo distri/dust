@@ -100,7 +100,13 @@ Destroys the object and triggers the destroyed event. Anyone can call this metho
 Construct an object instance from the given entity data.
 
     GameObject.construct = (entityData) ->
-      if entityData.class
-        entityData.class.constantize()(entityData)
+      if className = entityData.class
+        if constructor = GameObject.registry[className]
+          constructor(entityData)
+        else
+          throw "Unregistered constructor: #{className}"
       else
         GameObject(entityData)
+
+    GameObject.registry =
+      GameObject: GameObject
