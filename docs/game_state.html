@@ -55,6 +55,7 @@ the object that is added.</p>
             </div>
             <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"./util"</span>
 Bindable = require <span class="string">"./modules/bindable"</span>
+GameObject = require <span class="string">"../../game_object"</span>
 
 module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Bindable(I)) -&gt;
   defaults I,
@@ -86,7 +87,9 @@ player = engine.add
 </blockquote>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">    add: (entityData) -&gt;
+            <div class="content"><pre><code class="lang-coffeescript">    <span class="comment"># TODO: Need some kind of object constructor registry to reconstitute game</span>
+    <span class="comment"># objects from data</span>
+    add: (entityData) -&gt;
       self.trigger <span class="string">"beforeAdd"</span>, entityData
 
       object = GameObject.construct entityData
@@ -123,7 +126,7 @@ player = engine.add
     I.updating = <span class="literal">false</span>
 
   self.include require <span class="string">"./modules/cameras"</span>
-  self.include <span class="string">"GameState.SaveState"</span>
+  self.include require <span class="string">"./modules/save_state"</span>
 
   <span class="keyword">return</span> self</code></pre>
 </div>

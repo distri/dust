@@ -174,10 +174,16 @@ GameObject.defaultModules = [
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">GameObject.<span class="function"><span class="title">construct</span></span> = (entityData) -&gt;
-  <span class="keyword">if</span> entityData.<span class="class"><span class="keyword">class</span>
-    <span class="title">entityData</span>.<span class="title">class</span>.<span class="title">constantize</span>()(<span class="title">entityData</span>)</span>
+  <span class="keyword">if</span> className = entityData.<span class="class"><span class="keyword">class</span>
+    <span class="title">if</span> <span class="title">constructor</span> = <span class="title">GameObject</span>.<span class="title">registry</span>[<span class="title">className</span>]</span>
+      constructor(entityData)
+    <span class="keyword">else</span>
+      <span class="keyword">throw</span> <span class="string">"Unregistered constructor: <span class="subst">#{className}</span>"</span>
   <span class="keyword">else</span>
-    GameObject(entityData)</code></pre>
+    GameObject(entityData)
+
+GameObject.registry =
+  GameObject: GameObject</code></pre>
 </div>
         </li>
         

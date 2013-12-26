@@ -38,25 +38,25 @@
 {defaults} = require <span class="string">"../util"</span>
 
 <span class="function"><span class="title">Camera</span></span> = (I={}, self=Bindable(I)) -&gt;
+
   defaults I,
-    cameraBounds: Rectangle <span class="comment"># World Coordinates</span>
+    screen: <span class="comment"># Screen Coordinates</span>
       x: <span class="number">0</span>
       y: <span class="number">0</span>
-      width: App.width
-      height: App.height
-    screen: Rectangle <span class="comment"># Screen Coordinates</span>
-      x: <span class="number">0</span>
-      y: <span class="number">0</span>
-      width: App.width
-      height: App.height
+      width: <span class="number">1024</span>
+      height: <span class="number">576</span>
     deadzone: Point(<span class="number">0</span>, <span class="number">0</span>) <span class="comment"># Screen Coordinates</span>
     zoom: <span class="number">1</span>
     transform: Matrix()
-    x: App.width/<span class="number">2</span> <span class="comment"># World Coordinates</span>
-    y: App.height/<span class="number">2</span> <span class="comment"># World Coordinates</span>
     velocity: Point.ZERO
     maxSpeed: <span class="number">750</span>
     t90: <span class="number">2</span> <span class="comment"># Time in seconds for camera to move 90% of the way to the target</span>
+
+  <span class="comment"># World Coordinates</span>
+  I.x ?= I.screen.width/<span class="number">2</span>
+  I.y ?= I.screen.height/<span class="number">2</span>
+
+  I.cameraBounds ?= I.screen
 
   currentType = <span class="string">"centered"</span>
   currentObject = <span class="literal">null</span>
@@ -153,11 +153,8 @@
 
       objects.invoke <span class="string">"trigger"</span>, <span class="string">"overlay"</span>, canvas
 
-  self.include [
-    <span class="string">"age"</span>
-    <span class="string">"bounded"</span>
-  ].map (name) -&gt;
-    require <span class="string">"./<span class="subst">#{name}</span>"</span>
+  self.include require <span class="string">"./age"</span>
+  self.include require <span class="string">"./bounded"</span>
 
   <span class="comment"># The order of theses includes is important for</span>
   <span class="comment"># the way in wich they modify the camera view transform</span>

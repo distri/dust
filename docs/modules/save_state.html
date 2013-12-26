@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>modules/cameras</title>
+  <title>modules/save_state</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
@@ -18,7 +18,7 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="cameras">Cameras</h1>
+              <h1 id="savestate">SaveState</h1>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">
@@ -32,26 +32,14 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>The Cameras module is included in <code>GameState</code> by default.</p>
+              <p>The <code>SaveState</code> module provides methods to save and restore the current game state.</p>
+<p>It is included in <code>GameState</code> by default</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">Bindable = require <span class="string">"./bindable"</span>
-Camera = require <span class="string">"./camera"</span>
+            <div class="content"><pre><code class="lang-coffeescript">{extend} = require <span class="string">"/util"</span>
 
-module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Bindable()) -&gt;
-  cameras = [Camera()]
-
-  self.<span class="literal">on</span> <span class="string">'update'</span>, (elapsedTime) -&gt;
-    self.cameras().invoke <span class="string">'trigger'</span>, <span class="string">'update'</span>, elapsedTime
-
-  self.<span class="literal">on</span> <span class="string">'afterUpdate'</span>, (elapsedTime) -&gt;
-    self.cameras().invoke <span class="string">'trigger'</span>, <span class="string">'afterUpdate'</span>, elapsedTime
-
-  self.<span class="literal">on</span> <span class="string">'draw'</span>, (canvas) -&gt;
-    self.cameras().invoke <span class="string">'trigger'</span>, <span class="string">'draw'</span>, canvas, self.objects()
-
-  self.<span class="literal">on</span> <span class="string">'overlay'</span>, (canvas) -&gt;
-    self.cameras().invoke <span class="string">'trigger'</span>, <span class="string">'overlay'</span>, canvas, self.objects()</code></pre>
+module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Core(I)) -&gt;
+  savedState = <span class="literal">null</span></code></pre>
 </div>
         </li>
         
@@ -87,11 +75,19 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p><code>addCamera</code> adds a camera to the cameras present.</p>
+              <p><code>saveState</code> saves the current game state and returns a JSON object representing 
+that state.</p>
+<p>@returns {Array} An array of the instance data of all objects in the game state</p>
+<blockquote>
+<pre><code>engine.on &#39;update&#39;, -&gt;
+  if justPressed.s
+    engine.saveState()</code></pre>
+</blockquote>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">    addCamera: (data) -&gt;
-      cameras.push(Camera(data))</code></pre>
+            <div class="content"><pre><code class="lang-coffeescript">    saveState: -&gt;
+      savedState = I.objects.map (object) -&gt;
+        extend({}, object.I)</code></pre>
 </div>
         </li>
         
@@ -101,16 +97,50 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>Returns the array of camera objects or sets them if an argument is passed in.</p>
+              <p>Loads the game state passed in, or the last saved state, if any.</p>
+<p>@param [newState] An array of object instance data to load.</p>
+<blockquote>
+<pre><code>engine.on &#39;update&#39;, -&gt;
+  if justPressed.l
+    # loads the last saved state
+    engine.loadState()
+
+  if justPressed.o
+    # removes all game objects, then reinstantiates 
+    # them with the entityData passed in
+    engine.loadState([{x: 40, y: 50, class: &quot;Player&quot;}, {x: 0, y: 0, class: &quot;Enemy&quot;}, {x: 500, y: 400, class: &quot;Boss&quot;}])</code></pre>
+</blockquote>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">    cameras: (newCameras) -&gt;
-      <span class="keyword">if</span> newCameras
-        cameras = newCameras
+            <div class="content"><pre><code class="lang-coffeescript">    loadState: (newState) -&gt;
+      <span class="keyword">if</span> newState ||= savedState
+        I.objects.invoke <span class="string">"trigger"</span>, <span class="string">"remove"</span>
+        I.objects = []
 
-        <span class="keyword">return</span> self
-      <span class="keyword">else</span>
-        <span class="keyword">return</span> cameras</code></pre>
+        newState.each (objectData) -&gt;
+          self.add extend({}, objectData)</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Reloads the current game state, useful for hotswapping code.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    reload: -&gt;
+      oldObjects = I.objects
+      I.objects = []
+
+      oldObjects.each (object) -&gt;
+        object.trigger <span class="string">"remove"</span>
+
+        self.add object.I
+
+      <span class="keyword">return</span> self</code></pre>
 </div>
         </li>
         

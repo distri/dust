@@ -261,8 +261,9 @@ Bindable = require <span class="string">"./modules/bindable"</span>
   <span class="keyword">return</span> self
 
 Engine.defaultModules = [
-
-].map -&gt;</code></pre>
+  <span class="string">"game_state"</span>
+].map (name) -&gt;
+  require <span class="string">"./modules/engine/<span class="subst">#{name}</span>"</span></code></pre>
 </div>
         </li>
         
@@ -279,7 +280,6 @@ Engine.defaultModules = [
 &quot;Mouse&quot;
 &quot;Background&quot;
 &quot;Delay&quot;
-&quot;GameState&quot;
 &quot;Selector&quot;
 &quot;Collision&quot;
 &quot;Tilemap&quot;
