@@ -159,14 +159,15 @@
   <span class="comment"># The order of theses includes is important for</span>
   <span class="comment"># the way in wich they modify the camera view transform</span>
 
-  <span class="keyword">for</span> moduleName <span class="keyword">in</span> Camera.defaultModules
-    self.include <span class="string">"Camera.<span class="subst">#{moduleName}</span>"</span>
+  <span class="keyword">for</span> module <span class="keyword">in</span> Camera.defaultModules
+    self.include module
 
   <span class="keyword">return</span> self
 
 Camera.defaultModules = [
-
-]</code></pre>
+  <span class="string">"z_sort"</span>
+].map (name) -&gt;
+  require <span class="string">"./camera/<span class="subst">#{name}</span>"</span></code></pre>
 </div>
         </li>
         
@@ -176,10 +177,8 @@ Camera.defaultModules = [
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <h1 id="todo">TODO</h1>
-<p>Include these camera modules</p>
-<p>&quot;ZSort&quot;
-&quot;Zoom&quot;
+              <h1 id="todo-include-these-camera-modules">TODO: Include these camera modules</h1>
+<p>&quot;Zoom&quot;
 &quot;Rotate&quot;
 &quot;Shake&quot;
 &quot;Flash&quot;
