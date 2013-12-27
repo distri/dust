@@ -222,15 +222,15 @@ Implementation
       return self
 
     Engine.defaultModules = [
+      "background"
       "game_state"
     ].map (name) ->
       require "./modules/engine/#{name}"
 
-TODO: 
+TODO:
 
 Include these modules
 
-"Data"
 "Keyboard"
 "Mouse"
 "Background"
