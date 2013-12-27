@@ -231,9 +231,12 @@ Implementation
     ].map (name) ->
       require "./modules/#{name}"
 
-TODO: Include these modules
-
-"Tilemap"
-"Levels"
-
     module.exports = Engine
+
+TODO
+----
+
+- Include these modules
+ - "Tilemap"
+ - "Levels"
+- Extract driving loop into a module

@@ -7,3 +7,5 @@ Setup
     require "appcache"
 
     require "cornerstone"
+
+    global.Bindable = require "./modules/bindable"

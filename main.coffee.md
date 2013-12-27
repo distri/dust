@@ -27,8 +27,11 @@ Modules
     TouchCanvas = require "touch-canvas"
 
     module.exports =
-      init: (require) ->
-        {width, height} = require "/pixie"
+      init: (externalRequire) ->
+        Engine = require "./engine"
+
+        if externalRequire
+          {width, height} = externalRequire "/pixie"
 
         canvas = TouchCanvas
           width: width
@@ -39,4 +42,22 @@ Modules
 
         $(".main").append canvas.element()
 
-        canvas.fill("orange")
+        engine = Engine
+          canvas: canvas
+          
+        engine.start()
+        
+        object = engine.add
+          class: "GameObject"
+          x: 100
+          y: 100
+          color: "red"
+          width: 50
+          height: 50
+          speed: 30
+        
+        engine.on "update", ->
+          if mousePosition?
+            object.follow(mousePosition)
+
+    module.exports.init(require)

@@ -29,10 +29,12 @@ This module is included in `GameObject` by default.
 
     {defaults} = require "../util"
 
-    module.exports = (I={}, self) ->
+    module.exports = (I={}, self=Core(I)) ->
       defaults I,
         velocity: Point(0, 0)
         speed: 1
+
+      self.attrAccessor "speed"
 
 `follow` sets the velocity of this object to follow another object.
 
@@ -48,5 +50,10 @@ Call this in an `update` listener to always follow a target object.
 
       self.extend
         follow: (obj) ->
-          if obj
-            I.velocity = obj.position().subtract(self.position()).norm(I.speed)
+          if obj.position?
+            position = obj.position()
+          else if obj.x?
+            position = obj
+
+          if position
+            I.velocity = position.subtract(self.position()).norm(self.speed())
