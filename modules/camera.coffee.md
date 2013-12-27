@@ -126,20 +126,18 @@ Camera
       # The order of theses includes is important for
       # the way in wich they modify the camera view transform
     
-      for moduleName in Camera.defaultModules
-        self.include "Camera.#{moduleName}"
+      for module in Camera.defaultModules
+        self.include module
     
       return self
     
     Camera.defaultModules = [
+      "z_sort"
+    ].map (name) ->
+      require "./camera/#{name}"
 
-    ]
+# TODO: Include these camera modules
 
-# TODO
-
-Include these camera modules
-
-"ZSort"
 "Zoom"
 "Rotate"
 "Shake"

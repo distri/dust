@@ -123,17 +123,21 @@ describe "Engine", ->
 
     equals calls, 2
   
-  test "Remove event", 1, ->
+  test "Remove event", ->
     engine = Engine
       backgroundColor: false
   
     object = engine.add
       active: false
   
+    called = 0
     object.bind "remove", ->
+      called += 1
       ok true, "remove called"
   
     engine.frameAdvance()
+    
+    assert.equal called, 1
   
   test "#find", ->
     engine = Engine()
