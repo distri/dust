@@ -225,14 +225,14 @@ Implementation
       "engine/collision"
       "engine/game_state"
       "engine/finder"
+      "engine/keyboard"
+      "engine/mouse"
       "timed_events"
     ].map (name) ->
       require "./modules/#{name}"
 
 TODO: Include these modules
 
-"Keyboard"
-"Mouse"
 "Tilemap"
 "Levels"
 
