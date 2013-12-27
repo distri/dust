@@ -69,8 +69,11 @@
 TouchCanvas = require <span class="string">"touch-canvas"</span>
 
 module.exports =
-  init: (require) -&gt;
-    {width, height} = require <span class="string">"/pixie"</span>
+  init: (externalRequire) -&gt;
+    Engine = require <span class="string">"./engine"</span>
+
+    <span class="keyword">if</span> externalRequire
+      {width, height} = externalRequire <span class="string">"/pixie"</span>
 
     canvas = TouchCanvas
       width: width
@@ -81,7 +84,25 @@ module.exports =
 
     $(<span class="string">".main"</span>).append canvas.element()
 
-    canvas.fill(<span class="string">"orange"</span>)</code></pre>
+    engine = Engine
+      canvas: canvas
+
+    engine.start()
+
+    object = engine.add
+      class: <span class="string">"GameObject"</span>
+      x: <span class="number">100</span>
+      y: <span class="number">100</span>
+      color: <span class="string">"red"</span>
+      width: <span class="number">50</span>
+      height: <span class="number">50</span>
+      speed: <span class="number">30</span>
+
+    engine.<span class="literal">on</span> <span class="string">"update"</span>, -&gt;
+      <span class="keyword">if</span> mousePosition?
+        object.follow(mousePosition)
+
+module.exports.init(require)</code></pre>
 </div>
         </li>
         

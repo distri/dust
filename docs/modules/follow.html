@@ -59,10 +59,12 @@ enemy.follow(player)</code></pre>
             </div>
             <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"../util"</span>
 
-module.<span class="function"><span class="title">exports</span></span> = (I={}, self) -&gt;
+module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Core(I)) -&gt;
   defaults I,
     velocity: Point(<span class="number">0</span>, <span class="number">0</span>)
-    speed: <span class="number">1</span></code></pre>
+    speed: <span class="number">1</span>
+
+  self.attrAccessor <span class="string">"speed"</span></code></pre>
 </div>
         </li>
         
@@ -87,8 +89,13 @@ this object&#39;s speed.</p>
             </div>
             <div class="content"><pre><code class="lang-coffeescript">  self.extend
     follow: (obj) -&gt;
-      <span class="keyword">if</span> obj
-        I.velocity = obj.position().subtract(self.position()).norm(I.speed)</code></pre>
+      <span class="keyword">if</span> obj.position?
+        position = obj.position()
+      <span class="keyword">else</span> <span class="keyword">if</span> obj.x?
+        position = obj
+
+      <span class="keyword">if</span> position
+        I.velocity = position.subtract(self.position()).norm(self.speed())</code></pre>
 </div>
         </li>
         
