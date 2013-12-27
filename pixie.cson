@@ -5,6 +5,7 @@ remoteDependencies: [
 dependencies:
   appcache: "distri/appcache:v0.2.0"
   cornerstone: "distri/cornerstone:v0.2.0"
+  "finder": "distri/finder:v0.1.3"
   hotkeys: "distri/hotkeys:v0.2.0"
   "jquery-utils": "distri/jquery-utils:v0.2.0"
   "touch-canvas": "distri/touch-canvas:v0.3.0"

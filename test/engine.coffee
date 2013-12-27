@@ -147,47 +147,18 @@ describe "Engine", ->
   
     engine.add
       test: true
-  
+    .attrReader "test"
+
     engine.add
       solid: true
       opaque: false
-  
-    equal engine.find("#no_testy").length, 0
-    equal engine.find("#testy").length, 1
-    equal engine.find(".test").length, 1
-    equal engine.find(".solid=true").length, 1
-    equal engine.find(".opaque=false").length, 1
-  
-  test "Selector.parse", ->
-    a = Engine.Selector.parse("#foo")
-    equal a.length, 1
-    equal a.first(), "#foo"
-  
-    a = Engine.Selector.parse("#boo, baz")
-    equal a.length, 2
-    equal a.first(), "#boo"
-    equal a.last(), "baz"
-  
-    a = Engine.Selector.parse("#boo,Light.flicker,baz")
-    equal a.length, 3
-    equal a.first(), "#boo"
-    equal a[1], "Light.flicker"
-    equal a.last(), "baz"
-  
-  test "Selector.process", ->
-    [type, id, attr, value] = Engine.Selector.process("Foo#test.cool=1")
-  
-    equal type, "Foo"
-    equal id, "test"
-    equal attr, "cool"
-    equal value, 1
-  
-    [type, id, attr, value] = Engine.Selector.process(".baz=false")
-  
-    equal type, undefined
-    equal id, undefined
-    equal attr, "baz"
-    equal value, false
+    .attrReader "solid", "opaque"
+
+    equal engine.find("#no_testy").length, 0, "No object with id `no_testy`"
+    equal engine.find("#testy").length, 1, "Object with id `testy`"
+    equal engine.find(".test").length, 1, "Object with attribute `test`"
+    equal engine.find(".solid=true").length, 1, "Object with attribute `solid` equal to true"
+    equal engine.find(".opaque=false").length, 1, "Object with attribute `opaque` equal to false"
   
   test "#camera", ->
     engine = Engine()

@@ -42,13 +42,17 @@ been destroyed.
 
     {defaults} = require "./util"
 
-    module.exports = GameObject = (I={}) ->
+    module.exports = GameObject = (I={}, self=Core(I)) ->
       defaults I,
         active: true
         created: false
         destroyed: false
 
-      self = Core(I).extend
+      self.attrReader "id"
+
+      self.extend
+        class: ->
+          I.class or "GameObject"
 
 Update the game object. The engine calls this method.
 

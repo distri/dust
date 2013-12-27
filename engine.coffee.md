@@ -212,8 +212,6 @@ Implementation
         update: update
         draw: draw
 
-      self.include require("./modules/age")
-
       Engine.defaultModules.each (module) ->
         self.include module
 
@@ -222,21 +220,19 @@ Implementation
       return self
 
     Engine.defaultModules = [
-      "background"
-      "game_state"
+      "age"
+      "engine/background"
+      "engine/collision"
+      "engine/game_state"
+      "engine/finder"
+      "timed_events"
     ].map (name) ->
-      require "./modules/engine/#{name}"
+      require "./modules/#{name}"
 
-TODO:
-
-Include these modules
+TODO: Include these modules
 
 "Keyboard"
 "Mouse"
-"Background"
-"Delay"
-"Selector"
-"Collision"
 "Tilemap"
 "Levels"
 
