@@ -80,13 +80,17 @@ been destroyed.</p>
             </div>
             <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"./util"</span>
 
-module.exports = <span class="function"><span class="title">GameObject</span></span> = (I={}) -&gt;
+module.exports = <span class="function"><span class="title">GameObject</span></span> = (I={}, self=Core(I)) -&gt;
   defaults I,
     active: <span class="literal">true</span>
     created: <span class="literal">false</span>
     destroyed: <span class="literal">false</span>
 
-  self = Core(I).extend</code></pre>
+  self.attrReader <span class="string">"id"</span>
+
+  self.extend
+    class: -&gt;
+      I.<span class="class"><span class="keyword">class</span> <span class="title">or</span> "<span class="title">GameObject</span>"</span></code></pre>
 </div>
         </li>
         

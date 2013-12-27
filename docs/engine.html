@@ -251,8 +251,6 @@ Bindable = require <span class="string">"./modules/bindable"</span>
     update: update
     draw: draw
 
-  self.include require(<span class="string">"./modules/age"</span>)
-
   Engine.defaultModules.each (module) -&gt;
     self.include module
 
@@ -261,10 +259,14 @@ Bindable = require <span class="string">"./modules/bindable"</span>
   <span class="keyword">return</span> self
 
 Engine.defaultModules = [
-  <span class="string">"background"</span>
-  <span class="string">"game_state"</span>
+  <span class="string">"age"</span>
+  <span class="string">"engine/background"</span>
+  <span class="string">"engine/collision"</span>
+  <span class="string">"engine/game_state"</span>
+  <span class="string">"engine/finder"</span>
+  <span class="string">"timed_events"</span>
 ].map (name) -&gt;
-  require <span class="string">"./modules/engine/<span class="subst">#{name}</span>"</span></code></pre>
+  require <span class="string">"./modules/<span class="subst">#{name}</span>"</span></code></pre>
 </div>
         </li>
         
@@ -274,14 +276,9 @@ Engine.defaultModules = [
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>TODO:</p>
-<p>Include these modules</p>
+              <p>TODO: Include these modules</p>
 <p>&quot;Keyboard&quot;
 &quot;Mouse&quot;
-&quot;Background&quot;
-&quot;Delay&quot;
-&quot;Selector&quot;
-&quot;Collision&quot;
 &quot;Tilemap&quot;
 &quot;Levels&quot;</p>
 

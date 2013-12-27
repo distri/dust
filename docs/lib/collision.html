@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>lib/collision</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    <ul class="sections">
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="collision">Collision</h1>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Collision holds many useful class methods for checking geometric overlap of various objects.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript"><span class="comment"># Assume game objects</span>
+<span class="function"><span class="title">collides</span></span> = (a, b) -&gt;
+  <span class="comment"># TODO: Be smart about auto-detecting collision types</span>
+  Collision.rectangular(a.bounds(), b.bounds())
+
+Collision =
+  <span class="comment">###*
+  Collision holds many useful class methods for checking geometric overlap of various objects.
+
+      player = engine.add
+        class: "Player"
+        x: 0
+        y: 0
+        width: 10
+        height: 10
+
+      enemy = engine.add
+        class: "Enemy"
+        x: 5
+        y: 5
+        width: 10
+        height: 10
+
+      enemy2 = engine.add
+        class: "Enemy"
+        x: -5
+        y: -5
+        width: 10
+        height: 10
+
+      Collision.collide(player, enemy, (p, e) -&gt; ...)
+      # =&gt; callback is called once
+
+      Collision.collide(player, [enemy, enemy2], (p, e) -&gt; ...)
+      # =&gt; callback is called twice
+
+      Collision.collide("Player", "Enemy", (p, e) -&gt; ...)
+      # =&gt; callback is also called twice
+
+  @name collide
+  @methodOf Collision
+  @param {Object|Array|String} groupA An object or set of objects to check collisions with
+  @param {Object|Array|String} groupB An object or set of objects to check collisions with
+  @param {Function} callback The callback to call when an object of groupA collides
+  with an object of groupB: (a, b) -&gt;
+  @param {Function} [detectionMethod] An optional detection method to determine when two 
+  objects are colliding.
+  ###</span>
+  collide: (groupA, groupB, callback, detectionMethod=collides) -&gt;
+    <span class="keyword">if</span> Object.isString(groupA)
+      groupA = engine.find(groupA)
+    <span class="keyword">else</span>
+      groupA = [].concat(groupA)
+
+    <span class="keyword">if</span> Object.isString(groupB)
+      groupB = engine.find(groupB)
+    <span class="keyword">else</span>
+      groupB = [].concat(groupB)
+
+    groupA.each (a) -&gt;
+      groupB.each (b) -&gt;
+        callback(a, b) <span class="keyword">if</span> detectionMethod(a, b)
+
+  <span class="comment">###*
+  Takes two bounds objects and returns true if they collide (overlap), false otherwise.
+  Bounds objects have x, y, width and height properties.
+
+      player = GameObject
+        x: 0
+        y: 0
+        width: 10
+        height: 10
+
+      enemy = GameObject
+        x: 5
+        y: 5
+        width: 10
+        height: 10
+
+      Collision.rectangular(player, enemy)
+      # =&gt; true
+
+      Collision.rectangular(player, {x: 50, y: 40, width: 30, height: 30})
+      # =&gt; false
+
+  @name rectangular
+  @methodOf Collision
+  @param {Object} a The first rectangle
+  @param {Object} b The second rectangle
+  @returns {Boolean} true if the rectangles overlap, false otherwise
+  ###</span>
+  rectangular: (a, b) -&gt;
+    a.x &lt; b.x + b.width &amp;&amp;
+    a.x + a.width &gt; b.x &amp;&amp;
+    a.y &lt; b.y + b.height &amp;&amp;
+    a.y + a.height &gt; b.y
+
+  <span class="comment">###*
+  Takes two circle objects and returns true if they collide (overlap), false otherwise.
+  Circle objects have x, y, and radius.
+
+      player = GameObject
+        x: 5
+        y: 5
+        radius: 10
+
+      enemy = GameObject
+        x: 10
+        y: 10
+        radius: 10
+
+      farEnemy = GameObject
+        x: 500
+        y: 500
+        radius: 30
+
+      Collision.circular(player, enemy)
+      # =&gt; true
+
+      Collision.circular(player, farEnemy)
+      # =&gt; false
+
+  @name circular
+  @methodOf Collision
+  @param {Object} a The first circle
+  @param {Object} b The second circle
+  @returns {Boolean} true is the circles overlap, false otherwise
+  ###</span>
+  circular: (a, b) -&gt;
+    r = a.radius + b.radius
+    dx = b.x - a.x
+    dy = b.y - a.y
+
+    r * r &gt;= dx * dx + dy * dy
+
+  <span class="comment">###*
+  Detects whether a line intersects a circle.
+
+      circle = engine.add
+        class: "circle"
+        x: 50
+        y: 50
+        radius: 10
+
+      Collision.rayCircle(Point(0, 0), Point(1, 0), circle)
+      # =&gt; true
+
+  @name rayCircle
+  @methodOf Collision
+  @param {Point} source The starting position
+  @param {Point} direction A vector from the point
+  @param {Object} target The circle 
+  @returns {Boolean} true if the line intersects the circle, false otherwise
+  ###</span>
+  rayCircle: (source, direction, target) -&gt;
+    radius = target.radius()
+    target = target.position()
+
+    laserToTarget = target.subtract(source)
+
+    projectionLength = direction.dot(laserToTarget)
+
+    <span class="keyword">if</span> projectionLength &lt; <span class="number">0</span>
+      <span class="keyword">return</span> <span class="literal">false</span> <span class="comment"># object is behind</span>
+
+    projection = direction.scale(projectionLength)
+
+    intersection = source.add(projection)
+    intersectionToTarget = target.subtract(intersection)
+    intersectionToTargetLength = intersectionToTarget.length()
+
+    <span class="keyword">if</span> intersectionToTargetLength &lt; radius
+      hit = <span class="literal">true</span>
+
+    <span class="keyword">if</span> hit
+      dt = Math.sqrt(radius * radius - intersectionToTargetLength * intersectionToTargetLength)
+
+      hit = direction.scale(projectionLength - dt).add(source)
+
+  <span class="comment">###*
+  Detects whether a line intersects a rectangle.
+
+      rect = engine.add
+        class: "circle"
+        x: 50
+        y: 50
+        width: 20
+        height: 20
+
+      Collision.rayRectangle(Point(0, 0), Point(1, 0), rect)
+      # =&gt; true
+
+  @name rayRectangle
+  @methodOf Collision
+  @param {Point} source The starting position
+  @param {Point} direction A vector from the point
+  @param {Object} target The rectangle
+  @returns {Boolean} true if the line intersects the rectangle, false otherwise
+  ###</span>
+  rayRectangle: (source, direction, target) -&gt;
+    <span class="keyword">unless</span> target.xw? <span class="keyword">and</span> target.yw?
+      <span class="keyword">if</span> target.width? <span class="keyword">and</span> target.height?
+        xw = target.width/<span class="number">2</span>
+        yw = target.height/<span class="number">2</span>
+
+        <span class="comment"># Convert from bounds rect to centeredBounds rect</span>
+        <span class="keyword">return</span> Collision.rayRectangle source, direction,
+          x: target.x + xw
+          y: target.y + yw
+          xw: xw
+          yw: yw
+      <span class="keyword">else</span>
+        error <span class="string">"Bounds object isn't a rectangle"</span>
+
+        <span class="keyword">return</span>
+
+    xw = target.xw
+    yw = target.yw
+
+    <span class="keyword">if</span> source.x &lt; target.x
+      xval = target.x - xw
+    <span class="keyword">else</span>
+      xval = target.x + xw
+
+    <span class="keyword">if</span> source.y &lt; target.y
+      yval = target.y - yw
+    <span class="keyword">else</span>
+      yval = target.y + yw
+
+    <span class="keyword">if</span> direction.x == <span class="number">0</span>
+      p0 = Point(target.x - xw, yval)
+      p1 = Point(target.x + xw, yval)
+
+      t = (yval - source.y) / direction.y
+    <span class="keyword">else</span> <span class="keyword">if</span> direction.y == <span class="number">0</span>
+      p0 = Point(xval, target.y - yw)
+      p1 = Point(xval, target.y + yw)
+
+      t = (xval - source.x) / direction.x
+    <span class="keyword">else</span>
+      tX = (xval - source.x) / direction.x
+      tY = (yval - source.y) / direction.y
+
+      <span class="comment"># TODO: These special cases are gross!</span>
+      <span class="keyword">if</span> (tX &lt; tY || (-xw &lt; source.x - target.x &lt; xw)) &amp;&amp; !(-yw &lt; source.y - target.y &lt; yw)
+        p0 = Point(target.x - xw, yval)
+        p1 = Point(target.x + xw, yval)
+
+        t = tY
+      <span class="keyword">else</span>
+        p0 = Point(xval, target.y - yw)
+        p1 = Point(xval, target.y + yw)
+
+        t = tX
+
+    <span class="keyword">if</span> t &gt; <span class="number">0</span>
+      areaPQ0 = direction.cross(p0.subtract(source))
+      areaPQ1 = direction.cross(p1.subtract(source))
+
+      <span class="keyword">if</span> areaPQ0 * areaPQ1 &lt; <span class="number">0</span>
+        hit = direction.scale(t).add(source)
+
+module.exports = Collision</code></pre>
+</div>
+        </li>
+        
+    </ul>
+  </div>
+  <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
+<script src="http://strd6.github.io/require/v0.2.2.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script><script>
+  $.ajax({
+    url: "http://strd6.github.io/interactive/v0.8.1.jsonp",
+    dataType: "jsonp",
+    jsonpCallback: "STRd6/interactive:v0.8.1",
+    cache: true
+  }).then(function(PACKAGE) {
+    Require.generateFor(PACKAGE)("./" + PACKAGE.entryPoint)
+  })
+</script><script src="../package.js"></script>
+</body>
+</html>
