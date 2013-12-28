@@ -48,11 +48,11 @@ player.meter &#39;health&#39;
 # =&gt; Sets up a health meter that will be drawn during the player overlay event
 
 enemy.meter &#39;health&#39;
-# =&gt; Sets up a health meter that will be drawn during the enemy overlay event. 
+# =&gt; Sets up a health meter that will be drawn during the enemy overlay event.
 # Since healthMax wasn&#39;t provided, it is set to the value of I.health (500)
 
 someOtherObject.meter &#39;turbo&#39;
-# =&gt; Sets up a turbo meter that will be drawn during the someOtherObject overlay event. 
+# =&gt; Sets up a turbo meter that will be drawn during the someOtherObject overlay event.
 # Since neither turbo or turboMax were provided, they are both set to 100.</code></pre>
 </blockquote>
 
@@ -69,7 +69,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
         backgroundColor,
         border: {color:borderColor, radius:borderRadius, width:borderWidth}
         color,
-        height, 
+        height,
         show,
         width,
         x,
@@ -141,7 +141,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
     @param {Number} border: radius Border radius of the meter
     @param {Boolean} show Boolean to toggle whether of not to display the meter
     @param {Number} width How wide the meter is
-    ###</span>          
+    ###</span>
     meter: (name, options={}) -&gt;
       defaults options,
         backgroundColor: <span class="string">'black'</span>
@@ -154,7 +154,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
         x: <span class="number">0</span>
         y: <span class="number">0</span>
         show: <span class="literal">true</span>
-        width: <span class="number">100</span> 
+        width: <span class="number">100</span>
 
       I[name] ?= <span class="number">100</span>
 
@@ -181,7 +181,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
     @name showMeter
     @methodOf Metered#
     @param {String} name The name of the meter to show
-    ###</span>      
+    ###</span>
     showMeter: (name) -&gt;
       I.meters[name].show = <span class="literal">true</span>
 
@@ -199,7 +199,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
     @name hideMeter
     @methodOf Metered#
     @param {String} name The name of the meter to hide
-    ###</span>          
+    ###</span>
     hideMeter: (name) -&gt;
       I.meters[name].show = <span class="literal">false</span>
 
@@ -217,7 +217,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
     @name toggleMeter
     @methodOf Metered#
     @param {String} name The name of the meter to toggle
-    ###</span>    
+    ###</span>
     toggleMeter: (name) -&gt;
       I.meters[name].show = <span class="keyword">not</span> I.meters[name].show</code></pre>
 </div>

@@ -39,7 +39,7 @@
 τ = <span class="number">2</span> * PI
 
 Easing =
-  sinusoidal: (t) -&gt; 
+  sinusoidal: (t) -&gt;
     <span class="number">1</span> - cos(t * τ / <span class="number">4</span>)
 
   sinusoidalOut: (t) -&gt;
@@ -51,10 +51,10 @@ polynomialEasings.each (easing, i) -&gt;
   exponent = i + <span class="number">1</span>
   sign = <span class="keyword">if</span> exponent % <span class="number">2</span> <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">else</span> -<span class="number">1</span>
 
-  Easing[easing] = (t) -&gt; 
+  Easing[easing] = (t) -&gt;
     pow(t, exponent)
 
-  Easing[<span class="string">"<span class="subst">#{easing}</span>Out"</span>] = (t) -&gt; 
+  Easing[<span class="string">"<span class="subst">#{easing}</span>Out"</span>] = (t) -&gt;
     <span class="number">1</span> + sign * pow(t - <span class="number">1</span>, exponent)
 
 [<span class="string">"sinusoidal"</span>].concat(polynomialEasings).each (easing) -&gt;
