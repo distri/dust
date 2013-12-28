@@ -2,6 +2,9 @@ Util
 ====
 
     module.exports =
+      approach: (current, target, amount) ->
+        (target - current).clamp(-amount, amount) + current
+
       defaults: (target, objects...) ->
         for object in objects
           for name of object

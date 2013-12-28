@@ -133,14 +133,14 @@ Camera
 
     Camera.defaultModules = [
       "z_sort"
+      "shake"
+      "zoom"
+      "rotate"
     ].map (name) ->
       require "./camera/#{name}"
 
 # TODO: Include these camera modules
 
-"Zoom"
-"Rotate"
-"Shake"
 "Flash"
 "Fade"
 "Transition"

@@ -1,7 +1,9 @@
 ZSort
 =====
 
-Sort objects by zIndex.
+Sort objects by zIndex to draw them in the correct order.
+
+Included in [Camera](../camera) by default.
 
     {defaults} = require "../../util"
 

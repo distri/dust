@@ -51,10 +51,7 @@ Example: Turbo cooldown
 >     player.I.turboTimer # => 995
 
     Bindable = require "./bindable"
-    {defaults} = require "../util"
-
-    approach = (current, target, amount) ->
-      (target - current).clamp(-amount, amount) + current
+    {approach, defaults} = require "../util"
 
     module.exports = (I={}, self=Bindable(I)) ->
       defaults I,
