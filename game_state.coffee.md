@@ -22,7 +22,7 @@ the object that is added.
 
       queuedObjects = []
 
-      self.extend 
+      self.extend
 
 The `add` method creates an object from data and adds it object to the game world.
 
@@ -42,38 +42,38 @@ You can add arbitrary `entityData` and the engine will make it into a `GameObjec
         # objects from data
         add: (entityData) ->
           self.trigger "beforeAdd", entityData
-    
+
           object = GameObject.construct entityData
           object.create()
-    
+
           self.trigger "afterAdd", object
-    
+
           if I.updating
             queuedObjects.push object
           else
             I.objects.push object
-    
+
           return object
 
         objects: ->
           I.objects.copy()
-    
+
       # Add events and methods here
       self.on "update", (elapsedTime) ->
         I.updating = true
-    
+
         I.objects.invoke "trigger", "beforeUpdate", elapsedTime
-    
+
         [toKeep, toRemove] = I.objects.partition (object) ->
           object.update(elapsedTime)
-    
+
         I.objects.invoke "trigger", "afterUpdate", elapsedTime
-    
+
         toRemove.invoke "trigger", "remove"
-    
+
         I.objects = toKeep.concat(queuedObjects)
         queuedObjects = []
-    
+
         I.updating = false
 
       self.include require "./modules/cameras"

@@ -23,26 +23,26 @@ It is included in `Engine` by default.
         I.currentState.trigger "beforeUpdate", elapsedTime
         I.currentState.trigger "update", elapsedTime
         I.currentState.trigger "afterUpdate", elapsedTime
-    
+
       self.on "afterUpdate", ->
         # Handle state change
         if requestedState?
           I.currentState.trigger "exit", requestedState
           self.trigger 'stateExited', I.currentState
-    
+
           previousState = I.currentState
           I.currentState = requestedState
-    
+
           I.currentState.trigger "enter", previousState
           self.trigger 'stateEntered', I.currentState
-    
+
           requestedState = null
-    
+
       self.on "draw", (canvas) ->
         I.currentState.trigger "beforeDraw", canvas
         I.currentState.trigger "draw", canvas
         I.currentState.trigger "overlay", canvas
-    
+
       self.extend
         # Just pass through to the current state
         add: (classNameOrEntityData, entityData={}) ->
@@ -51,47 +51,47 @@ It is included in `Engine` by default.
             entityData.class = classNameOrEntityData
           else
             entityData = classNameOrEntityData
-      
+
           self.trigger "beforeAdd", entityData
           object = I.currentState.add(entityData)
           self.trigger "afterAdd", object
-      
+
           return object
-      
+
         camera: (n=0) ->
           self.cameras()[n]
-      
+
         cameras: (newCameras) ->
           if newCameras?
             I.currentState.cameras(newCameras)
-      
+
             return self
           else
             I.currentState.cameras()
-      
+
         fadeIn: (options={}) ->
           self.cameras().invoke('fadeIn', options)
-      
+
         fadeOut: (options={}) ->
           self.cameras().invoke('fadeOut', options)
-      
+
         flash: (options={}) ->
           self.camera(options.camera).flash(options)
-      
+
         objects: ->
           I.currentState.objects()
-      
+
         setState: (newState) ->
           requestedState = newState
-      
+
         shake: (options={}) ->
           self.camera(options.camera).shake(options)
-      
+
         saveState: ->
           I.currentState.saveState()
-      
+
         loadState: (newState) ->
           I.currentState.loadState(newState)
-      
+
         reload: ->
           I.currentState.reload()

@@ -13,9 +13,9 @@ It is included in Engine by default.
         background: null
         backgroundColor: "#00010D"
         clear: false
-    
+
       self.attrAccessor "clear", "backgroundColor"
-      
+
       backgroundSprite = ->
         if I.background
           Sprite.loadByName I.background

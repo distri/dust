@@ -9,7 +9,7 @@ The `Collision` module provides some simple collision detection methods to engin
       self.extend
         ###*
         Detects collisions between a bounds and the game objects.
-      
+
         @name collides
         @methodOf Engine#
         @param bounds The bounds to check collisions with.
@@ -19,11 +19,11 @@ The `Collision` module provides some simple collision detection methods to engin
         collides: (bounds, sourceObject, selector=".solid") ->
           self.find(selector).inject false, (collided, object) ->
             collided or (object != sourceObject) and object.collides(bounds) and object
-      
+
         ###*
         Detects collisions between a bounds and the game objects.
         Returns an array of objects colliding with the bounds provided.
-      
+
         @name collidesWith
         @methodOf Engine#
         @param bounds The bounds to check collisions with.
@@ -33,10 +33,10 @@ The `Collision` module provides some simple collision detection methods to engin
         collidesWith: (bounds, sourceObject, selector=".solid") ->
           self.find(selector).select (object) ->
             object != sourceObject and object.collides(bounds)
-      
+
         ###*
         Detects collisions between a ray and the game objects.
-      
+
         @name rayCollides
         @methodOf Engine#
         @param source The origin point
@@ -46,23 +46,23 @@ The `Collision` module provides some simple collision detection methods to engin
         ###
         rayCollides: ({source, direction, sourceObject, selector}) ->
           selector ?= ""
-      
+
           hits = self.find(selector).map (object) ->
             hit = (object != sourceObject) and Collision.rayRectangle(source, direction, object.centeredBounds())
             hit.object = object if hit
-      
+
             hit
-      
+
           nearestDistance = Infinity
           nearestHit = null
-      
+
           hits.each (hit) ->
             if hit && (d = hit.distance(source)) < nearestDistance
               nearestDistance = d
               nearestHit = hit
-      
+
           nearestHit
-      
+
         # TODO Allow specification of collision type (i.e. circular)
         objectsUnderPoint: (point, selector="") ->
           bounds = {
@@ -71,6 +71,6 @@ The `Collision` module provides some simple collision detection methods to engin
             width: 0
             height: 0
           }
-      
+
           self.find(selector).select (object) ->
             object.collides(bounds)

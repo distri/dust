@@ -6,7 +6,7 @@ Easing
     τ = 2 * PI
 
     Easing =
-      sinusoidal: (t) -> 
+      sinusoidal: (t) ->
         1 - cos(t * τ / 4)
 
       sinusoidalOut: (t) ->
@@ -18,10 +18,10 @@ Easing
       exponent = i + 1
       sign = if exponent % 2 then 1 else -1
 
-      Easing[easing] = (t) -> 
+      Easing[easing] = (t) ->
         pow(t, exponent)
 
-      Easing["#{easing}Out"] = (t) -> 
+      Easing["#{easing}Out"] = (t) ->
         1 + sign * pow(t - 1, exponent)
 
     ["sinusoidal"].concat(polynomialEasings).each (easing) ->

@@ -34,7 +34,7 @@ The `Tween` module provides a method to tween object properties.
 Modify the object's properties over time.
 
 Duration How long (in frames) until the object's properties reach their final values.
-The second prameter is which properties to tween. 
+The second prameter is which properties to tween.
 
 Set the `easing` property to specify the easing function.
 

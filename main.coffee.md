@@ -44,9 +44,9 @@ Modules
 
         engine = Engine
           canvas: canvas
-          
+
         engine.start()
-        
+
         object = engine.add
           class: "GameObject"
           x: 100
@@ -55,7 +55,7 @@ Modules
           width: 50
           height: 50
           speed: 30
-        
+
         engine.on "update", ->
           if mousePosition?
             object.follow(mousePosition)

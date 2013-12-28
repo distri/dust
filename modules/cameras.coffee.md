@@ -8,16 +8,16 @@ The Cameras module is included in `GameState` by default.
 
     module.exports = (I={}, self=Bindable()) ->
       cameras = [Camera()]
-    
+
       self.on 'update', (elapsedTime) ->
         self.cameras().invoke 'trigger', 'update', elapsedTime
-    
+
       self.on 'afterUpdate', (elapsedTime) ->
         self.cameras().invoke 'trigger', 'afterUpdate', elapsedTime
-    
+
       self.on 'draw', (canvas) ->
         self.cameras().invoke 'trigger', 'draw', canvas, self.objects()
-    
+
       self.on 'overlay', (canvas) ->
         self.cameras().invoke 'trigger', 'overlay', canvas, self.objects()
 
