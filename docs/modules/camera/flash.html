@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>modules/camera/flash</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    <ul class="sections">
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="flash">Flash</h1>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>The <code>Flash</code> module allows you to flash a color onscreen and then fade to transparent over a time period. 
+This is nice for lightning type effects or to accentuate major game events.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">{approach, defaults} = require <span class="string">"../../util"</span>
+
+module.<span class="function"><span class="title">exports</span></span> = (I, self) -&gt;
+  defaults I,
+    flashAlpha: <span class="number">0</span>
+    flashColor: <span class="string">"black"</span>
+    flashDuration: <span class="number">0.3</span>
+    flashCooldown: <span class="number">0</span>
+    flashTargetAlpha: <span class="number">0</span>
+
+  defaultParams =
+    color: <span class="string">'white'</span>
+    duration: <span class="number">0.3</span>
+    targetAlpha: <span class="number">0</span>
+
+  self.<span class="literal">on</span> <span class="string">'afterUpdate'</span>, (dt) -&gt;
+    <span class="keyword">if</span> I.flashCooldown &gt; <span class="number">0</span>
+      <span class="comment"># TODO: Use a tween function alpha?</span>
+      I.flashAlpha = approach(I.flashAlpha, <span class="number">0</span>, dt / I.flashDuration)
+      I.flashCooldown = approach(I.flashCooldown, <span class="number">0</span>, dt)
+
+  self.<span class="literal">on</span> <span class="string">'overlay'</span>, (canvas) -&gt;
+    <span class="comment"># TODO: Canvas#withAlpha</span>
+    previousAlpha = canvas.globalAlpha()
+    canvas.globalAlpha(I.flashAlpha)
+    canvas.fill I.flashColor
+    canvas.globalAlpha(previousAlpha)
+
+  <span class="comment">###*
+  A convenient way to set the flash effect instance variables. Alternatively, you can modify them by hand, but
+  using Camera#flash is the suggested approach.
+
+      camera.flash()
+      # =&gt; Sets the flash effect variables to their default state. This will cause a white flash that will turn transparent in the next 12 frames.
+
+      camera.flash
+        color: 'green'
+        duration: 30
+      # =&gt; This flash effect will start off green and fade to transparent over 30 frames.
+
+      camera.flash
+        color: Color(255, 0, 0, 0)
+        duration: 20
+        targetAlpha: 1
+      # =&gt; This flash effect will start off transparent and move toward red over 20 frames 
+
+  @name flash
+  @methodOf Camera#
+  @param {Color} [color="white"] The flash color
+  @param {Number} [duration=12] How long the effect lasts
+  @param {Number} [targetAlpha=0] The alpha value to fade to. By default, this is set to 0, which fades the color to transparent.
+  ###</span>
+  flash: (options={}) -&gt;
+    defaults(options, defaultParams)
+
+    {color, duration, targetAlpha} = options
+
+    I.flashColor = Color(color) 
+    I.flashTargetAlpha = targetAlpha
+    I.flashCooldown = duration
+    I.flashDuration = duration
+
+    self</code></pre>
+</div>
+        </li>
+        
+    </ul>
+  </div>
+  <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
+<script src="http://strd6.github.io/require/v0.2.2.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script><script>
+  $.ajax({
+    url: "http://strd6.github.io/interactive/v0.8.1.jsonp",
+    dataType: "jsonp",
+    jsonpCallback: "STRd6/interactive:v0.8.1",
+    cache: true
+  }).then(function(PACKAGE) {
+    Require.generateFor(PACKAGE)("./" + PACKAGE.entryPoint)
+  })
+</script><script src="../../package.js"></script>
+</body>
+</html>

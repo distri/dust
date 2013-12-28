@@ -144,8 +144,6 @@
         self.trigger <span class="string">"beforeDraw"</span>, canvas
         objects.invoke <span class="string">"draw"</span>, canvas
 
-      self.trigger <span class="string">'flash'</span>, canvas
-
   self.<span class="literal">on</span> <span class="string">"overlay"</span>, (canvas, objects) -&gt;
     canvas.withTransform Matrix.translate(I.screen.x, I.screen.y), (canvas) -&gt;
       canvas.clip(<span class="number">0</span>, <span class="number">0</span>, I.screen.width, I.screen.height)
@@ -169,6 +167,8 @@ Camera.defaultModules = [
   <span class="string">"shake"</span>
   <span class="string">"zoom"</span>
   <span class="string">"rotate"</span>
+  <span class="string">"flash"</span>
+  <span class="string">"fade"</span>
 ].map (name) -&gt;
   require <span class="string">"./camera/<span class="subst">#{name}</span>"</span></code></pre>
 </div>
@@ -181,9 +181,7 @@ Camera.defaultModules = [
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
               <h1 id="todo-include-these-camera-modules">TODO: Include these camera modules</h1>
-<p>&quot;Flash&quot;
-&quot;Fade&quot;
-&quot;Transition&quot;</p>
+<p>&quot;Transition&quot;</p>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">module.exports = Camera</code></pre>
