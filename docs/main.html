@@ -102,6 +102,9 @@ module.exports =
       <span class="keyword">if</span> mousePosition?
         object.follow(mousePosition)
 
+      <span class="keyword">if</span> keydown.a
+        engine.camera().transition()
+
 module.exports.init(require)</code></pre>
 </div>
         </li>
