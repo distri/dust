@@ -15,6 +15,7 @@ describe "Engine", ->
     withTransform: (t, fn) ->
       fn(@)
     clip: ->
+    globalAlpha: ->
 
   test "#play, #pause, and #paused", ->
     engine = Engine()

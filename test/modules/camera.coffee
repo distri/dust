@@ -14,6 +14,7 @@ describe "Camera", ->
     withTransform: (t, fn) ->
       fn(@)
     clip: ->
+    globalAlpha: ->
 
   test "create", ->
     ok Camera()

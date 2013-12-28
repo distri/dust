@@ -111,8 +111,6 @@ Camera
             self.trigger "beforeDraw", canvas
             objects.invoke "draw", canvas
 
-          self.trigger 'flash', canvas
-
       self.on "overlay", (canvas, objects) ->
         canvas.withTransform Matrix.translate(I.screen.x, I.screen.y), (canvas) ->
           canvas.clip(0, 0, I.screen.width, I.screen.height)
@@ -136,13 +134,13 @@ Camera
       "shake"
       "zoom"
       "rotate"
+      "flash"
+      "fade"
     ].map (name) ->
       require "./camera/#{name}"
 
 # TODO: Include these camera modules
 
-"Flash"
-"Fade"
 "Transition"
 
     module.exports = Camera
