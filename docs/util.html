@@ -35,6 +35,9 @@
               
             </div>
             <div class="content"><pre><code class="lang-coffeescript">module.exports =
+  approach: (current, target, amount) -&gt;
+    (target - current).clamp(-amount, amount) + current
+
   defaults: (target, objects...) -&gt;
     <span class="keyword">for</span> object <span class="keyword">in</span> objects
       <span class="keyword">for</span> name <span class="keyword">of</span> object

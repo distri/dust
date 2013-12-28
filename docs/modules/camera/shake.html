@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>modules/camera/z_sort</title>
+  <title>modules/camera/shake</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
@@ -18,7 +18,7 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="zsort">ZSort</h1>
+              <h1 id="shake">Shake</h1>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">
@@ -32,24 +32,38 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Sort objects by zIndex to draw them in the correct order.</p>
-<p>Included in <a href="../camera">Camera</a> by default.</p>
+              <p>Adds screen shake to cameras.</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"../../util"</span>
+            <div class="content"><pre><code class="lang-coffeescript">{approach, defaults} = require <span class="string">"../../util"</span>
 
 module.<span class="function"><span class="title">exports</span></span> = (I={}, self) -&gt;
   defaults I,
-    zSort: <span class="literal">true</span>
+    shakeIntensity: <span class="number">20</span>
+    shakeCooldown: <span class="number">0</span>
 
-  self.objectFilterChain (objects) -&gt;
-    <span class="keyword">if</span> I.zSort
-      objects.sort (a, b) -&gt;
-        a.I.zIndex - b.I.zIndex
+  defaultParams =
+    duration: <span class="number">0.3</span>
+    intensity: <span class="number">20</span>
 
-    objects
+  self.<span class="literal">on</span> <span class="string">"afterUpdate"</span>, (dt) -&gt;
+    I.shakeCooldown = approach(I.shakeCooldown, <span class="number">0</span>, dt)
 
-  <span class="keyword">return</span> self</code></pre>
+  self.transformFilterChain (transform) -&gt;
+    <span class="keyword">if</span> I.shakeCooldown &gt; <span class="number">0</span>
+      transform.tx += Random.signed(I.shakeIntensity)
+      transform.ty += Random.signed(I.shakeIntensity)
+
+    <span class="keyword">return</span> transform
+
+  self.extend
+    shake: (options={}) -&gt;
+      {duration, intensity} = defaults(options, defaultParams)
+
+      I.shakeCooldown = duration
+      I.shakeIntensity = intensity
+
+      <span class="keyword">return</span> self</code></pre>
 </div>
         </li>
         
