@@ -136,11 +136,8 @@ Camera
       "rotate"
       "flash"
       "fade"
+      "transition"
     ].map (name) ->
       require "./camera/#{name}"
-
-# TODO: Include these camera modules
-
-"Transition"
 
     module.exports = Camera

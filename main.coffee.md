@@ -60,4 +60,7 @@ Modules
           if mousePosition?
             object.follow(mousePosition)
 
+          if keydown.a
+            engine.camera().transition()
+
     module.exports.init(require)
