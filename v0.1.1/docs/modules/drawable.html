@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>modules/drawable</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    <ul class="sections">
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="drawable">Drawable</h1>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>The <code>Drawable</code> module is used to provide a simple draw method to the including
+object.</p>
+<p>Binds a default draw listener to draw a rectangle or a sprite, if one exists.</p>
+<p>Binds an udtade listener to update the transform of the object.</p>
+<p>Autoloads the sprite specified in I.sprite, if any.</p>
+<blockquote>
+<pre><code>player = Drawable
+  x: 15
+  y: 30
+  width: 5
+  height: 5
+  sprite: &quot;my_cool_sprite&quot;
+
+player.draw(canvas)</code></pre>
+</blockquote>
+<h2 id="events">Events</h2>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>The drawing events triggered are:</p>
+<blockquote>
+<pre><code>beforeTransform
+beforeDraw
+draw
+afterDraw
+afterTransform</code></pre>
+</blockquote>
+<p>TODO: Find out how much each of these is actually used and cut any that aren&#39;t
+useful.</p>
+<p><code>beforeTransform</code> is triggered before the object should be drawn. A canvas is passed as
+the first argument. This does not apply the object&#39;s current transform.</p>
+<p><code>beforeDraw</code> is triggered before draw, but after the transform has been applied.</p>
+<p><code>draw</code> is triggered every time the object should be drawn. A canvas is passed as
+the first argument.</p>
+<blockquote>
+<pre><code>player = GameObject
+  x: 0
+  y: 10
+  width: 5
+  height: 5
+
+player.on &quot;draw&quot;, (canvas) -&gt;
+  # Text will be drawn positioned relatively to the object.
+  canvas.drawText
+    text: &quot;Hey, drawing stuff is pretty easy.&quot;
+    color: &quot;white&quot;
+    x: 5
+    y: 5</code></pre>
+</blockquote>
+<p><code>afterDraw</code> is triggered after draw with the transform still applied.</p>
+<p><code>afterTransform</code> is triggered after the object should be drawn. A canvas is passed as
+the first argument. This transform is not applied.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">Bindable = require <span class="string">"./bindable"</span>
+{defaults} = require <span class="string">"../util"</span>
+
+module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Bindable(I)) -&gt;
+  defaults I,
+    alpha: <span class="number">1</span>
+    color: <span class="string">"#196"</span>
+    scale: <span class="number">1</span>
+    scaleX: <span class="number">1</span>
+    scaleY: <span class="number">1</span>
+    zIndex: <span class="number">0</span>
+
+  self.<span class="literal">off</span> <span class="string">".Drawable"</span>
+
+  self.<span class="literal">on</span> <span class="string">'draw.Drawable'</span>, (canvas) -&gt;
+    <span class="keyword">if</span> I.alpha? <span class="keyword">and</span> I.alpha != <span class="number">1</span>
+      previousAlpha = canvas.context().globalAlpha
+      canvas.context().globalAlpha = I.alpha
+
+    <span class="keyword">if</span> sprite = self.sprite()
+      sprite.draw(canvas, -sprite.width / <span class="number">2</span>, -sprite.height / <span class="number">2</span>)
+    <span class="keyword">else</span>
+      <span class="keyword">if</span> I.radius?
+        canvas.drawCircle
+          x: <span class="number">0</span>
+          y: <span class="number">0</span>
+          radius: I.radius
+          color: I.color
+      <span class="keyword">else</span>
+        canvas.drawRect
+          x: -I.width/<span class="number">2</span>
+          y: -I.height/<span class="number">2</span>
+          width: I.width
+          height: I.height
+          color: I.color
+
+    <span class="keyword">if</span> I.alpha? <span class="keyword">and</span> I.alpha != <span class="number">1</span>
+      canvas.context().globalAlpha = previousAlpha
+
+  self.extend</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Draw does not actually do any drawing itself, instead it triggers all of the draw events.
+Listeners on the events do the actual drawing.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    draw: (canvas) -&gt;
+      self.trigger <span class="string">'beforeTransform'</span>, canvas
+
+      canvas.withTransform self.transform(), (canvas) -&gt;
+        self.trigger <span class="string">'beforeDraw'</span>, canvas
+        self.trigger <span class="string">'draw'</span>, canvas
+        self.trigger <span class="string">'afterDraw'</span>, canvas
+
+      self.trigger <span class="string">'afterTransform'</span>, canvas
+
+      <span class="keyword">return</span> self
+
+    sprite: -&gt;
+      <span class="keyword">if</span> name = (I.sprite <span class="keyword">or</span> I.spriteName)
+        <span class="comment"># TODO: Resource loader?</span>
+        Sprite.loadByName(name)</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Returns the current transform, with translation, rotation, and flipping applied.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    transform: -&gt;
+      center = self.center()
+
+      transform = Matrix.translation(center.x.floor(), center.y.floor())
+
+      transform = transform.concat(Matrix.scale(I.scale * I.scaleX, I.scale * I.scaleY))
+      transform = transform.concat(Matrix.rotation(I.rotation)) <span class="keyword">if</span> I.rotation
+
+      <span class="keyword">if</span> I.spriteOffset
+        transform = transform.concat(Matrix.translation(I.spriteOffset.x, I.spriteOffset.y))
+
+      <span class="keyword">return</span> transform</code></pre>
+</div>
+        </li>
+        
+    </ul>
+  </div>
+  <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
+<script src="http://strd6.github.io/require/v0.2.2.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script><script>
+  $.ajax({
+    url: "http://strd6.github.io/interactive/v0.8.1.jsonp",
+    dataType: "jsonp",
+    jsonpCallback: "STRd6/interactive:v0.8.1",
+    cache: true
+  }).then(function(PACKAGE) {
+    Require.generateFor(PACKAGE)("./" + PACKAGE.entryPoint)
+  })
+</script><script src="../package.js"></script>
+</body>
+</html>

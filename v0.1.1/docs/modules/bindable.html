@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>modules/bindable</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    <ul class="sections">
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="bindable">Bindable</h1>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Add event binding to objects.</p>
+<blockquote>
+<pre><code>bindable = Bindable()
+bindable.on &quot;greet&quot;, -&gt;
+  console.log &quot;yo!&quot;
+bindable.trigger &quot;greet&quot;
+#=&gt; &quot;yo!&quot; is printed to log</code></pre>
+</blockquote>
+<p>Use as a mixin.</p>
+<blockquote>
+<p>   self.include Bindable</p>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Core(I)) -&gt;
+  eventCallbacks = {}
+
+  self.extend</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Adds a function as an event listener.</p>
+<p>This will call <code>coolEventHandler</code> after <code>yourObject.trigger &quot;someCustomEvent&quot;</code>
+is called.</p>
+<blockquote>
+<pre><code>yourObject.on &quot;someCustomEvent&quot;, coolEventHandler</code></pre>
+</blockquote>
+<p>Handlers can be attached to namespaces as well. The namespaces are only used
+for finer control of targeting event removal. For example if you are making a
+custom drawing system you could unbind <code>&quot;.Drawable&quot;</code> events and add your own.</p>
+<blockquote>
+<pre><code>yourObject.on &quot;&quot;</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    <span class="literal">on</span>: (namespacedEvent, callback) -&gt;
+      [event, namespace] = namespacedEvent.split(<span class="string">"."</span>)
+
+      <span class="comment"># HACK: Here we annotate the callback function with namespace metadata</span>
+      <span class="comment"># This will probably lead to some strange edge cases, but should work fine</span>
+      <span class="comment"># for simple cases.</span>
+      <span class="keyword">if</span> namespace
+        callback.__PIXIE ||= {}
+        callback.__PIXIE[namespace] = <span class="literal">true</span>
+
+      eventCallbacks[event] ||= []
+      eventCallbacks[event].push(callback)
+
+      <span class="keyword">return</span> self</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Removes a specific event listener, or all event listeners if
+no specific listener is given.</p>
+<p>Removes the handler coolEventHandler from the event <code>&quot;someCustomEvent&quot;</code> while
+leaving the other events intact.</p>
+<blockquote>
+<pre><code>yourObject.off &quot;someCustomEvent&quot;, coolEventHandler</code></pre>
+</blockquote>
+<p>Removes all handlers attached to <code>&quot;anotherCustomEvent&quot;</code></p>
+<blockquote>
+<pre><code>yourObject.off &quot;anotherCustomEvent&quot;</code></pre>
+</blockquote>
+<p>Remove all handlers from the <code>&quot;.Drawable&quot; namespace</code></p>
+<blockquote>
+<pre><code>yourObject.off &quot;.Drawable&quot;</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    <span class="literal">off</span>: (namespacedEvent, callback) -&gt;
+      [event, namespace] = namespacedEvent.split(<span class="string">"."</span>)
+
+      <span class="keyword">if</span> event
+        eventCallbacks[event] ||= []
+
+        <span class="keyword">if</span> namespace
+          <span class="comment"># Select only the callbacks that do not have this namespace metadata</span>
+          eventCallbacks[event] = eventCallbacks.select (callback) -&gt;
+            !callback.__PIXIE?[namespace]?
+
+        <span class="keyword">else</span>
+          <span class="keyword">if</span> callback
+            eventCallbacks[event].remove(callback)
+          <span class="keyword">else</span>
+            eventCallbacks[event] = []
+      <span class="keyword">else</span> <span class="keyword">if</span> namespace
+        <span class="comment"># No event given</span>
+        <span class="comment"># Select only the callbacks that do not have this namespace metadata</span>
+        <span class="comment"># for any events bound</span>
+        <span class="keyword">for</span> key, callbacks <span class="keyword">of</span> eventCallbacks
+          eventCallbacks[key] = callbacks.select (callback) -&gt;
+            !callback.__PIXIE?[namespace]?
+
+      <span class="keyword">return</span> self</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Calls all listeners attached to the specified event.</p>
+<blockquote>
+<pre><code># calls each event handler bound to &quot;someCustomEvent&quot;
+yourObject.trigger &quot;someCustomEvent&quot;</code></pre>
+</blockquote>
+<p>Additional parameters can be passed to the handlers.</p>
+<blockquote>
+<pre><code>yourObject.trigger &quot;someEvent&quot;, &quot;hello&quot;, &quot;anotherParameter&quot;</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    trigger: (event, parameters...) -&gt;
+      callbacks = eventCallbacks[event]
+
+      <span class="keyword">if</span> callbacks
+        callbacks.forEach (callback) -&gt;
+          callback.apply(self, parameters)
+
+      <span class="keyword">return</span> self</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Legacy method aliases.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">  self.extend
+    bind: self.<span class="literal">on</span>
+    unbind: self.<span class="literal">off</span></code></pre>
+</div>
+        </li>
+        
+    </ul>
+  </div>
+  <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
+<script src="http://strd6.github.io/require/v0.2.2.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script><script>
+  $.ajax({
+    url: "http://strd6.github.io/interactive/v0.8.1.jsonp",
+    dataType: "jsonp",
+    jsonpCallback: "STRd6/interactive:v0.8.1",
+    cache: true
+  }).then(function(PACKAGE) {
+    Require.generateFor(PACKAGE)("./" + PACKAGE.entryPoint)
+  })
+</script><script src="../package.js"></script>
+</body>
+</html>
