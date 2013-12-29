@@ -66,14 +66,27 @@
             </div>
             <div class="content"><pre><code class="lang-coffeescript">require <span class="string">"./setup"</span>
 
+Engine = require <span class="string">"./engine"</span>
+
 TouchCanvas = require <span class="string">"touch-canvas"</span>
 
-module.exports =
-  init: (externalRequire) -&gt;
-    Engine = require <span class="string">"./engine"</span>
+<span class="function"><span class="title">applyStyleSheet</span></span> = -&gt;
+  styleNode = document.createElement(<span class="string">"style"</span>)
+  styleNode.innerHTML = require <span class="string">"./style"</span>
+  styleNode.className = <span class="string">"dust"</span>
 
-    <span class="keyword">if</span> externalRequire
-      {width, height} = externalRequire <span class="string">"/pixie"</span>
+  <span class="keyword">if</span> previousStyleNode = document.head.querySelector(<span class="string">"style.dust"</span>)
+    previousStyleNode.parentNode.removeChild(prevousStyleNode)
+
+  document.head.appendChild(styleNode)
+
+module.exports =
+  init: (options={}) -&gt;
+    applyStyleSheet()
+
+    {width, height} = options
+    width ?= <span class="number">640</span>
+    height ?= <span class="number">480</span>
 
     canvas = TouchCanvas
       width: width
@@ -82,30 +95,15 @@ module.exports =
     $(<span class="string">"body"</span>).append $ <span class="string">"&lt;div&gt;"</span>,
       class: <span class="string">"main center"</span>
 
-    $(<span class="string">".main"</span>).append canvas.element()
+    $(<span class="string">".main"</span>).append(canvas.element())
+    .css
+      width: width
+      height: height
 
     engine = Engine
       canvas: canvas
 
-    engine.start()
-
-    object = engine.add
-      class: <span class="string">"GameObject"</span>
-      x: <span class="number">100</span>
-      y: <span class="number">100</span>
-      color: <span class="string">"red"</span>
-      width: <span class="number">50</span>
-      height: <span class="number">50</span>
-      speed: <span class="number">30</span>
-
-    engine.<span class="literal">on</span> <span class="string">"update"</span>, -&gt;
-      <span class="keyword">if</span> mousePosition?
-        object.follow(mousePosition)
-
-      <span class="keyword">if</span> keydown.a
-        engine.camera().transition()
-
-module.exports.init(require)</code></pre>
+    engine.start()</code></pre>
 </div>
         </li>
         

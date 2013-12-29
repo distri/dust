@@ -99,7 +99,7 @@ buttonNames =
 
 $(document).bind <span class="string">"mousemove"</span>, (event) -&gt;
   <span class="comment"># Position relative to canvas element</span>
-  offset = $(<span class="string">"canvas"</span>).offset()
+  offset = $(<span class="string">"canvas"</span>).offset() <span class="keyword">or</span> {left: <span class="number">0</span>, top: <span class="number">0</span>}
 
   mousePosition.x = event.pageX - offset.left
   mousePosition.y = event.pageY - offset.top
