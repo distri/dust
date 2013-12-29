@@ -24,14 +24,27 @@ Modules
 
     require "./setup"
 
+    Engine = require "./engine"
+
     TouchCanvas = require "touch-canvas"
 
-    module.exports =
-      init: (externalRequire) ->
-        Engine = require "./engine"
+    applyStyleSheet = ->
+      styleNode = document.createElement("style")
+      styleNode.innerHTML = require "./style"
+      styleNode.className = "dust"
 
-        if externalRequire
-          {width, height} = externalRequire "/pixie"
+      if previousStyleNode = document.head.querySelector("style.dust")
+        previousStyleNode.parentNode.removeChild(prevousStyleNode)
+
+      document.head.appendChild(styleNode)
+
+    module.exports =
+      init: (options={}) ->
+        applyStyleSheet()
+
+        {width, height} = options
+        width ?= 640
+        height ?= 480
 
         canvas = TouchCanvas
           width: width
@@ -40,27 +53,12 @@ Modules
         $("body").append $ "<div>",
           class: "main center"
 
-        $(".main").append canvas.element()
+        $(".main").append(canvas.element())
+        .css
+          width: width
+          height: height
 
         engine = Engine
           canvas: canvas
 
         engine.start()
-
-        object = engine.add
-          class: "GameObject"
-          x: 100
-          y: 100
-          color: "red"
-          width: 50
-          height: 50
-          speed: 30
-
-        engine.on "update", ->
-          if mousePosition?
-            object.follow(mousePosition)
-
-          if keydown.a
-            engine.camera().transition()
-
-    module.exports.init(require)

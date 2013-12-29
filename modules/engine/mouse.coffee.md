@@ -46,7 +46,7 @@ Implementation
 
     $(document).bind "mousemove", (event) ->
       # Position relative to canvas element
-      offset = $("canvas").offset()
+      offset = $("canvas").offset() or {left: 0, top: 0}
 
       mousePosition.x = event.pageX - offset.left
       mousePosition.y = event.pageY - offset.top
