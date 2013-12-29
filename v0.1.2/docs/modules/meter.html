@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>modules/meter</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    <ul class="sections">
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="meter">Meter</h1>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>The <code>Meter</code> module provides a simple drop-in
+meter ui to track arbitrary numeric attributes.</p>
+<blockquote>
+<pre><code>player = GameObject
+  health: 100
+  heathMax: 100
+
+enemy = GameObject
+  health: 500
+
+someOtherObject = GameObject
+
+player.meter &#39;health&#39;
+# =&gt; Sets up a health meter that will be drawn during the player overlay event
+
+enemy.meter &#39;health&#39;
+# =&gt; Sets up a health meter that will be drawn during the enemy overlay event.
+# Since healthMax wasn&#39;t provided, it is set to the value of I.health (500)
+
+someOtherObject.meter &#39;turbo&#39;
+# =&gt; Sets up a turbo meter that will be drawn during the someOtherObject overlay event.
+# Since neither turbo or turboMax were provided, they are both set to 100.</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"../util"</span>
+
+module.<span class="function"><span class="title">exports</span></span> = (I={}, self) -&gt;
+  defaults I,
+    meters: {}
+
+  self.<span class="literal">on</span> <span class="string">'overlay'</span>, (canvas) -&gt;
+    <span class="keyword">for</span> name, meterData <span class="keyword">of</span> I.meters
+      {
+        backgroundColor,
+        border: {color:borderColor, radius:borderRadius, width:borderWidth}
+        color,
+        height,
+        show,
+        width,
+        x,
+        y
+      } = meterData
+
+      {x, y} = meterData.position <span class="keyword">if</span> meterData.position?
+
+      <span class="keyword">return</span> <span class="keyword">unless</span> show
+
+      ratio = (I[name] / I[<span class="string">"<span class="subst">#{name}</span>Max"</span>]).clamp(<span class="number">0</span>, <span class="number">1</span>)
+
+      canvas.drawRoundRect
+        color: backgroundColor
+        radius: borderRadius
+        x: x
+        y: y
+        width: width
+        height: height
+
+      canvas.drawRoundRect
+        color: color
+        x: x
+        y: y
+        radius: borderRadius
+        width: width * ratio
+        height: height
+
+      canvas.drawRoundRect
+        x: x
+        y: y
+        width: width
+        height: height
+        radius: borderRadius
+        stroke:
+          color: borderColor
+          width: borderWidth
+
+  self.extend
+    <span class="comment">###*
+    Configures a meter to be drawn each overlay event.
+
+        player = GameObject
+
+        player.meter 'health',
+          border
+            color: 'brown'
+            radius: 3
+          color: 'pink'
+          height: 20
+          x: 5
+          y: 5
+          show: true
+          width: 150
+
+        # =&gt; Sets up a health meter, using all the configuration options
+
+    @name meter
+    @methodOf Metered#
+    @param {String} name The name of the property to meter
+    @param {Object} options The meter configuration options
+    @param {String} border: color Color of the meter's border
+    @param {Number} border: width Width of the meter's border
+    @param {String} color Color of the meter's inner rectangle
+    @param {Number} height Height of the meter
+    @param {Object} position An x, y object representing the position of the meter
+    @param {Number} x x position of the meter
+    @param {Number} y y position of the meter
+    @param {Number} border: radius Border radius of the meter
+    @param {Boolean} show Boolean to toggle whether of not to display the meter
+    @param {Number} width How wide the meter is
+    ###</span>
+    meter: (name, options={}) -&gt;
+      defaults options,
+        backgroundColor: <span class="string">'black'</span>
+        border:
+          color: <span class="string">'white'</span>
+          radius: <span class="number">2</span>
+          width: <span class="number">1.5</span>
+        color: <span class="string">'green'</span>
+        height: <span class="number">10</span>
+        x: <span class="number">0</span>
+        y: <span class="number">0</span>
+        show: <span class="literal">true</span>
+        width: <span class="number">100</span>
+
+      I[name] ?= <span class="number">100</span>
+
+      <span class="keyword">if</span> <span class="keyword">not</span> I[<span class="string">"<span class="subst">#{name}</span>Max"</span>]
+        <span class="keyword">if</span> I[name]
+          I[<span class="string">"<span class="subst">#{name}</span>Max"</span>] = I[name]
+        <span class="keyword">else</span>
+          I[<span class="string">"<span class="subst">#{name}</span>Max"</span>] = <span class="number">100</span>
+
+      I.meters[name] = options
+
+    <span class="comment">###*
+    Shows the named meter
+
+        player = GameObject
+
+        # creates a health meter but disables visibility
+        player.meter 'health'
+          show: false
+
+        # enables visibility for the meter named 'health'
+        player.showMeter 'health'
+
+    @name showMeter
+    @methodOf Metered#
+    @param {String} name The name of the meter to show
+    ###</span>
+    showMeter: (name) -&gt;
+      I.meters[name].show = <span class="literal">true</span>
+
+    <span class="comment">###*
+    Hides the named meter
+
+        player = GameObject
+
+        # creates a health meter
+        player.meter 'health'
+
+        # disables visibility for the meter named 'health'
+        player.hideMeter 'health'
+
+    @name hideMeter
+    @methodOf Metered#
+    @param {String} name The name of the meter to hide
+    ###</span>
+    hideMeter: (name) -&gt;
+      I.meters[name].show = <span class="literal">false</span>
+
+    <span class="comment">###*
+    Toggles visibility of the named meter
+
+        player = GameObject
+
+        # creates a health meter
+        player.meter 'health'
+
+        # toggles visibility for the meter named 'health'
+        player.toggleMeter 'health'
+
+    @name toggleMeter
+    @methodOf Metered#
+    @param {String} name The name of the meter to toggle
+    ###</span>
+    toggleMeter: (name) -&gt;
+      I.meters[name].show = <span class="keyword">not</span> I.meters[name].show</code></pre>
+</div>
+        </li>
+        
+    </ul>
+  </div>
+  <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
+<script src="http://strd6.github.io/require/v0.2.2.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script><script>
+  $.ajax({
+    url: "http://strd6.github.io/interactive/v0.8.1.jsonp",
+    dataType: "jsonp",
+    jsonpCallback: "STRd6/interactive:v0.8.1",
+    cache: true
+  }).then(function(PACKAGE) {
+    Require.generateFor(PACKAGE)("./" + PACKAGE.entryPoint)
+  })
+</script><script src="../package.js"></script>
+</body>
+</html>
