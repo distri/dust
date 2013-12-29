@@ -64,3 +64,7 @@ Modules
         engine.start()
 
         return engine
+
+      Engine: Engine
+      GameObject: require "./game_object"
+      GameState: require "./game_state"
