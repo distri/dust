@@ -126,6 +126,8 @@ Implementation
             running = true
             window.requestAnimationFrame(animLoop)
 
+          return self
+
         ###*
         Stop the simulation.
 
@@ -136,6 +138,8 @@ Implementation
         ###
         stop: ->
           running = false
+
+          return self
 
         ###*
         Pause the game and step through 1 update of the engine.

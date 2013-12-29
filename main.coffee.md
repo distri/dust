@@ -62,3 +62,5 @@ Modules
           canvas: canvas
 
         engine.start()
+
+        return engine
