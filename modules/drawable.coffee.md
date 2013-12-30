@@ -117,9 +117,11 @@ Listeners on the events do the actual drawing.
           return self
 
         sprite: ->
-          if name = (I.sprite or I.spriteName)
+          if name = I.spriteName
             # TODO: Resource loader?
             Sprite.loadByName(name)
+          else if url = I.spriteURL
+            Sprite.load url
 
 Returns the current transform, with translation, rotation, and flipping applied.
 
