@@ -165,6 +165,8 @@ Bindable = require <span class="string">"./modules/bindable"</span>
         running = <span class="literal">true</span>
         window.requestAnimationFrame(animLoop)
 
+      <span class="keyword">return</span> self
+
     <span class="comment">###*
     Stop the simulation.
 
@@ -175,6 +177,8 @@ Bindable = require <span class="string">"./modules/bindable"</span>
     ###</span>
     stop: -&gt;
       running = <span class="literal">false</span>
+
+      <span class="keyword">return</span> self
 
     <span class="comment">###*
     Pause the game and step through 1 update of the engine.
