@@ -1,4 +1,4 @@
-version: "0.1.2"
+version: "0.1.3"
 width: 640
 height: 480
 remoteDependencies: [
@@ -10,4 +10,5 @@ dependencies:
   "finder": "distri/finder:v0.1.3"
   hotkeys: "distri/hotkeys:v0.2.0"
   "jquery-utils": "distri/jquery-utils:v0.2.0"
+  sprite: "distri/sprite:v0.2.0"
   "touch-canvas": "distri/touch-canvas:v0.3.0"
