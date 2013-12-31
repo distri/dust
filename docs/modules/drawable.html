@@ -162,9 +162,11 @@ Listeners on the events do the actual drawing.</p>
       <span class="keyword">return</span> self
 
     sprite: -&gt;
-      <span class="keyword">if</span> name = (I.sprite <span class="keyword">or</span> I.spriteName)
+      <span class="keyword">if</span> name = I.spriteName
         <span class="comment"># TODO: Resource loader?</span>
-        Sprite.loadByName(name)</code></pre>
+        Sprite.loadByName(name)
+      <span class="keyword">else</span> <span class="keyword">if</span> url = I.spriteURL
+        Sprite.load url</code></pre>
 </div>
         </li>
         
