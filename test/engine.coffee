@@ -184,6 +184,18 @@ describe "Engine", ->
     equals object.I.x, 1
     equals object.I.age, 1/30
 
+  test "objectsUnderPoint", ->
+    engine = Engine()
+
+    object = engine.add
+      x: 0
+      y: 0
+      width: 100
+      height: 100
+
+    equals engine.objectsUnderPoint(Point(0, 0)).length, 1
+    equals engine.objectsUnderPoint(Point(300, 300)).length, 0
+
   # TODO: Maybe this should be a state stack and have pushState and popState
   # in addition to setState
   # TODO: This should be in GameStates test, not engine
