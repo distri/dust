@@ -45,7 +45,7 @@ window["distri/dust:v0.1.7"]({
     "main.coffee.md": {
       "path": "main.coffee.md",
       "mode": "100644",
-      "content": "Main\n====\n\n[Engine](./engine)\n[GameObject](./game_object)\n\nModules\n-------\n\n[Age](./modules/age)\n[Bindable](./modules/bindable)\n[Bounded](./modules/bounded)\n[Clamp](./modules/clamp)\n[Cooldown](./modules/cooldown)\n[Drawable](./modules/drawable)\n[Effect](./modules/effect)\n[Expirable](./modules/expirable)\n[Follow](./modules/follow)\n[Meter](./modules/meter)\n[Movable](./modules/movable)\n[Rotatable](./modules/rotatable)\n[Timed Events](./modules/timed_events)\n[Tween](./modules/tween)\n\n    require \"./setup\"\n\n    Engine = require \"./engine\"\n\n    TouchCanvas = require \"touch-canvas\"\n\n    applyStyleSheet = ->\n      styleNode = document.createElement(\"style\")\n      styleNode.innerHTML = require \"./style\"\n      styleNode.className = \"dust\"\n\n      if previousStyleNode = document.head.querySelector(\"style.dust\")\n        previousStyleNode.parentNode.removeChild(prevousStyleNode)\n\n      document.head.appendChild(styleNode)\n\n    module.exports =\n      init: (options={}) ->\n        applyStyleSheet()\n\n        {width, height} = options\n        width ?= 640\n        height ?= 480\n\n        canvas = TouchCanvas\n          width: width\n          height: height\n\n        $(\"body\").append $ \"<div>\",\n          class: \"main center\"\n\n        $(\".main\").append(canvas.element())\n        .css\n          width: width\n          height: height\n\n        engine = Engine\n          canvas: canvas\n\n        engine.start()\n\n        return engine\n\n      Engine: Engine\n      GameObject: require \"./game_object\"\n      GameState: require \"./game_state\"\n      Sprite: require \"sprite\"\n      Util: require \"./util\"\n",
+      "content": "Main\n====\n\n[Engine](./engine)\n[GameObject](./game_object)\n\nModules\n-------\n\n[Age](./modules/age)\n[Bindable](./modules/bindable)\n[Bounded](./modules/bounded)\n[Clamp](./modules/clamp)\n[Cooldown](./modules/cooldown)\n[Drawable](./modules/drawable)\n[Effect](./modules/effect)\n[Expirable](./modules/expirable)\n[Follow](./modules/follow)\n[Meter](./modules/meter)\n[Movable](./modules/movable)\n[Rotatable](./modules/rotatable)\n[Timed Events](./modules/timed_events)\n[Tween](./modules/tween)\n\n    require \"./setup\"\n\n    Engine = require \"./engine\"\n\n    TouchCanvas = require \"touch-canvas\"\n\n    applyStyleSheet = ->\n      styleNode = document.createElement(\"style\")\n      styleNode.innerHTML = require \"./style\"\n      styleNode.className = \"dust\"\n\n      if previousStyleNode = document.head.querySelector(\"style.dust\")\n        previousStyleNode.parentNode.removeChild(prevousStyleNode)\n\n      document.head.appendChild(styleNode)\n\n    module.exports =\n      init: (options={}) ->\n        applyStyleSheet()\n\n        {width, height} = options\n        width ?= 640\n        height ?= 480\n\n        canvas = TouchCanvas\n          width: width\n          height: height\n\n        $(\"body\").append $ \"<div>\",\n          class: \"main center\"\n\n        $(\".main\").append(canvas.element())\n        .css\n          width: width\n          height: height\n\n        engine = Engine\n          canvas: canvas\n\n        engine.start()\n\n        return engine\n\n      Collision: require \"/lib/collision\"\n      Engine: Engine\n      GameObject: require \"./game_object\"\n      GameState: require \"./game_state\"\n      Sprite: require \"sprite\"\n      Util: require \"./util\"\n",
       "type": "blob"
     },
     "modules/age.coffee.md": {
@@ -231,7 +231,7 @@ window["distri/dust:v0.1.7"]({
     "pixie.cson": {
       "path": "pixie.cson",
       "mode": "100644",
-      "content": "version: \"0.1.7\"\nwidth: 640\nheight: 480\nremoteDependencies: [\n  \"https://code.jquery.com/jquery-1.10.1.min.js\"\n]\ndependencies:\n  appcache: \"distri/appcache:v0.2.0\"\n  cornerstone: \"distri/cornerstone:v0.2.0\"\n  \"finder\": \"distri/finder:v0.1.3\"\n  hotkeys: \"distri/hotkeys:v0.2.0\"\n  \"jquery-utils\": \"distri/jquery-utils:v0.2.0\"\n  sprite: \"distri/sprite:v0.3.0\"\n  \"touch-canvas\": \"distri/touch-canvas:v0.3.0\"\n",
+      "content": "version: \"0.1.8-alpha.0\"\nwidth: 640\nheight: 480\nremoteDependencies: [\n  \"https://code.jquery.com/jquery-1.10.1.min.js\"\n]\ndependencies:\n  appcache: \"distri/appcache:v0.2.0\"\n  cornerstone: \"distri/cornerstone:v0.2.0\"\n  \"finder\": \"distri/finder:v0.1.3\"\n  hotkeys: \"distri/hotkeys:v0.2.0\"\n  \"jquery-utils\": \"distri/jquery-utils:v0.2.0\"\n  sprite: \"distri/sprite:v0.3.0\"\n  \"touch-canvas\": \"distri/touch-canvas:v0.3.0\"\n",
       "type": "blob"
     },
     "setup.coffee.md": {
@@ -357,7 +357,7 @@ window["distri/dust:v0.1.7"]({
     "test/dust.coffee": {
       "path": "test/dust.coffee",
       "mode": "100644",
-      "content": "Dust = require \"../main\"\n\ndescribe \"Dust\", ->\n  it \"Should expose Util\", ->\n    assert Dust.Util\n",
+      "content": "Dust = require \"../main\"\n\ndescribe \"Dust\", ->\n  it \"Should expose Util\", ->\n    assert Dust.Util\n\n  it \"Should expose Collision\", ->\n    assert Dust.Collision\n",
       "type": "blob"
     }
   },
@@ -389,7 +389,7 @@ window["distri/dust:v0.1.7"]({
     },
     "main": {
       "path": "main",
-      "content": "(function() {\n  var Engine, TouchCanvas, applyStyleSheet;\n\n  require(\"./setup\");\n\n  Engine = require(\"./engine\");\n\n  TouchCanvas = require(\"touch-canvas\");\n\n  applyStyleSheet = function() {\n    var previousStyleNode, styleNode;\n    styleNode = document.createElement(\"style\");\n    styleNode.innerHTML = require(\"./style\");\n    styleNode.className = \"dust\";\n    if (previousStyleNode = document.head.querySelector(\"style.dust\")) {\n      previousStyleNode.parentNode.removeChild(prevousStyleNode);\n    }\n    return document.head.appendChild(styleNode);\n  };\n\n  module.exports = {\n    init: function(options) {\n      var canvas, engine, height, width;\n      if (options == null) {\n        options = {};\n      }\n      applyStyleSheet();\n      width = options.width, height = options.height;\n      if (width == null) {\n        width = 640;\n      }\n      if (height == null) {\n        height = 480;\n      }\n      canvas = TouchCanvas({\n        width: width,\n        height: height\n      });\n      $(\"body\").append($(\"<div>\", {\n        \"class\": \"main center\"\n      }));\n      $(\".main\").append(canvas.element()).css({\n        width: width,\n        height: height\n      });\n      engine = Engine({\n        canvas: canvas\n      });\n      engine.start();\n      return engine;\n    },\n    Engine: Engine,\n    GameObject: require(\"./game_object\"),\n    GameState: require(\"./game_state\"),\n    Sprite: require(\"sprite\"),\n    Util: require(\"./util\")\n  };\n\n}).call(this);\n\n//# sourceURL=main.coffee",
+      "content": "(function() {\n  var Engine, TouchCanvas, applyStyleSheet;\n\n  require(\"./setup\");\n\n  Engine = require(\"./engine\");\n\n  TouchCanvas = require(\"touch-canvas\");\n\n  applyStyleSheet = function() {\n    var previousStyleNode, styleNode;\n    styleNode = document.createElement(\"style\");\n    styleNode.innerHTML = require(\"./style\");\n    styleNode.className = \"dust\";\n    if (previousStyleNode = document.head.querySelector(\"style.dust\")) {\n      previousStyleNode.parentNode.removeChild(prevousStyleNode);\n    }\n    return document.head.appendChild(styleNode);\n  };\n\n  module.exports = {\n    init: function(options) {\n      var canvas, engine, height, width;\n      if (options == null) {\n        options = {};\n      }\n      applyStyleSheet();\n      width = options.width, height = options.height;\n      if (width == null) {\n        width = 640;\n      }\n      if (height == null) {\n        height = 480;\n      }\n      canvas = TouchCanvas({\n        width: width,\n        height: height\n      });\n      $(\"body\").append($(\"<div>\", {\n        \"class\": \"main center\"\n      }));\n      $(\".main\").append(canvas.element()).css({\n        width: width,\n        height: height\n      });\n      engine = Engine({\n        canvas: canvas\n      });\n      engine.start();\n      return engine;\n    },\n    Collision: require(\"/lib/collision\"),\n    Engine: Engine,\n    GameObject: require(\"./game_object\"),\n    GameState: require(\"./game_state\"),\n    Sprite: require(\"sprite\"),\n    Util: require(\"./util\")\n  };\n\n}).call(this);\n\n//# sourceURL=main.coffee",
       "type": "blob"
     },
     "modules/age": {
@@ -544,7 +544,7 @@ window["distri/dust:v0.1.7"]({
     },
     "pixie": {
       "path": "pixie",
-      "content": "module.exports = {\"version\":\"0.1.7\",\"width\":640,\"height\":480,\"remoteDependencies\":[\"https://code.jquery.com/jquery-1.10.1.min.js\"],\"dependencies\":{\"appcache\":\"distri/appcache:v0.2.0\",\"cornerstone\":\"distri/cornerstone:v0.2.0\",\"finder\":\"distri/finder:v0.1.3\",\"hotkeys\":\"distri/hotkeys:v0.2.0\",\"jquery-utils\":\"distri/jquery-utils:v0.2.0\",\"sprite\":\"distri/sprite:v0.3.0\",\"touch-canvas\":\"distri/touch-canvas:v0.3.0\"}};",
+      "content": "module.exports = {\"version\":\"0.1.8-alpha.0\",\"width\":640,\"height\":480,\"remoteDependencies\":[\"https://code.jquery.com/jquery-1.10.1.min.js\"],\"dependencies\":{\"appcache\":\"distri/appcache:v0.2.0\",\"cornerstone\":\"distri/cornerstone:v0.2.0\",\"finder\":\"distri/finder:v0.1.3\",\"hotkeys\":\"distri/hotkeys:v0.2.0\",\"jquery-utils\":\"distri/jquery-utils:v0.2.0\",\"sprite\":\"distri/sprite:v0.3.0\",\"touch-canvas\":\"distri/touch-canvas:v0.3.0\"}};",
       "type": "blob"
     },
     "setup": {
@@ -649,14 +649,14 @@ window["distri/dust:v0.1.7"]({
     },
     "test/dust": {
       "path": "test/dust",
-      "content": "(function() {\n  var Dust;\n\n  Dust = require(\"../main\");\n\n  describe(\"Dust\", function() {\n    return it(\"Should expose Util\", function() {\n      return assert(Dust.Util);\n    });\n  });\n\n}).call(this);\n\n//# sourceURL=test/dust.coffee",
+      "content": "(function() {\n  var Dust;\n\n  Dust = require(\"../main\");\n\n  describe(\"Dust\", function() {\n    it(\"Should expose Util\", function() {\n      return assert(Dust.Util);\n    });\n    return it(\"Should expose Collision\", function() {\n      return assert(Dust.Collision);\n    });\n  });\n\n}).call(this);\n\n//# sourceURL=test/dust.coffee",
       "type": "blob"
     }
   },
   "progenitor": {
     "url": "http://strd6.github.io/editor/"
   },
-  "version": "0.1.7",
+  "version": "0.1.8-alpha.0",
   "entryPoint": "main",
   "remoteDependencies": [
     "https://code.jquery.com/jquery-1.10.1.min.js"
