@@ -48,7 +48,7 @@
     "main.coffee.md": {
       "path": "main.coffee.md",
       "mode": "100644",
-      "content": "Main\n====\n\n[Engine](./engine)\n[GameObject](./game_object)\n\nModules\n-------\n\n[Age](./modules/age)\n[Bindable](./modules/bindable)\n[Bounded](./modules/bounded)\n[Clamp](./modules/clamp)\n[Cooldown](./modules/cooldown)\n[Drawable](./modules/drawable)\n[Effect](./modules/effect)\n[Expirable](./modules/expirable)\n[Follow](./modules/follow)\n[Meter](./modules/meter)\n[Movable](./modules/movable)\n[Rotatable](./modules/rotatable)\n[Timed Events](./modules/timed_events)\n[Tween](./modules/tween)\n\n    require \"./setup\"\n\n    Engine = require \"./engine\"\n\n    TouchCanvas = require \"touch-canvas\"\n\n    applyStyleSheet = ->\n      styleNode = document.createElement(\"style\")\n      styleNode.innerHTML = require \"./style\"\n      styleNode.className = \"dust\"\n\n      if previousStyleNode = document.head.querySelector(\"style.dust\")\n        previousStyleNode.parentNode.removeChild(prevousStyleNode)\n\n      document.head.appendChild(styleNode)\n\n    module.exports =\n      init: (options={}) ->\n        applyStyleSheet()\n\n        {width, height} = options\n        width ?= 640\n        height ?= 480\n\n        canvas = TouchCanvas\n          width: width\n          height: height\n\n        $(\"body\").append $ \"<div>\",\n          class: \"main center\"\n\n        $(\".main\").append(canvas.element())\n        .css\n          width: width\n          height: height\n\n        engine = Engine\n          canvas: canvas\n\n        engine.start()\n\n        return engine\n\n      Engine: Engine\n      GameObject: require \"./game_object\"\n      GameState: require \"./game_state\"\n      Sprite: require \"sprite\"\n",
+      "content": "Main\n====\n\n[Engine](./engine)\n[GameObject](./game_object)\n\nModules\n-------\n\n[Age](./modules/age)\n[Bindable](./modules/bindable)\n[Bounded](./modules/bounded)\n[Clamp](./modules/clamp)\n[Cooldown](./modules/cooldown)\n[Drawable](./modules/drawable)\n[Effect](./modules/effect)\n[Expirable](./modules/expirable)\n[Follow](./modules/follow)\n[Meter](./modules/meter)\n[Movable](./modules/movable)\n[Rotatable](./modules/rotatable)\n[Timed Events](./modules/timed_events)\n[Tween](./modules/tween)\n\n    require \"./setup\"\n\n    Engine = require \"./engine\"\n\n    TouchCanvas = require \"touch-canvas\"\n\n    applyStyleSheet = ->\n      styleNode = document.createElement(\"style\")\n      styleNode.innerHTML = require \"./style\"\n      styleNode.className = \"dust\"\n\n      if previousStyleNode = document.head.querySelector(\"style.dust\")\n        previousStyleNode.parentNode.removeChild(prevousStyleNode)\n\n      document.head.appendChild(styleNode)\n\n    module.exports =\n      init: (options={}) ->\n        applyStyleSheet()\n\n        {width, height} = options\n        width ?= 640\n        height ?= 480\n\n        canvas = TouchCanvas\n          width: width\n          height: height\n\n        $(\"body\").append $ \"<div>\",\n          class: \"main center\"\n\n        $(\".main\").append(canvas.element())\n        .css\n          width: width\n          height: height\n\n        engine = Engine\n          canvas: canvas\n\n        engine.start()\n\n        return engine\n\n      Engine: Engine\n      GameObject: require \"./game_object\"\n      GameState: require \"./game_state\"\n      Sprite: require \"sprite\"\n      Util: require \"./util\"\n",
       "type": "blob"
     },
     "modules/age.coffee.md": {
@@ -234,7 +234,7 @@
     "pixie.cson": {
       "path": "pixie.cson",
       "mode": "100644",
-      "content": "version: \"0.1.4\"\nwidth: 640\nheight: 480\nremoteDependencies: [\n  \"https://code.jquery.com/jquery-1.10.1.min.js\"\n]\ndependencies:\n  appcache: \"distri/appcache:v0.2.0\"\n  cornerstone: \"distri/cornerstone:v0.2.0\"\n  \"finder\": \"distri/finder:v0.1.3\"\n  hotkeys: \"distri/hotkeys:v0.2.0\"\n  \"jquery-utils\": \"distri/jquery-utils:v0.2.0\"\n  sprite: \"distri/sprite:v0.2.0\"\n  \"touch-canvas\": \"distri/touch-canvas:v0.3.0\"\n",
+      "content": "version: \"0.1.6\"\nwidth: 640\nheight: 480\nremoteDependencies: [\n  \"https://code.jquery.com/jquery-1.10.1.min.js\"\n]\ndependencies:\n  appcache: \"distri/appcache:v0.2.0\"\n  cornerstone: \"distri/cornerstone:v0.2.0\"\n  \"finder\": \"distri/finder:v0.1.3\"\n  hotkeys: \"distri/hotkeys:v0.2.0\"\n  \"jquery-utils\": \"distri/jquery-utils:v0.2.0\"\n  sprite: \"distri/sprite:v0.2.0\"\n  \"touch-canvas\": \"distri/touch-canvas:v0.3.0\"\n",
       "type": "blob"
     },
     "setup.coffee.md": {
@@ -356,6 +356,12 @@
       "mode": "100644",
       "content": "Util\n====\n\n    module.exports =\n      approach: (current, target, amount) ->\n        (target - current).clamp(-amount, amount) + current\n\n      defaults: (target, objects...) ->\n        for object in objects\n          for name of object\n            unless target.hasOwnProperty(name)\n              target[name] = object[name]\n\n        return target\n\n      extend: (target, sources...) ->\n        for source in sources\n          for name of source\n            target[name] = source[name]\n\n        return target\n",
       "type": "blob"
+    },
+    "test/dust.coffee": {
+      "path": "test/dust.coffee",
+      "mode": "100644",
+      "content": "Dust = require \"../main\"\n\ndescribe \"Dust\", ->\n  it \"Should expose Util\", ->\n    assert Dust.Util\n",
+      "type": "blob"
     }
   },
   "distribution": {
@@ -386,7 +392,7 @@
     },
     "main": {
       "path": "main",
-      "content": "(function() {\n  var Engine, TouchCanvas, applyStyleSheet;\n\n  require(\"./setup\");\n\n  Engine = require(\"./engine\");\n\n  TouchCanvas = require(\"touch-canvas\");\n\n  applyStyleSheet = function() {\n    var previousStyleNode, styleNode;\n    styleNode = document.createElement(\"style\");\n    styleNode.innerHTML = require(\"./style\");\n    styleNode.className = \"dust\";\n    if (previousStyleNode = document.head.querySelector(\"style.dust\")) {\n      previousStyleNode.parentNode.removeChild(prevousStyleNode);\n    }\n    return document.head.appendChild(styleNode);\n  };\n\n  module.exports = {\n    init: function(options) {\n      var canvas, engine, height, width;\n      if (options == null) {\n        options = {};\n      }\n      applyStyleSheet();\n      width = options.width, height = options.height;\n      if (width == null) {\n        width = 640;\n      }\n      if (height == null) {\n        height = 480;\n      }\n      canvas = TouchCanvas({\n        width: width,\n        height: height\n      });\n      $(\"body\").append($(\"<div>\", {\n        \"class\": \"main center\"\n      }));\n      $(\".main\").append(canvas.element()).css({\n        width: width,\n        height: height\n      });\n      engine = Engine({\n        canvas: canvas\n      });\n      engine.start();\n      return engine;\n    },\n    Engine: Engine,\n    GameObject: require(\"./game_object\"),\n    GameState: require(\"./game_state\"),\n    Sprite: require(\"sprite\")\n  };\n\n}).call(this);\n\n//# sourceURL=main.coffee",
+      "content": "(function() {\n  var Engine, TouchCanvas, applyStyleSheet;\n\n  require(\"./setup\");\n\n  Engine = require(\"./engine\");\n\n  TouchCanvas = require(\"touch-canvas\");\n\n  applyStyleSheet = function() {\n    var previousStyleNode, styleNode;\n    styleNode = document.createElement(\"style\");\n    styleNode.innerHTML = require(\"./style\");\n    styleNode.className = \"dust\";\n    if (previousStyleNode = document.head.querySelector(\"style.dust\")) {\n      previousStyleNode.parentNode.removeChild(prevousStyleNode);\n    }\n    return document.head.appendChild(styleNode);\n  };\n\n  module.exports = {\n    init: function(options) {\n      var canvas, engine, height, width;\n      if (options == null) {\n        options = {};\n      }\n      applyStyleSheet();\n      width = options.width, height = options.height;\n      if (width == null) {\n        width = 640;\n      }\n      if (height == null) {\n        height = 480;\n      }\n      canvas = TouchCanvas({\n        width: width,\n        height: height\n      });\n      $(\"body\").append($(\"<div>\", {\n        \"class\": \"main center\"\n      }));\n      $(\".main\").append(canvas.element()).css({\n        width: width,\n        height: height\n      });\n      engine = Engine({\n        canvas: canvas\n      });\n      engine.start();\n      return engine;\n    },\n    Engine: Engine,\n    GameObject: require(\"./game_object\"),\n    GameState: require(\"./game_state\"),\n    Sprite: require(\"sprite\"),\n    Util: require(\"./util\")\n  };\n\n}).call(this);\n\n//# sourceURL=main.coffee",
       "type": "blob"
     },
     "modules/age": {
@@ -541,7 +547,7 @@
     },
     "pixie": {
       "path": "pixie",
-      "content": "module.exports = {\"version\":\"0.1.4\",\"width\":640,\"height\":480,\"remoteDependencies\":[\"https://code.jquery.com/jquery-1.10.1.min.js\"],\"dependencies\":{\"appcache\":\"distri/appcache:v0.2.0\",\"cornerstone\":\"distri/cornerstone:v0.2.0\",\"finder\":\"distri/finder:v0.1.3\",\"hotkeys\":\"distri/hotkeys:v0.2.0\",\"jquery-utils\":\"distri/jquery-utils:v0.2.0\",\"sprite\":\"distri/sprite:v0.2.0\",\"touch-canvas\":\"distri/touch-canvas:v0.3.0\"}};",
+      "content": "module.exports = {\"version\":\"0.1.6\",\"width\":640,\"height\":480,\"remoteDependencies\":[\"https://code.jquery.com/jquery-1.10.1.min.js\"],\"dependencies\":{\"appcache\":\"distri/appcache:v0.2.0\",\"cornerstone\":\"distri/cornerstone:v0.2.0\",\"finder\":\"distri/finder:v0.1.3\",\"hotkeys\":\"distri/hotkeys:v0.2.0\",\"jquery-utils\":\"distri/jquery-utils:v0.2.0\",\"sprite\":\"distri/sprite:v0.2.0\",\"touch-canvas\":\"distri/touch-canvas:v0.3.0\"}};",
       "type": "blob"
     },
     "setup": {
@@ -643,12 +649,17 @@
       "path": "util",
       "content": "(function() {\n  var __slice = [].slice;\n\n  module.exports = {\n    approach: function(current, target, amount) {\n      return (target - current).clamp(-amount, amount) + current;\n    },\n    defaults: function() {\n      var name, object, objects, target, _i, _len;\n      target = arguments[0], objects = 2 <= arguments.length ? __slice.call(arguments, 1) : [];\n      for (_i = 0, _len = objects.length; _i < _len; _i++) {\n        object = objects[_i];\n        for (name in object) {\n          if (!target.hasOwnProperty(name)) {\n            target[name] = object[name];\n          }\n        }\n      }\n      return target;\n    },\n    extend: function() {\n      var name, source, sources, target, _i, _len;\n      target = arguments[0], sources = 2 <= arguments.length ? __slice.call(arguments, 1) : [];\n      for (_i = 0, _len = sources.length; _i < _len; _i++) {\n        source = sources[_i];\n        for (name in source) {\n          target[name] = source[name];\n        }\n      }\n      return target;\n    }\n  };\n\n}).call(this);\n\n//# sourceURL=util.coffee",
       "type": "blob"
+    },
+    "test/dust": {
+      "path": "test/dust",
+      "content": "(function() {\n  var Dust;\n\n  Dust = require(\"../main\");\n\n  describe(\"Dust\", function() {\n    return it(\"Should expose Util\", function() {\n      return assert(Dust.Util);\n    });\n  });\n\n}).call(this);\n\n//# sourceURL=test/dust.coffee",
+      "type": "blob"
     }
   },
   "progenitor": {
     "url": "http://strd6.github.io/editor/"
   },
-  "version": "0.1.4",
+  "version": "0.1.6",
   "entryPoint": "main",
   "remoteDependencies": [
     "https://code.jquery.com/jquery-1.10.1.min.js"
@@ -717,14 +728,14 @@
     "labels_url": "https://api.github.com/repos/distri/dust/labels{/name}",
     "releases_url": "https://api.github.com/repos/distri/dust/releases{/id}",
     "created_at": "2013-12-23T22:24:48Z",
-    "updated_at": "2013-12-30T01:04:27Z",
-    "pushed_at": "2013-12-30T01:04:25Z",
+    "updated_at": "2013-12-31T03:18:24Z",
+    "pushed_at": "2013-12-31T03:18:23Z",
     "git_url": "git://github.com/distri/dust.git",
     "ssh_url": "git@github.com:distri/dust.git",
     "clone_url": "https://github.com/distri/dust.git",
     "svn_url": "https://github.com/distri/dust",
     "homepage": null,
-    "size": 564,
+    "size": 576,
     "stargazers_count": 0,
     "watchers_count": 0,
     "language": "CoffeeScript",
@@ -766,7 +777,7 @@
     "network_count": 0,
     "subscribers_count": 1,
     "branch": "master",
-    "defaultBranch": "master"
+    "publishBranch": "gh-pages"
   },
   "dependencies": {
     "appcache": {
