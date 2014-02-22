@@ -65,6 +65,7 @@ Modules
 
         return engine
 
+      Collision: require "/lib/collision"
       Engine: Engine
       GameObject: require "./game_object"
       GameState: require "./game_state"
