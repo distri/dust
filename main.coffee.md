@@ -69,3 +69,4 @@ Modules
       GameObject: require "./game_object"
       GameState: require "./game_state"
       Sprite: require "sprite"
+      Util: require "./util"
