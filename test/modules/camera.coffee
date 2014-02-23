@@ -23,11 +23,13 @@ describe "Camera", ->
     object = GameObject()
     camera = Camera()
     dt = 1/60
-    
-    console.log camera
 
     camera.follow(object)
     camera.trigger "afterUpdate", dt
+
+    transform = camera.I.transform
+    assert transform.tx?, "tx exists: #{transform.tx}"
+    assert transform.ty?, "ty exists: #{transform.ty}"
 
   test "overlay", ->
     object = GameObject()

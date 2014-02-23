@@ -94,8 +94,8 @@ Camera
           followTypes[currentType](currentObject, elapsedTime)
 
         # Hard clamp camera to world bounds
-        I.x = I.x.clamp(I.cameraBounds.left + I.screen.width/2, I.cameraBounds.right - I.screen.width/2)
-        I.y = I.y.clamp(I.cameraBounds.top + I.screen.height/2, I.cameraBounds.bottom - I.screen.height/2)
+        I.x = I.x.clamp(I.cameraBounds.x + I.screen.width/2, I.cameraBounds.x + I.cameraBounds.width - I.screen.width/2)
+        I.y = I.y.clamp(I.cameraBounds.y + I.screen.height/2, I.cameraBounds.y + I.cameraBounds.height - I.screen.height/2)
 
         I.transform = Matrix.translate(I.screen.width/2 - I.x.floor(), I.screen.height/2 - I.y.floor())
 

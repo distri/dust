@@ -19,11 +19,11 @@ Included in [Camera](../camera) by default.
         transform.scale(I.zoom, I.zoom, self.position())
 
       clampZoom = (value) ->
-        value.clamp(I.minZoom, I.maxZoom) 
+        value.clamp(I.minZoom, I.maxZoom)
 
       self.extend
         zoomIn: (percentage) ->
-          self.zoom clampZoom(I.zoom * (1 + percentage)) 
+          self.zoom clampZoom(I.zoom * (1 + percentage))
 
         zoomOut: (percentage) ->
           self.zoom clampZoom(I.zoom * (1 - percentage))
