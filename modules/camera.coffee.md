@@ -15,7 +15,7 @@ Camera
         deadzone: Point(0, 0) # Screen Coordinates
         zoom: 1
         transform: Matrix()
-        velocity: Point.ZERO
+        velocity: Point(0, 0)
         maxSpeed: 750
         t90: 2 # Time in seconds for camera to move 90% of the way to the target
 
@@ -40,7 +40,7 @@ Camera
         if c >= 1
           # Spring is configured to be too intense, just snap to target
           self.position(target)
-          I.velocity = Point.ZERO
+          I.velocity = Point(0, 0)
         else
           objectCenter = object.center()
 

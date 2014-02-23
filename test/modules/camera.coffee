@@ -18,6 +18,16 @@ describe "Camera", ->
 
   test "create", ->
     ok Camera()
+  
+  test "follow", ->
+    object = GameObject()
+    camera = Camera()
+    dt = 1/60
+    
+    console.log camera
+
+    camera.follow(object)
+    camera.trigger "afterUpdate", dt
 
   test "overlay", ->
     object = GameObject()
@@ -37,9 +47,9 @@ describe "Camera", ->
 
   test "zoom", ->
     camera = Camera()
-    
+
     camera.zoom(2)
-    
+
     assert.equal camera.zoom(), 2
 
     camera.zoomOut(0.5)
