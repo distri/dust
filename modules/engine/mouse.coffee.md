@@ -51,11 +51,17 @@ Implementation
       mousePosition.x = event.pageX - offset.left
       mousePosition.y = event.pageY - offset.top
 
+      return
+
     $(document).bind "mousedown", (event) ->
       mouseDown[buttonName(event)] = true
 
+      return
+
     $(document).bind "mouseup", (event) ->
       mouseDown[buttonName(event)] = false
+
+      return
 
     window.updateMouse = ->
       window.mousePressed = {}

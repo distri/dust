@@ -54,9 +54,13 @@ Implementation
       key = keyName(event)
       keydown[key] = true
 
+      return
+
     $(document).bind "keyup", (event) ->
       key = keyName(event)
       keydown[key] = false
+
+      return
 
     updateKeys = () ->
       window.justPressed = {}
