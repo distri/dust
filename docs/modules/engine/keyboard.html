@@ -107,9 +107,13 @@ $(document).bind <span class="string">"keydown"</span>, (event) -&gt;
   key = keyName(event)
   keydown[key] = <span class="literal">true</span>
 
+  <span class="keyword">return</span>
+
 $(document).bind <span class="string">"keyup"</span>, (event) -&gt;
   key = keyName(event)
   keydown[key] = <span class="literal">false</span>
+
+  <span class="keyword">return</span>
 
 updateKeys = () -&gt;
   window.justPressed = {}

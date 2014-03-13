@@ -50,11 +50,11 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
     transform.scale(I.zoom, I.zoom, self.position())
 
   <span class="function"><span class="title">clampZoom</span></span> = (value) -&gt;
-    value.clamp(I.minZoom, I.maxZoom) 
+    value.clamp(I.minZoom, I.maxZoom)
 
   self.extend
     zoomIn: (percentage) -&gt;
-      self.zoom clampZoom(I.zoom * (<span class="number">1</span> + percentage)) 
+      self.zoom clampZoom(I.zoom * (<span class="number">1</span> + percentage))
 
     zoomOut: (percentage) -&gt;
       self.zoom clampZoom(I.zoom * (<span class="number">1</span> - percentage))</code></pre>

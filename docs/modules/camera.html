@@ -48,7 +48,7 @@
     deadzone: Point(<span class="number">0</span>, <span class="number">0</span>) <span class="comment"># Screen Coordinates</span>
     zoom: <span class="number">1</span>
     transform: Matrix()
-    velocity: Point.ZERO
+    velocity: Point(<span class="number">0</span>, <span class="number">0</span>)
     maxSpeed: <span class="number">750</span>
     t90: <span class="number">2</span> <span class="comment"># Time in seconds for camera to move 90% of the way to the target</span>
 
@@ -73,7 +73,7 @@
     <span class="keyword">if</span> c &gt;= <span class="number">1</span>
       <span class="comment"># Spring is configured to be too intense, just snap to target</span>
       self.position(target)
-      I.velocity = Point.ZERO
+      I.velocity = Point(<span class="number">0</span>, <span class="number">0</span>)
     <span class="keyword">else</span>
       objectCenter = object.center()
 
@@ -127,8 +127,8 @@
       followTypes[currentType](currentObject, elapsedTime)
 
     <span class="comment"># Hard clamp camera to world bounds</span>
-    I.x = I.x.clamp(I.cameraBounds.left + I.screen.width<span class="regexp">/2, I.cameraBounds.right - I.screen.width/</span><span class="number">2</span>)
-    I.y = I.y.clamp(I.cameraBounds.top + I.screen.height<span class="regexp">/2, I.cameraBounds.bottom - I.screen.height/</span><span class="number">2</span>)
+    I.x = I.x.clamp(I.cameraBounds.x + I.screen.width<span class="regexp">/2, I.cameraBounds.x + I.cameraBounds.width - I.screen.width/</span><span class="number">2</span>)
+    I.y = I.y.clamp(I.cameraBounds.y + I.screen.height<span class="regexp">/2, I.cameraBounds.y + I.cameraBounds.height - I.screen.height/</span><span class="number">2</span>)
 
     I.transform = Matrix.translate(I.screen.width<span class="regexp">/2 - I.x.floor(), I.screen.height/</span><span class="number">2</span> - I.y.floor())
 

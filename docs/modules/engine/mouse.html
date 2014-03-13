@@ -104,11 +104,17 @@ $(document).bind <span class="string">"mousemove"</span>, (event) -&gt;
   mousePosition.x = event.pageX - offset.left
   mousePosition.y = event.pageY - offset.top
 
+  <span class="keyword">return</span>
+
 $(document).bind <span class="string">"mousedown"</span>, (event) -&gt;
   mouseDown[buttonName(event)] = <span class="literal">true</span>
 
+  <span class="keyword">return</span>
+
 $(document).bind <span class="string">"mouseup"</span>, (event) -&gt;
   mouseDown[buttonName(event)] = <span class="literal">false</span>
+
+  <span class="keyword">return</span>
 
 window.<span class="function"><span class="title">updateMouse</span></span> = -&gt;
   window.mousePressed = {}
