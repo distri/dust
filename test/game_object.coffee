@@ -8,11 +8,6 @@ describe "GameObject", ->
     gameObject = GameObject()
     ok gameObject
 
-  test "construct invalid object", ->
-    raises ->
-      GameObject.construct
-        class: "aaaaa"
-
   test "#closest", ->
     o = GameObject
       x: 0
