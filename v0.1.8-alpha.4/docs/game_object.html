@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>game_object</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    <ul class="sections">
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="gameobject">GameObject</h1>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>The default base class for all objects you can add to the engine.</p>
+<h2 id="events">Events</h2>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>GameObjects fire events that you may attach listeners to. Event listeners
+are bound with <code>object.on(eventName, handler)</code></p>
+<p><code>create</code> is triggered when the object is created.</p>
+<p><code>destroy</code> is triggered when object is destroyed.</p>
+<p>Use the destroy event to add particle effects, play sounds, etc.</p>
+<blockquote>
+<pre><code>bomb.on &#39;destroy&#39;, -&gt;
+  bomb.explode()
+  Sound.play &quot;Kaboom&quot;</code></pre>
+</blockquote>
+<p><code>update</code> is triggered during every step of the game loop.</p>
+<p>Check to see if keys are being pressed and change the player&#39;s velocity.</p>
+<blockquote>
+<pre><code>player.on &#39;update&#39;, -&gt;
+  if keydown.left
+    player.velocity(Point(-1, 0))
+  else if keydown.right
+    player.velocity(Point(1, 0))
+  else
+    player.velocity(Point(0, 0))</code></pre>
+</blockquote>
+<p>Triggered when the object is removed from the engine. Use the remove event to
+handle any clean up.</p>
+<p>Destroyed objects are always removed, but removed objects may not necessarily have
+been destroyed.</p>
+<blockquote>
+<pre><code>boss.bind &#39;remove&#39;, -&gt;
+  unlockDoorToLevel2()</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"./util"</span>
+
+module.exports = <span class="function"><span class="title">GameObject</span></span> = (I={}, self=Core(I)) -&gt;
+  defaults I,
+    active: <span class="literal">true</span>
+    created: <span class="literal">false</span>
+    destroyed: <span class="literal">false</span>
+
+  self.attrReader <span class="string">"id"</span>
+
+  self.extend
+    class: -&gt;
+      I.<span class="class"><span class="keyword">class</span> <span class="title">or</span> "<span class="title">GameObject</span>"</span></code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Update the game object. The engine calls this method.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    update: (elapsedTime) -&gt;
+      <span class="comment"># TODO: Extract this I.active check out into an engine gameObject remove processor or something</span>
+      <span class="comment"># TODO: Remove this method and only use events.</span>
+      <span class="keyword">if</span> I.active
+        self.trigger <span class="string">'update'</span>, elapsedTime
+
+      I.active</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Triggers the create event if the object has not already been created. This method is called by the engine.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    create: -&gt;
+      self.trigger(<span class="string">'create'</span>) <span class="keyword">unless</span> I.created
+      I.created = <span class="literal">true</span></code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Destroys the object and triggers the destroyed event. Anyone can call this method.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    destroy: -&gt;
+      self.trigger(<span class="string">'destroy'</span>) <span class="keyword">unless</span> I.destroyed
+
+      I.destroyed = <span class="literal">true</span>
+      I.active = <span class="literal">false</span>
+
+  GameObject.defaultModules.each (module) -&gt;
+    self.include module
+
+  <span class="keyword">return</span> self
+
+GameObject.defaultModules = [
+  <span class="string">"bindable"</span>
+  <span class="string">"age"</span>
+  <span class="string">"bounded"</span>
+  <span class="string">"clamp"</span>
+  <span class="string">"cooldown"</span>
+  <span class="string">"drawable"</span>
+  <span class="string">"effect"</span>
+  <span class="string">"expirable"</span>
+  <span class="string">"follow"</span>
+  <span class="string">"meter"</span>
+  <span class="string">"movable"</span>
+  <span class="string">"rotatable"</span>
+  <span class="string">"timed_events"</span>
+  <span class="string">"tween"</span>
+].map (name) -&gt;
+  require <span class="string">"./modules/<span class="subst">#{name}</span>"</span></code></pre>
+</div>
+        </li>
+        
+    </ul>
+  </div>
+  <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
+<script src="http://www.danielx.net/require/v0.2.2.js"></script><script>
+  $.ajax({
+    url: "http://strd6.github.io/interactive/v0.8.1.jsonp",
+    dataType: "jsonp",
+    jsonpCallback: "STRd6/interactive:v0.8.1",
+    cache: true
+  }).then(function(PACKAGE) {
+    Require.generateFor(PACKAGE)("./" + PACKAGE.entryPoint)
+  })
+</script><script src="package.js"></script>
+</body>
+</html>
