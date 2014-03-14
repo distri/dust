@@ -7,20 +7,20 @@ Main
 Modules
 -------
 
-[Age](./modules/age)
-[Bindable](./modules/bindable)
-[Bounded](./modules/bounded)
-[Clamp](./modules/clamp)
-[Cooldown](./modules/cooldown)
-[Drawable](./modules/drawable)
-[Effect](./modules/effect)
-[Expirable](./modules/expirable)
-[Follow](./modules/follow)
-[Meter](./modules/meter)
-[Movable](./modules/movable)
-[Rotatable](./modules/rotatable)
-[Timed Events](./modules/timed_events)
-[Tween](./modules/tween)
+- [Age](./modules/age)
+- [Bindable](./modules/bindable)
+- [Bounded](./modules/bounded)
+- [Clamp](./modules/clamp)
+- [Cooldown](./modules/cooldown)
+- [Drawable](./modules/drawable)
+- [Effect](./modules/effect)
+- [Expirable](./modules/expirable)
+- [Follow](./modules/follow)
+- [Meter](./modules/meter)
+- [Movable](./modules/movable)
+- [Rotatable](./modules/rotatable)
+- [Timed Events](./modules/timed_events)
+- [Tween](./modules/tween)
 
     require "./setup"
 
@@ -28,19 +28,11 @@ Modules
 
     TouchCanvas = require "touch-canvas"
 
-    applyStyleSheet = ->
-      styleNode = document.createElement("style")
-      styleNode.innerHTML = require "./style"
-      styleNode.className = "dust"
-
-      if previousStyleNode = document.head.querySelector("style.dust")
-        previousStyleNode.parentNode.removeChild(prevousStyleNode)
-
-      document.head.appendChild(styleNode)
+    {applyStylesheet} = require "./util"
 
     module.exports =
       init: (options={}) ->
-        applyStyleSheet()
+        applyStylesheet(require("./style"), "dust")
 
         {width, height} = options
         width ?= 640
