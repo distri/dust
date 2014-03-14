@@ -14,7 +14,7 @@ the object that is added.
 
     {defaults} = require "./util"
     Bindable = require "./modules/bindable"
-    GameObject = require "../../game_object"
+    Registry = require "./registry"
 
     module.exports = (I={}, self=Bindable(I)) ->
       defaults I,
@@ -28,7 +28,8 @@ The `add` method creates an object from data and adds it object to the game worl
 
 Returns the added object.
 
-You can add arbitrary `entityData` and the engine will make it into a `GameObject`
+You can add arbitrary `entityData` and the engine will construct it by class name
+based on the registered constructors.
 
 >     engine.add
 >       x: 50
@@ -43,7 +44,7 @@ You can add arbitrary `entityData` and the engine will make it into a `GameObjec
         add: (entityData) ->
           self.trigger "beforeAdd", entityData
 
-          object = GameObject.construct entityData
+          object = Registry.construct entityData
           object.create()
 
           self.trigger "afterAdd", object

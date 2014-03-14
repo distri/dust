@@ -100,17 +100,3 @@ Destroys the object and triggers the destroyed event. Anyone can call this metho
       "tween"
     ].map (name) ->
       require "./modules/#{name}"
-
-Construct an object instance from the given entity data.
-
-    GameObject.construct = (entityData) ->
-      if className = entityData.class
-        if constructor = GameObject.registry[className]
-          constructor(entityData)
-        else
-          throw "Unregistered constructor: #{className}"
-      else
-        GameObject(entityData)
-
-    GameObject.registry =
-      GameObject: GameObject
