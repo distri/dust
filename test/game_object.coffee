@@ -8,17 +8,6 @@ describe "GameObject", ->
     gameObject = GameObject()
     ok gameObject
 
-  test ".construct", ->
-    gameObject = GameObject.construct
-      name: "Gandalf"
-
-    equals(gameObject.I.name, "Gandalf")
-
-  test "construct invalid object", ->
-    raises ->
-      GameObject.construct
-        class: "aaaaa"
-
   test "#closest", ->
     o = GameObject
       x: 0

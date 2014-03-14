@@ -7,6 +7,7 @@ It is included in `Engine` by default.
 
     {defaults} = require "../../util"
     GameState = require "../../game_state"
+    Registry = require "../../registry"
 
     module.exports = (I={}, self) ->
       defaults I,
@@ -44,6 +45,9 @@ It is included in `Engine` by default.
         I.currentState.trigger "overlay", canvas
 
       self.extend
+        register: (name, constructor) ->
+          Registry.register name, constructor
+
         # Just pass through to the current state
         add: (classNameOrEntityData, entityData={}) ->
           # Allow optional add "Class", data form
