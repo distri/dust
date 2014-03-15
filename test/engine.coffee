@@ -161,6 +161,31 @@ describe "Engine", ->
     equal engine.find(".solid=true").length, 1, "Object with attribute `solid` equal to true"
     equal engine.find(".opaque=false").length, 1, "Object with attribute `opaque` equal to false"
 
+  test "#first", ->
+    engine = Engine()
+
+    radObject = engine.add
+      id: "rad"
+
+    assert.equal engine.first("#rad"), radObject
+    
+  test "#first with no matching", ->
+    engine = Engine()
+
+    assert.equal engine.first("#notPresent"), undefined
+
+  test "#first with multiple matching", ->
+    engine = Engine()
+
+    [1..3].forEach (i) ->
+      engine.add
+        i: i
+        test: true
+      .attrReader "test", "i"
+
+    value = engine.first(".i").i()
+    assert.equal value, 1, "i should equal 1, is #{value}"
+
   test "#camera", ->
     engine = Engine()
 
