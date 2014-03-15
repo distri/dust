@@ -168,7 +168,7 @@ describe "Engine", ->
       id: "rad"
 
     assert.equal engine.first("#rad"), radObject
-    
+
   test "#first with no matching", ->
     engine = Engine()
 

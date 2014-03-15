@@ -7,7 +7,3 @@ Setup
     require "appcache"
 
     require "cornerstone"
-
-    # TODO: Don't make these pure global
-    global.Bindable = require "./modules/bindable"
-    global.Sprite = require "sprite"

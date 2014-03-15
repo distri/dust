@@ -60,6 +60,7 @@ the first argument.
 `afterTransform` is triggered after the object should be drawn. A canvas is passed as
 the first argument. This transform is not applied.
 
+    {Sprite} = require "resource"
     Bindable = require "./bindable"
     {defaults} = require "../util"
 

@@ -61,5 +61,5 @@ Modules
       Engine: Engine
       GameObject: require "./game_object"
       GameState: require "./game_state"
-      Sprite: require "sprite"
+      Resource: require "resource"
       Util: require "./util"
