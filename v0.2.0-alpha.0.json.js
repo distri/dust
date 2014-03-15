@@ -231,7 +231,7 @@ window["distri/dust:v0.2.0-alpha.0"]({
     "pixie.cson": {
       "path": "pixie.cson",
       "mode": "100644",
-      "content": "version: \"0.2.0-alpha.0\"\nwidth: 640\nheight: 480\nremoteDependencies: [\n  \"https://code.jquery.com/jquery-1.11.0.min.js\"\n]\ndependencies:\n  appcache: \"distri/appcache:v0.2.0\"\n  cornerstone: \"distri/cornerstone:v0.2.0\"\n  \"finder\": \"distri/finder:v0.1.3\"\n  hotkeys: \"distri/hotkeys:v0.2.0\"\n  \"jquery-utils\": \"distri/jquery-utils:v0.2.0\"\n  observable: \"distri/observable:v0.1.0\"\n  resource: \"distri/resource:v0.1.0-alpha.1\"\n  \"touch-canvas\": \"distri/touch-canvas:v0.3.0\"\n",
+      "content": "version: \"0.2.0-alpha.1\"\nwidth: 640\nheight: 480\nremoteDependencies: [\n  \"https://code.jquery.com/jquery-1.11.0.min.js\"\n]\ndependencies:\n  appcache: \"distri/appcache:v0.2.0\"\n  cornerstone: \"distri/cornerstone:v0.2.0\"\n  \"finder\": \"distri/finder:v0.1.3\"\n  hotkeys: \"distri/hotkeys:v0.2.0\"\n  \"jquery-utils\": \"distri/jquery-utils:v0.2.0\"\n  observable: \"distri/observable:v0.1.0\"\n  resource: \"distri/resource:v0.1.0-alpha.1\"\n  \"touch-canvas\": \"distri/touch-canvas:v0.3.0\"\n",
       "type": "blob"
     },
     "registry.coffee.md": {
@@ -243,7 +243,7 @@ window["distri/dust:v0.2.0-alpha.0"]({
     "setup.coffee.md": {
       "path": "setup.coffee.md",
       "mode": "100644",
-      "content": "Setup\n=====\n\n    require \"jquery-utils\"\n\n    # Updating Application Cache and prompting for new version\n    require \"appcache\"\n\n    require \"cornerstone\"\n\n    # HACK: HamlJr currntly requires a global `Observable`\n    global.Observable = require \"observable\"\n",
+      "content": "Setup\n=====\n\n    require \"jquery-utils\"\n\n    # Updating Application Cache and prompting for new version\n    require \"appcache\"\n\n    require \"cornerstone\"\n\n    # HACK: HamlJr currntly requires a global `Observable`\n    # Maybe Cornerstone should provide Observable as a global,\n    # but we probably want to let people include it on their own.\n    global.Observable = require \"observable\"\n\n    # TODO: Eventually remove this from globals, or have Cornerstone add it\n    # if we want to keep it\n    global.Bindable = require \"./modules/bindable\"\n",
       "type": "blob"
     },
     "style.styl": {
@@ -568,7 +568,7 @@ window["distri/dust:v0.2.0-alpha.0"]({
     },
     "pixie": {
       "path": "pixie",
-      "content": "module.exports = {\"version\":\"0.2.0-alpha.0\",\"width\":640,\"height\":480,\"remoteDependencies\":[\"https://code.jquery.com/jquery-1.11.0.min.js\"],\"dependencies\":{\"appcache\":\"distri/appcache:v0.2.0\",\"cornerstone\":\"distri/cornerstone:v0.2.0\",\"finder\":\"distri/finder:v0.1.3\",\"hotkeys\":\"distri/hotkeys:v0.2.0\",\"jquery-utils\":\"distri/jquery-utils:v0.2.0\",\"observable\":\"distri/observable:v0.1.0\",\"resource\":\"distri/resource:v0.1.0-alpha.1\",\"touch-canvas\":\"distri/touch-canvas:v0.3.0\"}};",
+      "content": "module.exports = {\"version\":\"0.2.0-alpha.1\",\"width\":640,\"height\":480,\"remoteDependencies\":[\"https://code.jquery.com/jquery-1.11.0.min.js\"],\"dependencies\":{\"appcache\":\"distri/appcache:v0.2.0\",\"cornerstone\":\"distri/cornerstone:v0.2.0\",\"finder\":\"distri/finder:v0.1.3\",\"hotkeys\":\"distri/hotkeys:v0.2.0\",\"jquery-utils\":\"distri/jquery-utils:v0.2.0\",\"observable\":\"distri/observable:v0.1.0\",\"resource\":\"distri/resource:v0.1.0-alpha.1\",\"touch-canvas\":\"distri/touch-canvas:v0.3.0\"}};",
       "type": "blob"
     },
     "registry": {
@@ -578,7 +578,7 @@ window["distri/dust:v0.2.0-alpha.0"]({
     },
     "setup": {
       "path": "setup",
-      "content": "(function() {\n  require(\"jquery-utils\");\n\n  require(\"appcache\");\n\n  require(\"cornerstone\");\n\n  global.Observable = require(\"observable\");\n\n}).call(this);\n\n//# sourceURL=setup.coffee",
+      "content": "(function() {\n  require(\"jquery-utils\");\n\n  require(\"appcache\");\n\n  require(\"cornerstone\");\n\n  global.Observable = require(\"observable\");\n\n  global.Bindable = require(\"./modules/bindable\");\n\n}).call(this);\n\n//# sourceURL=setup.coffee",
       "type": "blob"
     },
     "style": {
@@ -705,7 +705,7 @@ window["distri/dust:v0.2.0-alpha.0"]({
   "progenitor": {
     "url": "http://strd6.github.io/editor/"
   },
-  "version": "0.2.0-alpha.0",
+  "version": "0.2.0-alpha.1",
   "entryPoint": "main",
   "remoteDependencies": [
     "https://code.jquery.com/jquery-1.11.0.min.js"
