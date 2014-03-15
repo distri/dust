@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>modules/bounded</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    <ul class="sections">
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="bounded">Bounded</h1>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>TODO: Maybe rename this Geometry?</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">Collision = require <span class="string">"../lib/collision"</span></code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>The Bounded module is used to provide basic data about the
+location and dimensions of the including object. This module is included
+by default in <code>GameObject</code>.</p>
+<blockquote>
+<pre><code>player = GameObject
+  x: 10
+  y: 50
+  width: 20
+  height: 20
+  other: &quot;stuff&quot;
+  more: &quot;properties&quot;
+
+player.position()
+# =&gt; {x: 10, y: 50}</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"../util"</span>
+
+module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Core(I)) -&gt;
+  defaults I,
+    x: <span class="number">0</span>
+    y: <span class="number">0</span>
+    width: <span class="number">8</span>
+    height: <span class="number">8</span>
+    collisionMargin: Point(<span class="number">0</span>, <span class="number">0</span>)
+
+  self.extend</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Get the object closest to this one.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    closest: (selector) -&gt;
+      <span class="keyword">if</span> <span class="keyword">typeof</span> selector <span class="keyword">is</span> <span class="string">"string"</span>
+        selector = engine.find(selector)
+      <span class="keyword">else</span>
+        selector = [].concat(selector)
+
+      position = self.position()
+
+      selector.sort (a, b) -&gt;
+        Point.distanceSquared(position, a.position()) - Point.distanceSquared(position, b.position())
+      .first()</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Distance between two objects. Proxies to Point.distance.
+In order for this to work, <code>otherObj</code> must have a
+position method.</p>
+<blockquote>
+<pre><code>player = GameObject
+  x: 50
+  y: 50
+  width: 10
+  height: 10
+
+enemy = GameObject
+  x: 110
+  y: 120
+  width: 7
+  height: 20
+
+player.distance(enemy)
+# =&gt; 92.19544457292888</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    distance: (otherObj) -&gt;
+      Point.distance(self.position(), otherObj.position())</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>The position of this game object. By default it is the center.</p>
+<blockquote>
+<pre><code>player = GameObject
+  x: 50
+  y: 40
+
+player.position()
+# =&gt; {x: 50, y: 40}</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    position: (newPosition) -&gt;
+      <span class="keyword">if</span> newPosition?
+        I.x = newPosition.x
+        I.y = newPosition.y
+      <span class="keyword">else</span>
+        Point(I.x, I.y)</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Does a check to see if this object is overlapping with the bounds passed in.</p>
+<blockquote>
+<pre><code>player = GameObject
+  x: 4
+  y: 6
+  width: 20
+  height: 20
+
+player.collides({x: 5, y: 7, width: 20, height: 20})
+# =&gt; true</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    collides: (bounds) -&gt;
+      Collision.rectangular(self.bounds(), bounds)</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>This returns a modified bounds based on the collision margin.
+The area of the bounds is reduced if collision margin is positive
+and increased if collision margin is negative.</p>
+<blockquote>
+<pre><code>player = GameObject
+  collisionMargin:
+    x: -2
+    y: -4
+  x: 50
+  y: 50
+  width: 20
+  height: 20
+
+player.collisionBounds()
+# =&gt; {x: 38, y: 36, height: 28, width: 24}
+
+player.collisionBounds(10, 10)
+# =&gt; {x: 48, y: 46, height: 28, width: 24}</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    collisionBounds: (xOffset, yOffset) -&gt;
+      bounds = self.bounds(xOffset, yOffset)
+
+      bounds.x += I.collisionMargin.x
+      bounds.y += I.collisionMargin.y
+      bounds.width -= <span class="number">2</span> * I.collisionMargin.x
+      bounds.height -= <span class="number">2</span> * I.collisionMargin.y
+
+      <span class="keyword">return</span> bounds</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Returns infomation about the location of the object and its dimensions with optional offsets.</p>
+<blockquote>
+<pre><code>player = GameObject
+  x: 3
+  y: 6
+  width: 2
+  height: 2
+
+player.bounds()
+# =&gt; {x: 3, y: 6, width: 2, height: 2}
+
+player.bounds(7, 4)
+# =&gt; {x: 10, y: 10, width: 2, height: 2}</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    bounds: (xOffset, yOffset) -&gt;
+      center = self.center()
+
+      x: center.x - I.width/<span class="number">2</span> + (xOffset || <span class="number">0</span>)
+      y: center.y - I.height/<span class="number">2</span> + (yOffset || <span class="number">0</span>)
+      width: I.width
+      height: I.height</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>The centeredBounds method returns infomation about the center
+of the object along with the midpoint of the width and height.</p>
+<blockquote>
+<pre><code>player = GameObject
+  x: 3
+  y: 6
+  width: 2
+  height: 2
+
+player.centeredBounds()
+# =&gt; {x: 4, y: 7, xw: 1, yw: 1}</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    centeredBounds: () -&gt;
+      center = self.center()
+
+      x: center.x
+      y: center.y
+      xw: I.width/<span class="number">2</span>
+      yw: I.height/<span class="number">2</span></code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>The center method returns the {@link Point} that is
+the center of the object.</p>
+<blockquote>
+<pre><code>player.center()
+# =&gt; {x: 30, y: 35}</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    center: (newCenter) -&gt;
+      self.position(newCenter)</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Return the circular bounds of the object. The circle is
+centered at the midpoint of the object.</p>
+<blockquote>
+<pre><code>player.circle()
+# =&gt; {radius: 5, x: 50, y: 50}</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    circle: () -&gt;
+      circle = self.center()
+      circle.radius = I.radius || I.width<span class="regexp">/2 || I.height/</span><span class="number">2</span>
+
+      <span class="keyword">return</span> circle
+
+    top: -&gt;
+      I.y - I.height/<span class="number">2</span>
+
+    bottom: -&gt;
+      I.y + I.height/<span class="number">2</span>
+
+    left: -&gt;
+      I.x - I.width/<span class="number">2</span>
+
+    right: -&gt;
+      I.x + I.width/<span class="number">2</span></code></pre>
+</div>
+        </li>
+        
+    </ul>
+  </div>
+  <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
+<script src="http://www.danielx.net/require/v0.2.2.js"></script><script>
+  $.ajax({
+    url: "http://strd6.github.io/interactive/v0.8.1.jsonp",
+    dataType: "jsonp",
+    jsonpCallback: "STRd6/interactive:v0.8.1",
+    cache: true
+  }).then(function(PACKAGE) {
+    Require.generateFor(PACKAGE)("./" + PACKAGE.entryPoint)
+  })
+</script><script src="../package.js"></script>
+</body>
+</html>

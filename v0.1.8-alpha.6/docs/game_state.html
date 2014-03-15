@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>game_state</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    <ul class="sections">
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="gamestate">GameState</h1>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>A game state is a set of objects in a particular configuration.</p>
+<h2 id="events">Events</h2>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p><code>beforeAdd</code> is triggered before the object is created from the data and is passed
+the data itself.</p>
+<p><code>afterAdd</code> is triggered after an object is added to the game state and is passed
+the object that is added.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"./util"</span>
+Bindable = require <span class="string">"./modules/bindable"</span>
+Registry = require <span class="string">"./registry"</span>
+
+module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Bindable(I)) -&gt;
+  defaults I,
+    objects: []
+
+  queuedObjects = []
+
+  self.extend</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>The <code>add</code> method creates an object from data and adds it object to the game world.</p>
+<p>Returns the added object.</p>
+<p>You can add arbitrary <code>entityData</code> and the engine will construct it by class name
+based on the registered constructors.</p>
+<blockquote>
+<pre><code>engine.add
+  x: 50
+  y: 30
+  color: &quot;red&quot;
+
+player = engine.add
+  class: &quot;Player&quot;</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    <span class="comment"># TODO: Need some kind of object constructor registry to reconstitute game</span>
+    <span class="comment"># objects from data</span>
+    add: (entityData) -&gt;
+      self.trigger <span class="string">"beforeAdd"</span>, entityData
+
+      object = Registry.construct entityData
+      object.create()
+
+      self.trigger <span class="string">"afterAdd"</span>, object
+
+      <span class="keyword">if</span> I.updating
+        queuedObjects.push object
+      <span class="keyword">else</span>
+        I.objects.push object
+
+      <span class="keyword">return</span> object
+
+    objects: -&gt;
+      I.objects.copy()
+
+  <span class="comment"># Add events and methods here</span>
+  self.<span class="literal">on</span> <span class="string">"update"</span>, (elapsedTime) -&gt;
+    I.updating = <span class="literal">true</span>
+
+    I.objects.invoke <span class="string">"trigger"</span>, <span class="string">"beforeUpdate"</span>, elapsedTime
+
+    [toKeep, toRemove] = I.objects.partition (object) -&gt;
+      object.update(elapsedTime)
+
+    I.objects.invoke <span class="string">"trigger"</span>, <span class="string">"afterUpdate"</span>, elapsedTime
+
+    toRemove.invoke <span class="string">"trigger"</span>, <span class="string">"remove"</span>
+
+    I.objects = toKeep.concat(queuedObjects)
+    queuedObjects = []
+
+    I.updating = <span class="literal">false</span>
+
+  self.include require <span class="string">"./modules/cameras"</span>
+  self.include require <span class="string">"./modules/save_state"</span>
+
+  <span class="keyword">return</span> self</code></pre>
+</div>
+        </li>
+        
+    </ul>
+  </div>
+  <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
+<script src="http://www.danielx.net/require/v0.2.2.js"></script><script>
+  $.ajax({
+    url: "http://strd6.github.io/interactive/v0.8.1.jsonp",
+    dataType: "jsonp",
+    jsonpCallback: "STRd6/interactive:v0.8.1",
+    cache: true
+  }).then(function(PACKAGE) {
+    Require.generateFor(PACKAGE)("./" + PACKAGE.entryPoint)
+  })
+</script><script src="package.js"></script>
+</body>
+</html>
