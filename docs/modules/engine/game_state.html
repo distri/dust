@@ -38,6 +38,7 @@
             </div>
             <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"../../util"</span>
 GameState = require <span class="string">"../../game_state"</span>
+Registry = require <span class="string">"../../registry"</span>
 
 module.<span class="function"><span class="title">exports</span></span> = (I={}, self) -&gt;
   defaults I,
@@ -75,6 +76,9 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
     I.currentState.trigger <span class="string">"overlay"</span>, canvas
 
   self.extend
+    register: (name, constructor) -&gt;
+      Registry.register name, constructor
+
     <span class="comment"># Just pass through to the current state</span>
     add: (classNameOrEntityData, entityData={}) -&gt;
       <span class="comment"># Allow optional add "Class", data form</span>
@@ -133,7 +137,8 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
   </div>
   <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
-<script src="http://www.danielx.net/require/v0.2.2.js"></script><script>
+<script src="http://www.danielx.net/require/v0.2.2.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script>
   $.ajax({
     url: "http://strd6.github.io/interactive/v0.8.1.jsonp",
     dataType: "jsonp",

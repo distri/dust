@@ -55,7 +55,7 @@ the object that is added.</p>
             </div>
             <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"./util"</span>
 Bindable = require <span class="string">"./modules/bindable"</span>
-GameObject = require <span class="string">"../../game_object"</span>
+Registry = require <span class="string">"./registry"</span>
 
 module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Bindable(I)) -&gt;
   defaults I,
@@ -75,7 +75,8 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
               </div>
               <p>The <code>add</code> method creates an object from data and adds it object to the game world.</p>
 <p>Returns the added object.</p>
-<p>You can add arbitrary <code>entityData</code> and the engine will make it into a <code>GameObject</code></p>
+<p>You can add arbitrary <code>entityData</code> and the engine will construct it by class name
+based on the registered constructors.</p>
 <blockquote>
 <pre><code>engine.add
   x: 50
@@ -92,7 +93,7 @@ player = engine.add
     add: (entityData) -&gt;
       self.trigger <span class="string">"beforeAdd"</span>, entityData
 
-      object = GameObject.construct entityData
+      object = Registry.construct entityData
       object.create()
 
       self.trigger <span class="string">"afterAdd"</span>, object
@@ -136,7 +137,8 @@ player = engine.add
   </div>
   <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
-<script src="http://www.danielx.net/require/v0.2.2.js"></script><script>
+<script src="http://www.danielx.net/require/v0.2.2.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script>
   $.ajax({
     url: "http://strd6.github.io/interactive/v0.8.1.jsonp",
     dataType: "jsonp",

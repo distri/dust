@@ -48,20 +48,22 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p><a href="./modules/age">Age</a>
-<a href="./modules/bindable">Bindable</a>
-<a href="./modules/bounded">Bounded</a>
-<a href="./modules/clamp">Clamp</a>
-<a href="./modules/cooldown">Cooldown</a>
-<a href="./modules/drawable">Drawable</a>
-<a href="./modules/effect">Effect</a>
-<a href="./modules/expirable">Expirable</a>
-<a href="./modules/follow">Follow</a>
-<a href="./modules/meter">Meter</a>
-<a href="./modules/movable">Movable</a>
-<a href="./modules/rotatable">Rotatable</a>
-<a href="./modules/timed_events">Timed Events</a>
-<a href="./modules/tween">Tween</a></p>
+              <ul>
+<li><a href="./modules/age">Age</a></li>
+<li><a href="./modules/bindable">Bindable</a></li>
+<li><a href="./modules/bounded">Bounded</a></li>
+<li><a href="./modules/clamp">Clamp</a></li>
+<li><a href="./modules/cooldown">Cooldown</a></li>
+<li><a href="./modules/drawable">Drawable</a></li>
+<li><a href="./modules/effect">Effect</a></li>
+<li><a href="./modules/expirable">Expirable</a></li>
+<li><a href="./modules/follow">Follow</a></li>
+<li><a href="./modules/meter">Meter</a></li>
+<li><a href="./modules/movable">Movable</a></li>
+<li><a href="./modules/rotatable">Rotatable</a></li>
+<li><a href="./modules/timed_events">Timed Events</a></li>
+<li><a href="./modules/tween">Tween</a></li>
+</ul>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">require <span class="string">"./setup"</span>
@@ -70,19 +72,11 @@ Engine = require <span class="string">"./engine"</span>
 
 TouchCanvas = require <span class="string">"touch-canvas"</span>
 
-<span class="function"><span class="title">applyStyleSheet</span></span> = -&gt;
-  styleNode = document.createElement(<span class="string">"style"</span>)
-  styleNode.innerHTML = require <span class="string">"./style"</span>
-  styleNode.className = <span class="string">"dust"</span>
-
-  <span class="keyword">if</span> previousStyleNode = document.head.querySelector(<span class="string">"style.dust"</span>)
-    previousStyleNode.parentNode.removeChild(prevousStyleNode)
-
-  document.head.appendChild(styleNode)
+{applyStylesheet} = require <span class="string">"./util"</span>
 
 module.exports =
   init: (options={}) -&gt;
-    applyStyleSheet()
+    applyStylesheet(require(<span class="string">"./style"</span>), <span class="string">"dust"</span>)
 
     {width, height} = options
     width ?= <span class="number">640</span>
@@ -111,7 +105,7 @@ module.exports =
   Engine: Engine
   GameObject: require <span class="string">"./game_object"</span>
   GameState: require <span class="string">"./game_state"</span>
-  Sprite: require <span class="string">"sprite"</span>
+  Resource: require <span class="string">"resource"</span>
   Util: require <span class="string">"./util"</span></code></pre>
 </div>
         </li>
@@ -120,7 +114,8 @@ module.exports =
   </div>
   <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
-<script src="http://www.danielx.net/require/v0.2.2.js"></script><script>
+<script src="http://www.danielx.net/require/v0.2.2.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script>
   $.ajax({
     url: "http://strd6.github.io/interactive/v0.8.1.jsonp",
     dataType: "jsonp",

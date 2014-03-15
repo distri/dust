@@ -82,7 +82,7 @@
       delta = target.subtract(self.position())
 
       force = delta.subtract(I.velocity.scale(dampingFactor))
-      self.changePosition(I.velocity.scale(c).clamp(I.maxSpeed))
+      self.position(self.position().add(I.velocity.scale(c).clamp(I.maxSpeed)))
       I.velocity = I.velocity.add(force.scale(c))
 
   followTypes =
@@ -181,7 +181,8 @@ module.exports = Camera</code></pre>
   </div>
   <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
-<script src="http://www.danielx.net/require/v0.2.2.js"></script><script>
+<script src="http://www.danielx.net/require/v0.2.2.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script>
   $.ajax({
     url: "http://strd6.github.io/interactive/v0.8.1.jsonp",
     dataType: "jsonp",

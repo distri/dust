@@ -36,7 +36,28 @@
             </div>
             <div class="content"><pre><code class="lang-coffeescript">module.exports =
   approach: (current, target, amount) -&gt;
-    (target - current).clamp(-amount, amount) + current
+    (target - current).clamp(-amount, amount) + current</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Apply a stylesheet idempotently.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">  applyStylesheet: (style, id=<span class="string">"primary"</span>) -&gt;
+    styleNode = document.createElement(<span class="string">"style"</span>)
+    styleNode.innerHTML = style
+    styleNode.id = id
+
+    <span class="keyword">if</span> previousStyleNode = document.head.querySelector(<span class="string">"style#<span class="subst">#{id}</span>"</span>)
+      previousStyleNode.parentNode.removeChild(prevousStyleNode)
+
+    document.head.appendChild(styleNode)
 
   defaults: (target, objects...) -&gt;
     <span class="keyword">for</span> object <span class="keyword">in</span> objects
@@ -59,7 +80,8 @@
   </div>
   <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
-<script src="http://www.danielx.net/require/v0.2.2.js"></script><script>
+<script src="http://www.danielx.net/require/v0.2.2.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script>
   $.ajax({
     url: "http://strd6.github.io/interactive/v0.8.1.jsonp",
     dataType: "jsonp",
