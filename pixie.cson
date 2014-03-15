@@ -1,4 +1,4 @@
-version: "0.1.8-alpha.9"
+version: "0.2.0-alpha.0"
 width: 640
 height: 480
 remoteDependencies: [
@@ -10,5 +10,6 @@ dependencies:
   "finder": "distri/finder:v0.1.3"
   hotkeys: "distri/hotkeys:v0.2.0"
   "jquery-utils": "distri/jquery-utils:v0.2.0"
+  observable: "distri/observable:v0.1.0"
   resource: "distri/resource:v0.1.0-alpha.1"
   "touch-canvas": "distri/touch-canvas:v0.3.0"

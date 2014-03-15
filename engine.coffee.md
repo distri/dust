@@ -231,6 +231,7 @@ Implementation
       "engine/finder"
       "engine/keyboard"
       "engine/mouse"
+      "engine/options"
       "timed_events"
     ].map (name) ->
       require "./modules/#{name}"
