@@ -84,12 +84,6 @@ The position of this game object. By default it is the center.
           else
             Point(I.x, I.y)
 
-        changePosition: (delta) ->
-          I.x += delta.x
-          I.y += delta.y
-
-          self
-
 Does a check to see if this object is overlapping with the bounds passed in.
 
 >     player = GameObject
@@ -196,3 +190,15 @@ centered at the midpoint of the object.
           circle.radius = I.radius || I.width/2 || I.height/2
 
           return circle
+
+        top: ->
+          I.y - I.height/2
+
+        bottom: ->
+          I.y + I.height/2
+
+        left: ->
+          I.x - I.width/2
+        
+        right: ->
+          I.x + I.width/2

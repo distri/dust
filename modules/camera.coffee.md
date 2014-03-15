@@ -49,7 +49,7 @@ Camera
           delta = target.subtract(self.position())
 
           force = delta.subtract(I.velocity.scale(dampingFactor))
-          self.changePosition(I.velocity.scale(c).clamp(I.maxSpeed))
+          self.position(self.position().add(I.velocity.scale(c).clamp(I.maxSpeed)))
           I.velocity = I.velocity.add(force.scale(c))
 
       followTypes =
