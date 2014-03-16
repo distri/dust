@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>modules/tween</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    <ul class="sections">
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="tween">Tween</h1>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>The <code>Tween</code> module provides a method to tween object properties.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">{defaults, extend} = require <span class="string">"../util"</span>
+
+Easing = require <span class="string">"../lib/easing"</span>
+
+module.<span class="function"><span class="title">exports</span></span> = (I={}, self) -&gt;
+  defaults I,
+    activeTweens: {}
+
+  self.<span class="literal">on</span> <span class="string">"update"</span>, (elapsedTime) -&gt;
+    t = I.age + elapsedTime
+
+    <span class="keyword">for</span> property, data <span class="keyword">of</span> I.activeTweens
+      {start, end, startTime, endTime, duration, easing} = data
+
+      delta = end - start
+
+      <span class="keyword">if</span> t &gt;= endTime
+        I[property] = end
+        I.activeTweens[property].complete?()
+        <span class="keyword">delete</span> I.activeTweens[property]
+      <span class="keyword">else</span>
+        <span class="keyword">if</span> <span class="keyword">typeof</span> easing <span class="keyword">is</span> <span class="string">"string"</span>
+          easingFunction = Easing[easing]
+        <span class="keyword">else</span>
+          easingFunction = easing
+
+        I[property] = start + delta * easingFunction((t - startTime) / duration)</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Modify the object&#39;s properties over time.</p>
+<p>Duration How long (in frames) until the object&#39;s properties reach their final values.
+The second prameter is which properties to tween.</p>
+<p>Set the <code>easing</code> property to specify the easing function.</p>
+<blockquote>
+<pre><code>player.tween 3,
+  x: 50
+  y: 50
+  easing: &quot;quadratic&quot;
+
+player.tween 3,
+  x: 150
+  y: 150
+  complete: -&gt;
+    player.dance()</code></pre>
+</blockquote>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">  self.extend
+    tween: (duration, properties) -&gt;
+      properties = extend({}, properties) <span class="comment"># Make a local copy</span>
+
+      easing = properties.easing || <span class="string">"linear"</span>
+      complete = properties.complete
+
+      <span class="keyword">delete</span> properties.easing
+      <span class="keyword">delete</span> properties.complete
+
+      <span class="keyword">for</span> property, target <span class="keyword">of</span> properties
+        I.activeTweens[property] =
+          complete: complete
+          end: target
+          start: I[property]
+          easing: easing
+          duration: duration
+          startTime: I.age
+          endTime: I.age + duration</code></pre>
+</div>
+        </li>
+        
+    </ul>
+  </div>
+  <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
+<script src="http://www.danielx.net/require/v0.2.2.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script>
+  $.ajax({
+    url: "http://strd6.github.io/interactive/v0.8.1.jsonp",
+    dataType: "jsonp",
+    jsonpCallback: "STRd6/interactive:v0.8.1",
+    cache: true
+  }).then(function(PACKAGE) {
+    Require.generateFor(PACKAGE)("./" + PACKAGE.entryPoint)
+  })
+</script><script src="../package.js"></script>
+</body>
+</html>
