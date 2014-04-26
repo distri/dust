@@ -72,7 +72,7 @@ Engine = require <span class="string">"./engine"</span>
 
 TouchCanvas = require <span class="string">"touch-canvas"</span>
 
-{applyStylesheet} = require <span class="string">"./util"</span>
+{applyStylesheet, extend} = require <span class="string">"./util"</span>
 
 module.exports =
   init: (options={}) -&gt;
@@ -94,8 +94,9 @@ module.exports =
       width: width
       height: height
 
-    engine = Engine
+    engine = Engine extend
       canvas: canvas
+    , options
 
     engine.start()
 
