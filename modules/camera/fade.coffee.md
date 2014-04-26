@@ -23,7 +23,7 @@ Camera Effects
       configureFade = (duration, color, alpha) ->
         I.flashDuration = duration
         I.flashCooldown = duration
-        I.flashColor = Color(color)
+        I.flashColor = color
         I.flashTargetAlpha = alpha
 
       self.extend
