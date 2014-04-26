@@ -67,6 +67,9 @@ Camera
     Camera.defaultModules = [
       "z_sort"
       "shake"
+      "fade"
+      "flash"
+      "transition"
     ].map (name) ->
       require "./camera/#{name}"
 
