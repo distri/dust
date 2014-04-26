@@ -32,7 +32,7 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>The <code>Flash</code> module allows you to flash a color onscreen and then fade to transparent over a time period. 
+              <p>The <code>Flash</code> module allows you to flash a color onscreen and then fade to transparent over a time period.
 This is nice for lightning type effects or to accentuate major game events.</p>
 
             </div>
@@ -80,7 +80,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I, se
         color: Color(255, 0, 0, 0)
         duration: 20
         targetAlpha: 1
-      # =&gt; This flash effect will start off transparent and move toward red over 20 frames 
+      # =&gt; This flash effect will start off transparent and move toward red over 20 frames
 
   @name flash
   @methodOf Camera#
@@ -93,7 +93,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I, se
 
     {color, duration, targetAlpha} = options
 
-    I.flashColor = Color(color) 
+    I.flashColor = Color(color)
     I.flashTargetAlpha = targetAlpha
     I.flashCooldown = duration
     I.flashDuration = duration
