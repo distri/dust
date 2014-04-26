@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>modules/effect</title>
+  <title>modules/engine/options</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
@@ -18,7 +18,7 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="effect">Effect</h1>
+              <h1 id="options">Options</h1>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">
@@ -32,11 +32,18 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>A collection of effects to make your game juicy.</p>
-<p>It is included in <code>GameObject</code> by default.</p>
+              <p>Pauses the game and displays an options menu with a volume control when the
+player presses escape.</p>
+<p>Currently a little gross, but works well.</p>
+<p>The global volume control comes from <code>Resource</code> which includes sounds and music.</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">module.<span class="function"><span class="title">exports</span></span> = (I={}, self) -&gt;</code></pre>
+            <div class="content"><pre><code class="lang-coffeescript">options = require(<span class="string">"resource"</span>).Control
+
+options.volume.observe (newValue) -&gt;
+  console.log newValue
+
+template = require <span class="string">"/templates/options"</span></code></pre>
 </div>
         </li>
         
@@ -46,25 +53,28 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p><code>fadeOut</code> provides a convenient way to fade out this object over time.</p>
-<p>Time to fade out in seconds. The optional second prameter is the function to
-execute when fade out completes.</p>
-<p>Fade the player object out over the next 2 seconds.</p>
-<blockquote>
-<pre><code>player.fadeOut 2</code></pre>
-</blockquote>
-<p>Fade out and then destroy.</p>
-<blockquote>
-<pre><code>player.fadeOut, 0.25, -&gt;
-  self.destroy()</code></pre>
-</blockquote>
+              <p>An engine assumes it is the only thing running within a document, so we just
+append here to the DOM. Running the app in an iframe will sandbox this correctly
+so we might as well pollute a little when it makes things much easier.</p>
+<p>The challenge remains to think about hot-reloading, but the best way is probably
+to save the data, burn down the iframe/window, and create a completele new one
+then load the data back in.</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">  self.extend
-    fadeOut: (duration=<span class="number">1</span>, complete) -&gt;
-      self.tween duration,
-        alpha: <span class="number">0</span>
-        complete: complete</code></pre>
+            <div class="content"><pre><code class="lang-coffeescript">document.body.appendChild(template(options))
+
+module.<span class="function"><span class="title">exports</span></span> = (I, self) -&gt;
+  optionsMenuShown = <span class="literal">false</span>
+
+  $(document).<span class="literal">on</span> <span class="string">"keydown"</span>, <span class="literal">null</span>, <span class="string">"esc"</span>, -&gt;
+    optionsMenuShown = !optionsMenuShown
+
+    self.pause(optionsMenuShown)
+
+    $(<span class="string">".options"</span>).toggleClass <span class="string">"up"</span>, optionsMenuShown
+
+    <span class="keyword">if</span> !optionsMenuShown
+      $(<span class="string">".options input"</span>).blur()</code></pre>
 </div>
         </li>
         
@@ -206,6 +216,6 @@ execute when fade out completes.</p>
 
 }).call(this);
 
-</script><script src="../package.js"></script>
+</script><script src="../../package.js"></script>
 </body>
 </html>
