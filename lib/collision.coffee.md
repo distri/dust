@@ -52,12 +52,12 @@ Collision holds many useful class methods for checking geometric overlap of vari
       objects are colliding.
       ###
       collide: (groupA, groupB, callback, detectionMethod=collides) ->
-        if Object.isString(groupA)
+        if typeof groupA is "string"
           groupA = engine.find(groupA)
         else
           groupA = [].concat(groupA)
 
-        if Object.isString(groupB)
+        if typeof groupB is "string"
           groupB = engine.find(groupB)
         else
           groupB = [].concat(groupB)
