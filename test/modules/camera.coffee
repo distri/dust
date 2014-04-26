@@ -35,6 +35,11 @@ describe "Camera", ->
 
     assert.equal called, 1
 
+  test "flash", ->
+    camera = Camera()
+
+    camera.flash()
+
   test "shake", ->
     camera = Camera()
 

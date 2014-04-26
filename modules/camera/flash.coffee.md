@@ -56,14 +56,15 @@ This is nice for lightning type effects or to accentuate major game events.
       @param {Number} [duration=12] How long the effect lasts
       @param {Number} [targetAlpha=0] The alpha value to fade to. By default, this is set to 0, which fades the color to transparent.
       ###
-      flash: (options={}) ->
-        defaults(options, defaultParams)
+      self.extend
+        flash: (options={}) ->
+          defaults(options, defaultParams)
+  
+          {color, duration, targetAlpha} = options
 
-        {color, duration, targetAlpha} = options
+          I.flashColor = color
+          I.flashTargetAlpha = targetAlpha
+          I.flashCooldown = duration
+          I.flashDuration = duration
 
-        I.flashColor = Color(color)
-        I.flashTargetAlpha = targetAlpha
-        I.flashCooldown = duration
-        I.flashDuration = duration
-
-        self
+          self
