@@ -38,7 +38,12 @@ describe "Camera", ->
   test "flash", ->
     camera = Camera()
 
-    camera.flash()
+    camera.flash
+      duration: 1
+
+    camera.trigger "afterUpdate", 0.5
+
+    assert.equal camera.I.flashAlpha, 0.5, "flash alpha (#{camera.I.flashAlpha}) should be 0.5"
 
   test "shake", ->
     camera = Camera()

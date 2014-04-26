@@ -10,20 +10,18 @@ This is nice for lightning type effects or to accentuate major game events.
       defaults I,
         flashAlpha: 0
         flashColor: "black"
-        flashDuration: 0.3
-        flashCooldown: 0
-        flashTargetAlpha: 0
+        flashStart: 0
+        flashEnd: 0
 
       defaultParams =
         color: 'white'
         duration: 0.3
-        targetAlpha: 0
 
-      self.on 'afterUpdate', (dt) ->
-        if I.flashCooldown > 0
-          # TODO: Use a tween function alpha?
-          I.flashAlpha = approach(I.flashAlpha, 0, dt / I.flashDuration)
-          I.flashCooldown = approach(I.flashCooldown, 0, dt)
+      t = ->
+        ((I.age - I.flashStart) / (I.flashEnd - I.flashStart)).clamp(0, 1)
+
+      self.on 'afterUpdate', (dt) -> 
+        I.flashAlpha = 1 - t()
 
       self.on 'overlay', (canvas) ->
         # TODO: Canvas#withAlpha
@@ -47,24 +45,21 @@ This is nice for lightning type effects or to accentuate major game events.
           camera.flash
             color: Color(255, 0, 0, 0)
             duration: 20
-            targetAlpha: 1
           # => This flash effect will start off transparent and move toward red over 20 frames
 
       @name flash
       @methodOf Camera#
       @param {Color} [color="white"] The flash color
       @param {Number} [duration=12] How long the effect lasts
-      @param {Number} [targetAlpha=0] The alpha value to fade to. By default, this is set to 0, which fades the color to transparent.
       ###
       self.extend
         flash: (options={}) ->
           defaults(options, defaultParams)
   
-          {color, duration, targetAlpha} = options
+          {color, duration} = options
 
           I.flashColor = color
-          I.flashTargetAlpha = targetAlpha
-          I.flashCooldown = duration
-          I.flashDuration = duration
+          I.flashStart = I.age
+          I.flashEnd = I.flashStart + duration
 
           self
