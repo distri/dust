@@ -42,20 +42,18 @@ module.<span class="function"><span class="title">exports</span></span> = (I, se
   defaults I,
     flashAlpha: <span class="number">0</span>
     flashColor: <span class="string">"black"</span>
-    flashDuration: <span class="number">0.3</span>
-    flashCooldown: <span class="number">0</span>
-    flashTargetAlpha: <span class="number">0</span>
+    flashStart: <span class="number">0</span>
+    flashEnd: <span class="number">0</span>
 
   defaultParams =
     color: <span class="string">'white'</span>
     duration: <span class="number">0.3</span>
-    targetAlpha: <span class="number">0</span>
 
-  self.<span class="literal">on</span> <span class="string">'afterUpdate'</span>, (dt) -&gt;
-    <span class="keyword">if</span> I.flashCooldown &gt; <span class="number">0</span>
-      <span class="comment"># TODO: Use a tween function alpha?</span>
-      I.flashAlpha = approach(I.flashAlpha, <span class="number">0</span>, dt / I.flashDuration)
-      I.flashCooldown = approach(I.flashCooldown, <span class="number">0</span>, dt)
+  <span class="function"><span class="title">t</span></span> = -&gt;
+    ((I.age - I.flashStart) / (I.flashEnd - I.flashStart)).clamp(<span class="number">0</span>, <span class="number">1</span>)
+
+  self.<span class="literal">on</span> <span class="string">'afterUpdate'</span>, (dt) -&gt; 
+    I.flashAlpha = <span class="number">1</span> - t()
 
   self.<span class="literal">on</span> <span class="string">'overlay'</span>, (canvas) -&gt;
     <span class="comment"># TODO: Canvas#withAlpha</span>
@@ -79,25 +77,22 @@ module.<span class="function"><span class="title">exports</span></span> = (I, se
       camera.flash
         color: Color(255, 0, 0, 0)
         duration: 20
-        targetAlpha: 1
       # =&gt; This flash effect will start off transparent and move toward red over 20 frames
 
   @name flash
   @methodOf Camera#
   @param {Color} [color="white"] The flash color
   @param {Number} [duration=12] How long the effect lasts
-  @param {Number} [targetAlpha=0] The alpha value to fade to. By default, this is set to 0, which fades the color to transparent.
   ###</span>
   self.extend
     flash: (options={}) -&gt;
       defaults(options, defaultParams)
 
-      {color, duration, targetAlpha} = options
+      {color, duration} = options
 
       I.flashColor = color
-      I.flashTargetAlpha = targetAlpha
-      I.flashCooldown = duration
-      I.flashDuration = duration
+      I.flashStart = I.age
+      I.flashEnd = I.flashStart + duration
 
       self</code></pre>
 </div>
