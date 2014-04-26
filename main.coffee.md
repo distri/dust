@@ -28,7 +28,7 @@ Modules
 
     TouchCanvas = require "touch-canvas"
 
-    {applyStylesheet} = require "./util"
+    {applyStylesheet, extend} = require "./util"
 
     module.exports =
       init: (options={}) ->
@@ -50,8 +50,9 @@ Modules
           width: width
           height: height
 
-        engine = Engine
+        engine = Engine extend
           canvas: canvas
+        , options
 
         engine.start()
 
