@@ -88,17 +88,18 @@ module.<span class="function"><span class="title">exports</span></span> = (I, se
   @param {Number} [duration=12] How long the effect lasts
   @param {Number} [targetAlpha=0] The alpha value to fade to. By default, this is set to 0, which fades the color to transparent.
   ###</span>
-  flash: (options={}) -&gt;
-    defaults(options, defaultParams)
+  self.extend
+    flash: (options={}) -&gt;
+      defaults(options, defaultParams)
 
-    {color, duration, targetAlpha} = options
+      {color, duration, targetAlpha} = options
 
-    I.flashColor = Color(color)
-    I.flashTargetAlpha = targetAlpha
-    I.flashCooldown = duration
-    I.flashDuration = duration
+      I.flashColor = color
+      I.flashTargetAlpha = targetAlpha
+      I.flashCooldown = duration
+      I.flashDuration = duration
 
-    self</code></pre>
+      self</code></pre>
 </div>
         </li>
         
