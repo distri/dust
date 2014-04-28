@@ -18,18 +18,6 @@ describe "Camera", ->
 
   test "create", ->
     ok Camera()
-  
-  test "follow", ->
-    object = GameObject()
-    camera = Camera()
-    dt = 1/60
-
-    camera.follow(object)
-    camera.trigger "afterUpdate", dt
-
-    transform = camera.I.transform
-    assert transform.tx?, "tx exists: #{transform.tx}"
-    assert transform.ty?, "ty exists: #{transform.ty}"
 
   test "overlay", ->
     object = GameObject()
@@ -47,16 +35,15 @@ describe "Camera", ->
 
     assert.equal called, 1
 
-  test "zoom", ->
+  test "flash", ->
     camera = Camera()
 
-    camera.zoom(2)
+    camera.flash
+      duration: 1
 
-    assert.equal camera.zoom(), 2
+    camera.trigger "afterUpdate", 0.5
 
-    camera.zoomOut(0.5)
-
-    assert.equal camera.zoom(), 1
+    assert.equal camera.I.flashAlpha, 0.5, "flash alpha (#{camera.I.flashAlpha}) should be 0.5"
 
   test "shake", ->
     camera = Camera()
