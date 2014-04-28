@@ -45,72 +45,17 @@
       y: <span class="number">0</span>
       width: <span class="number">1024</span>
       height: <span class="number">576</span>
-    deadzone: Point(<span class="number">0</span>, <span class="number">0</span>) <span class="comment"># Screen Coordinates</span>
     zoom: <span class="number">1</span>
     transform: Matrix()
-    velocity: Point(<span class="number">0</span>, <span class="number">0</span>)
-    maxSpeed: <span class="number">750</span>
-    t90: <span class="number">2</span> <span class="comment"># Time in seconds for camera to move 90% of the way to the target</span>
 
   <span class="comment"># World Coordinates</span>
   I.x ?= I.screen.width/<span class="number">2</span>
   I.y ?= I.screen.height/<span class="number">2</span>
 
-  I.cameraBounds ?= I.screen
-
-  currentType = <span class="string">"centered"</span>
-  currentObject = <span class="literal">null</span>
-
   objectFilters = []
   transformFilters = []
 
-  <span class="function"><span class="title">focusOn</span></span> = (object, elapsedTime) -&gt;
-    dampingFactor = <span class="number">2</span>
-
-    <span class="comment">#TODO: Different t90 value inside deadzone?</span>
-
-    c = elapsedTime * <span class="number">3.75</span> / I.t90
-    <span class="keyword">if</span> c &gt;= <span class="number">1</span>
-      <span class="comment"># Spring is configured to be too intense, just snap to target</span>
-      self.position(target)
-      I.velocity = Point(<span class="number">0</span>, <span class="number">0</span>)
-    <span class="keyword">else</span>
-      objectCenter = object.center()
-
-      target = objectCenter
-
-      delta = target.subtract(self.position())
-
-      force = delta.subtract(I.velocity.scale(dampingFactor))
-      self.position(self.position().add(I.velocity.scale(c).clamp(I.maxSpeed)))
-      I.velocity = I.velocity.add(force.scale(c))
-
-  followTypes =
-    centered: (object, elapsedTime) -&gt;
-      I.deadzone = Point(<span class="number">0</span>, <span class="number">0</span>)
-
-      focusOn(object, elapsedTime)
-
-    topdown: (object, elapsedTime) -&gt;
-      helper = Math.max(I.screen.width, I.screen.height) / <span class="number">4</span>
-
-      I.deadzone = Point(helper, helper)
-
-      focusOn(object, elapsedTime)
-
-    platformer: (object, elapsedTime) -&gt;
-      width = I.screen.width / <span class="number">8</span>
-      height = I.screen.height / <span class="number">3</span>
-
-      I.deadzone = Point(width, height)
-
-      focusOn(object, elapsedTime)
-
   self.extend
-    follow: (object, type=<span class="string">"centered"</span>) -&gt;
-      currentObject = object
-      currentType = type
-
     objectFilterChain: (fn) -&gt;
       objectFilters.push fn
 
@@ -121,16 +66,6 @@
       self.transform().inverse().transformPoint(point)
 
   self.attrAccessor <span class="string">"transform"</span>
-
-  self.<span class="literal">on</span> <span class="string">"afterUpdate"</span>, (elapsedTime) -&gt;
-    <span class="keyword">if</span> currentObject
-      followTypes[currentType](currentObject, elapsedTime)
-
-    <span class="comment"># Hard clamp camera to world bounds</span>
-    I.x = I.x.clamp(I.cameraBounds.x + I.screen.width<span class="regexp">/2, I.cameraBounds.x + I.cameraBounds.width - I.screen.width/</span><span class="number">2</span>)
-    I.y = I.y.clamp(I.cameraBounds.y + I.screen.height<span class="regexp">/2, I.cameraBounds.y + I.cameraBounds.height - I.screen.height/</span><span class="number">2</span>)
-
-    I.transform = Matrix.translate(I.screen.width<span class="regexp">/2 - I.x.floor(), I.screen.height/</span><span class="number">2</span> - I.y.floor())
 
   self.<span class="literal">on</span> <span class="string">"draw"</span>, (canvas, objects) -&gt;
     <span class="comment"># Move to correct screen coordinates</span>
@@ -165,10 +100,8 @@
 Camera.defaultModules = [
   <span class="string">"z_sort"</span>
   <span class="string">"shake"</span>
-  <span class="string">"zoom"</span>
-  <span class="string">"rotate"</span>
-  <span class="string">"flash"</span>
   <span class="string">"fade"</span>
+  <span class="string">"flash"</span>
   <span class="string">"transition"</span>
 ].map (name) -&gt;
   require <span class="string">"./camera/<span class="subst">#{name}</span>"</span>

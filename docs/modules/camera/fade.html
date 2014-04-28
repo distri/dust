@@ -52,7 +52,7 @@
             </div>
             <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"../../util"</span>
 
-module.<span class="function"><span class="title">exports</span></span> = (I={}, self) -&gt;  
+module.<span class="function"><span class="title">exports</span></span> = (I={}, self) -&gt;
   fadeInDefaults =
     alpha: <span class="number">0</span>
     color: <span class="string">'black'</span>
@@ -66,7 +66,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
   <span class="function"><span class="title">configureFade</span></span> = (duration, color, alpha) -&gt;
     I.flashDuration = duration
     I.flashCooldown = duration
-    I.flashColor = Color(color)
+    I.flashColor = color
     I.flashTargetAlpha = alpha
 
   self.extend</code></pre>
@@ -93,7 +93,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p><code>fadeIn</code> provides a convenient way to set the flash effect instance variables. This provides a shorthand for fading the screen in 
+              <p><code>fadeIn</code> provides a convenient way to set the flash effect instance variables. This provides a shorthand for fading the screen in
 from a given color over a specified duration.</p>
 <blockquote>
 <pre><code>engine.fadeIn()
@@ -119,7 +119,7 @@ engine.fadeIn(&#39;blue&#39;, 50)
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p><code>fadeOut</code> provides convenient way to set the flash effect instance variables. This provides a shorthand for fading 
+              <p><code>fadeOut</code> provides convenient way to set the flash effect instance variables. This provides a shorthand for fading
 the screen to a given color over a specified duration.</p>
 <blockquote>
 <pre><code>camera.fadeOut()
