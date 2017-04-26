@@ -199,6 +199,6 @@ centered at the midpoint of the object.
 
         left: ->
           I.x - I.width/2
-        
+
         right: ->
           I.x + I.width/2

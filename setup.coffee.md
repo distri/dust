@@ -8,10 +8,7 @@ Setup
 
     require "cornerstone"
 
-    # HACK: HamlJr currntly requires a global `Observable`
-    # Maybe Cornerstone should provide Observable as a global,
-    # but we probably want to let people include it on their own.
-    global.Observable = require "observable"
+    global.Observable = Model.Observable
 
     # TODO: Eventually remove this from globals, or have Cornerstone add it
     # if we want to keep it
