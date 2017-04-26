@@ -5,37 +5,33 @@
   <title>modules/cameras</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-  <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
+  <link rel="stylesheet" media="all" href="https://strd6.github.io/cdn/parallel/docco.css" />
 </head>
 <body>
   <div id="container">
     <div id="background"></div>
     <ul class="sections">
-        
-        
-        <li id="section-1">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-1">&#182;</a>
-              </div>
-              <h1 id="cameras">Cameras</h1>
+      <li id="section-1">
+  <div class="annotation">
+    <div class="pilwrap">
+      <a class="pilcrow" href="#section-1">&#182;</a>
+    </div>
+    <h1 id="cameras">Cameras</h1>
 
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">
+  </div>
+  <div class="content"><pre><code class="lang-coffeescript">
 </code></pre>
 </div>
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>The Cameras module is included in <code>GameState</code> by default.</p>
+</li>
+<li id="section-2">
+  <div class="annotation">
+    <div class="pilwrap">
+      <a class="pilcrow" href="#section-2">&#182;</a>
+    </div>
+    <p>The Cameras module is included in <code>GameState</code> by default.</p>
 
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">Bindable = require <span class="string">"./bindable"</span>
+  </div>
+  <div class="content"><pre><code class="lang-coffeescript">Bindable = require <span class="string">"./bindable"</span>
 Camera = require <span class="string">"./camera"</span>
 
 module.<span class="function"><span class="title">exports</span></span> = (I={}, self=Bindable()) -&gt;
@@ -53,58 +49,50 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
   self.<span class="literal">on</span> <span class="string">'overlay'</span>, (canvas) -&gt;
     self.cameras().invoke <span class="string">'trigger'</span>, <span class="string">'overlay'</span>, canvas, self.objects()</code></pre>
 </div>
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <h2 id="methods">Methods</h2>
+</li>
+<li id="section-3">
+  <div class="annotation">
+    <div class="pilwrap">
+      <a class="pilcrow" href="#section-3">&#182;</a>
+    </div>
+    <h2 id="methods">Methods</h2>
 
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">
+  </div>
+  <div class="content"><pre><code class="lang-coffeescript">
 </code></pre>
 </div>
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">  self.extend</code></pre>
+</li>
+<li id="section-4">
+  <div class="annotation">
+    <div class="pilwrap">
+      <a class="pilcrow" href="#section-4">&#182;</a>
+    </div>
+    
+  </div>
+  <div class="content"><pre><code class="lang-coffeescript">  self.extend</code></pre>
 </div>
-        </li>
-        
-        
-        <li id="section-5">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-5">&#182;</a>
-              </div>
-              <p><code>addCamera</code> adds a camera to the cameras present.</p>
+</li>
+<li id="section-5">
+  <div class="annotation">
+    <div class="pilwrap">
+      <a class="pilcrow" href="#section-5">&#182;</a>
+    </div>
+    <p><code>addCamera</code> adds a camera to the cameras present.</p>
 
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">    addCamera: (data) -&gt;
+  </div>
+  <div class="content"><pre><code class="lang-coffeescript">    addCamera: (data) -&gt;
       cameras.push(Camera(data))</code></pre>
 </div>
-        </li>
-        
-        
-        <li id="section-6">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-6">&#182;</a>
-              </div>
-              <p>Returns the array of camera objects or sets them if an argument is passed in.</p>
+</li>
+<li id="section-6">
+  <div class="annotation">
+    <div class="pilwrap">
+      <a class="pilcrow" href="#section-6">&#182;</a>
+    </div>
+    <p>Returns the array of camera objects or sets them if an argument is passed in.</p>
 
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">    cameras: (newCameras) -&gt;
+  </div>
+  <div class="content"><pre><code class="lang-coffeescript">    cameras: (newCameras) -&gt;
       <span class="keyword">if</span> newCameras
         cameras = newCameras
 
@@ -112,8 +100,7 @@ module.<span class="function"><span class="title">exports</span></span> = (I={},
       <span class="keyword">else</span>
         <span class="keyword">return</span> cameras</code></pre>
 </div>
-        </li>
-        
+</li>
     </ul>
   </div>
   <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
