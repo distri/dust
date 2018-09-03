@@ -64,3 +64,44 @@ Modules
       GameState: require "./game_state"
       Resource: require "resource"
       Util: require "./util"
+
+    # Demo game
+    if PACKAGE.name is "ROOT"
+      engine = module.exports.init()
+
+      x = 320
+      y = 460
+
+      bullets = []
+
+      engine.bind "update", ->
+        if keydown.left
+          x -= 5
+
+        if keydown.right
+          x += 5
+
+        if keydown.space
+          bullets.push
+            x: x
+            y: y
+        
+        bullets.forEach (b) ->
+          b.y -= 10
+
+        bullets = bullets.filter ({y}) ->
+          y > -10
+
+      engine.bind "draw", (canvas) ->
+        canvas.drawCircle
+          x: x
+          y: y
+          color: "blue"
+          radius: 5
+
+        bullets.forEach ({x, y}) ->
+          canvas.drawCircle
+            x: x
+            y: y
+            color: "white"
+            radius: 2
