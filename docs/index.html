@@ -101,7 +101,48 @@ module.exports =
   GameObject: require <span class="string">"./game_object"</span>
   GameState: require <span class="string">"./game_state"</span>
   Resource: require <span class="string">"resource"</span>
-  Util: require <span class="string">"./util"</span></code></pre>
+  Util: require <span class="string">"./util"</span>
+
+<span class="comment"># Demo game</span>
+<span class="keyword">if</span> PACKAGE.name <span class="keyword">is</span> <span class="string">"ROOT"</span>
+  engine = module.exports.init()
+
+  x = <span class="number">320</span>
+  y = <span class="number">460</span>
+
+  bullets = []
+
+  engine.bind <span class="string">"update"</span>, -&gt;
+    <span class="keyword">if</span> keydown.left
+      x -= <span class="number">5</span>
+
+    <span class="keyword">if</span> keydown.right
+      x += <span class="number">5</span>
+
+    <span class="keyword">if</span> keydown.space
+      bullets.push
+        x: x
+        y: y
+
+    bullets.forEach (b) -&gt;
+      b.y -= <span class="number">10</span>
+
+    bullets = bullets.filter ({y}) -&gt;
+      y &gt; -<span class="number">10</span>
+
+  engine.bind <span class="string">"draw"</span>, (canvas) -&gt;
+    canvas.drawCircle
+      x: x
+      y: y
+      color: <span class="string">"blue"</span>
+      radius: <span class="number">5</span>
+
+    bullets.forEach ({x, y}) -&gt;
+      canvas.drawCircle
+        x: x
+        y: y
+        color: <span class="string">"white"</span>
+        radius: <span class="number">2</span></code></pre>
 </div>
 </li>
     </ul>
